@@ -1,0 +1,11 @@
+/backend/logs
+/backend/target
+/frontend/logs
+/frontend/target
+/spring-social-kakao/target
+/logs
+/target
+/.idea/
+/node_modules
+rebel.xml
+*.iml

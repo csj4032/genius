@@ -1,0 +1,193 @@
+# default (production)
+spring:
+  http:
+    log-request-details: true
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
+  application:
+    name: genius
+  jpa:
+    database: MYSQL
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        globally_quoted_identifiers: true
+        jdbc:
+          fetch_size: 30
+          batch_size: 30
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  social:
+    kakao:
+      clientId: b84d72468acf74d7d892d55cb8e134ff
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
+
+server:
+  port: 9000
+  undertow:
+    accesslog:
+      enabled: true
+      dir: logs
+      prefix: access
+    worker-threads: 10
+
+logging:
+  file: logs/application.log
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.genius.backend: DEBUG
+
+genius:
+  name: genius
+  age: 38
+  jwtSecret: genius
+  jwtExpirationInMs: 604800000
+
+ms:
+  allowedOrigins: http://10.102.60.137:8080, http://35.247.88.70
+
+
+---
+# local
+spring:
+  profiles: local, default
+#  cache:
+#    type: couchbase
+
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username : ${DATABASE_USERNAME}
+      password : ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 3000
+      connection-timeout: 3000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: wmp-genius-master
+      idle-timeout: 3000
+
+    slave:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 6000
+      connection-timeout: 6000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      pool-name: wmp-genius-slave
+      idle-timeout: 6000
+
+#  couchbase:
+#    bootstrap-hosts: 127.0.0.1
+#    bucket:
+#      name: contents_cache
+#      password:
+
+---
+
+# real
+spring:
+  profiles: home
+#  cache:
+#    type: couchbase
+
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 3000
+      connection-timeout: 3000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: wmp-genius-master
+      idle-timeout: 3000
+
+    slave:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 6000
+      connection-timeout: 6000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      pool-name: wmp-genius-slave
+      idle-timeout: 6000
+
+#  couchbase:
+#    bootstrap-hosts: 127.0.0.1
+#    bucket:
+#      name: contents_cache
+#      password:
+
+---
+
+# office
+spring:
+  profiles: real
+  #  cache:
+  #    type: couchbase
+
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 3000
+      connection-timeout: 3000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: wmp-genius-master
+      idle-timeout: 3000
+
+    slave:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      connection-init-sql: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 6000
+      connection-timeout: 6000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      pool-name: wmp-genius-slave
+      idle-timeout: 6000
