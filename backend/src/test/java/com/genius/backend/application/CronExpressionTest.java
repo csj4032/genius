@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import static org.hamcrest.core.Is.is;
 
-
 public class CronExpressionTest {
 
 	@Test

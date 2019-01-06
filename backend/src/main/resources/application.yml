@@ -60,6 +60,11 @@ logging:
     org.springframework.web: DEBUG
     com.genius.backend: DEBUG
 
+management:
+  endpoint:
+    health:
+      show-details: always
+
 genius:
   name: genius
   age: 38
@@ -69,6 +74,10 @@ genius:
 ms:
   allowedOrigins: http://10.102.60.137:8080, http://35.247.88.70
 
+info:
+    app:
+      name: Alimy
+      version: 1.0.0
 
 ---
 # local
@@ -76,7 +85,6 @@ spring:
   profiles: local, default
 #  cache:
 #    type: couchbase
-
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -105,12 +113,7 @@ spring:
       minimum-idle: 10
       pool-name: wmp-genius-slave
       idle-timeout: 6000
-
-#  couchbase:
-#    bootstrap-hosts: 127.0.0.1
-#    bucket:
-#      name: contents_cache
-#      password:
+    type: com.zaxxer.hikari.HikariDataSource
 
 ---
 
@@ -134,7 +137,6 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
@@ -148,20 +150,13 @@ spring:
       minimum-idle: 10
       pool-name: wmp-genius-slave
       idle-timeout: 6000
-
-#  couchbase:
-#    bootstrap-hosts: 127.0.0.1
-#    bucket:
-#      name: contents_cache
-#      password:
+    type: com.zaxxer.hikari.HikariDataSource
 
 ---
 
 # office
 spring:
   profiles: real
-  #  cache:
-  #    type: couchbase
 
   datasource:
     master:
@@ -177,7 +172,6 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
@@ -191,3 +185,4 @@ spring:
       minimum-idle: 10
       pool-name: wmp-genius-slave
       idle-timeout: 6000
+    type: com.zaxxer.hikari.HikariDataSource
