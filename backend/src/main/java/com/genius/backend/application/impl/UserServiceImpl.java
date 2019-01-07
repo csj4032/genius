@@ -1,7 +1,6 @@
 package com.genius.backend.application.impl;
 
 import com.genius.backend.application.UserService;
-import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
@@ -13,7 +12,6 @@ import org.springframework.social.kakao.api.AccessTokenInfo;
 import org.springframework.social.kakao.api.KakaoProfile;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

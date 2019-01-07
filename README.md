@@ -4,21 +4,7 @@
 메일 : csj4032@gmail.com
 
 ## 기능 명세
-Spring boot + vuejs
-
-## Frontend Installation And Start
-```bash
-
-$ git clone https://bitbucket.org/rrest/kakao_alarm_fe.git frontend
-
-$ npm install @vue/cli -g
-
-$ vue add vuetify
-
-$ npm install
-
-$ npm run server
-```
+Spring boot With Kotlin + React
 
 ## Backend Build And Start
 ```
