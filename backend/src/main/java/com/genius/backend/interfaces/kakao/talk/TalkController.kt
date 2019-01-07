@@ -19,6 +19,9 @@ class TalkController {
 		val authentication = SecurityContextHolder.getContext().authentication
 		val geniusUserDetail = authentication.details as GeniusUserDetail
 		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().getAccessToken())
+
+
+
 		return ResponseEntity(kakaoTemplate.talkOperation().sendTalk(message), HttpStatus.OK)
 	}
 }

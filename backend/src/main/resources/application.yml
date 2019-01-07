@@ -26,17 +26,6 @@ spring:
           fetch_size: 30
           batch_size: 30
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
   social:
     kakao:
       clientId: b84d72468acf74d7d892d55cb8e134ff
@@ -50,7 +39,7 @@ server:
     accesslog:
       enabled: true
       dir: logs
-      prefix: access
+      prefix: access.
     worker-threads: 10
 
 logging:
@@ -83,8 +72,7 @@ info:
 # local
 spring:
   profiles: office, default
-#  cache:
-#    type: couchbase
+
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -99,7 +87,6 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
@@ -119,8 +106,6 @@ spring:
 # real
 spring:
   profiles: home
-#  cache:
-#    type: couchbase
 
   datasource:
     master:
