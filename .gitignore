@@ -1,10 +1,5 @@
 /backend/logs
-/backend/target/classes
-/backend/target/generated-sources
-/backend/target/generated-test-sources
-/backend/target/maven-archiver
-/backend/target/maven-status
-/backend/target/test-classes
+/backend/target
 /spring-social-kakao/target
 /logs
 /target
