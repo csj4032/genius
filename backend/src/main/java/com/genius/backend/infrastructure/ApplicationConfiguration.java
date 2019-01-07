@@ -2,19 +2,16 @@ package com.genius.backend.infrastructure;
 
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
-import com.genius.backend.domain.model.user.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.List;
@@ -52,11 +49,10 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
 		return resolver;
 	}
 
-
 	@Bean
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
-		modelMapper.createTypeMap(Alimy.class, AlimyDto.Response.class).addMappings(mapper -> mapper.map(src -> src.getUser().getUsername(), AlimyDto.Response::setUsername));
+		modelMapper.createTypeMap(Alimy.class, AlimyDto.Response.class).addMappings(mapper -> mapper.map(src -> src.getUsername(), AlimyDto.Response::setUsername));
 		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> {
 			mapper.skip(Alimy::setId);
 		});

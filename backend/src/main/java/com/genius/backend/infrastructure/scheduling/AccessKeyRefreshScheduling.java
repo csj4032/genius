@@ -29,7 +29,7 @@ public class AccessKeyRefreshScheduling {
 			var kakaoTemplate = new KakaoTemplate(clientId, e.getAccessToken(), e.getRefreshToken());
 			var refreshTokenInfo = kakaoTemplate.accessTokenOperation().getRefreshTokenInfo();
 			e.setAccessToken(refreshTokenInfo.getAccessToken());
-			e.setExprietime(refreshTokenInfo.getExpiresIn());
+			e.setExpiredTime(refreshTokenInfo.getExpiresIn());
 			userRepository.save(e);
 		});
 		log.info("AccessToken Refresh End");

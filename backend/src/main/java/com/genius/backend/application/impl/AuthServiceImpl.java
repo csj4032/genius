@@ -4,7 +4,6 @@ import com.genius.backend.application.AuthService;
 import com.genius.backend.application.UserService;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.user.User;
-import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.infrastructure.security.JwtTokenProvider;
 import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Slf4j
 @Service

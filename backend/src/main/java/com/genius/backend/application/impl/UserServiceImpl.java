@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 		user.setProviderUserId(accessTokenInfo.getId());
 		user.setAccessToken(request.getAccessToken());
 		user.setRefreshToken(request.getRefreshToken());
-		user.setExprietime(request.getExpiresIn());
+		user.setExpiredTime(request.getExpiresIn());
 		user.setUsername(profile.getProperties().getNickname());
 		user.setImageUrl(profile.getProperties().getProfile_image());
 		user.setRoles(Set.of(Role.builder().id(1L).name("USER").build()));
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	public User update(AuthDto.Request request, KakaoProfile profile, User user) {
 		user.setAccessToken(request.getAccessToken());
 		user.setRefreshToken(request.getRefreshToken());
-		user.setExprietime(request.getExpiresIn());
+		user.setExpiredTime(request.getExpiresIn());
 		user.setImageUrl(profile.getProperties().getProfile_image());
 		user.setUsername(profile.getProperties().getNickname());
 		return userRepository.save(user);

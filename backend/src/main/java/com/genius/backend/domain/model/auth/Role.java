@@ -4,7 +4,6 @@ import com.genius.backend.domain.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
 @Getter

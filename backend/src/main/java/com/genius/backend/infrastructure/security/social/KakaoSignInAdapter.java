@@ -33,7 +33,7 @@ public class KakaoSignInAdapter implements SignInAdapter {
 		var user = userRepository.findByProviderUserId(localUserId).get();
 		user.setAccessToken(connection.createData().getAccessToken());
 		user.setRefreshToken(connection.createData().getRefreshToken());
-		user.setExprietime(connection.createData().getExpireTime());
+		user.setExpiredTime(connection.createData().getExpireTime());
 		userRepository.save(user);
 		return GeniusUserDetail.create(user);
 	}

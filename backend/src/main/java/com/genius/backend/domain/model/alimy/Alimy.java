@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.genius.backend.domain.model.BaseEntity;
 import com.genius.backend.domain.model.user.User;
 import lombok.*;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.io.Serializable;

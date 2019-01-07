@@ -18,10 +18,7 @@ class TalkController {
 	fun sendMe(message: String): ResponseEntity<ResultCode> {
 		val authentication = SecurityContextHolder.getContext().authentication
 		val geniusUserDetail = authentication.details as GeniusUserDetail
-		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().getAccessToken())
-
-
-
+		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().accessToken)
 		return ResponseEntity(kakaoTemplate.talkOperation().sendTalk(message), HttpStatus.OK)
 	}
 }

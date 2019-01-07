@@ -7,7 +7,6 @@ import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 public class GeniusUserDetail implements SocialUserDetails {
