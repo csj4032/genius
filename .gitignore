@@ -1,7 +1,8 @@
 /backend/logs
-/backend/target
-/frontend/logs
-/frontend/target
+/backend/target/classes
+/backend/target/generated-sources
+/backend/target/generated-test-sources
+/backend/target/test-classes
 /spring-social-kakao/target
 /logs
 /target
