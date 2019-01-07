@@ -4,5 +4,5 @@ public interface TalkOperation {
 
 	KakaoTalkProfile getUserProfile();
 
-	ResultCode sendTalk(String text);
+	ResultCode sendTalk(java.lang.String text);
 }

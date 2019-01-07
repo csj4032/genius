@@ -55,4 +55,9 @@ public class User implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
 	private Collection<Role> roles;
+
+
+	public String getAccessToken() {
+		return accessToken;
+	}
 }
