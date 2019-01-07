@@ -2,11 +2,11 @@
 /backend/target/classes
 /backend/target/generated-sources
 /backend/target/generated-test-sources
+/backend/target/maven-archiver
+/backend/target/maven-status
 /backend/target/test-classes
 /spring-social-kakao/target
 /logs
 /target
 /.idea/
-/node_modules
-rebel.xml
 *.iml
