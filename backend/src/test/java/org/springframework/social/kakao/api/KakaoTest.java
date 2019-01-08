@@ -13,6 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class KakaoTest {
 	static final String ACCESS_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 	static final String APP_KEY = "b84d72468acf74d7d892d55cb8e134ff";
 	static final String AUTHORIZE_CODE = "ccRa8SWRdiil4Goc_uACaA4zegTsz8jnj61w1wW8s-NpHI9ElKV-fmqNddCaBV5q5BfhRwopdkgAAAFnl1X7KA";
-	static String ACCESS_TOKEN = "SBwKqeEz--qMaPh9ttIbwczZnF2mOMzXxFAY6Ao8BdgAAAFnm1fLbg";
+	static String ACCESS_TOKEN = "qkqTwbKmgV2jwGeKNwhxXjUja40gPl_4CNJ7FAopdeIAAAFoLGp3ew";
 
 	@Test
 	public void initKakao() throws JsonProcessingException {
@@ -79,6 +80,16 @@ public class KakaoTest {
 
 	}
 
+	@Test
+	public void unlinkTest() {
+		var restTemplate = new RestTemplate();
+		var headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.setAccept(Arrays.asList(new MediaType[]{MediaType.ALL}));
+		headers.add("Authorization", "Bearer " + "Xx1Q6wtRdlBAEcB33SmigLypWiW4n0h2wlLSfwopdaYAAAFoLIAspA");
+		HttpEntity<?> requestEntity = new HttpEntity<>(null, headers);
+		restTemplate.postForEntity("https://kapi.kakao.com/v1/user/unlink", requestEntity, String.class);
+	}
 
 	static final String TALK_SEND_URL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
 }

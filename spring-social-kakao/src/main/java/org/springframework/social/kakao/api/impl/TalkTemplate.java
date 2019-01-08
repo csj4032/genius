@@ -62,7 +62,7 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 			return restTemplate.postForObject(TALK_SEND_URL, requestEntity, ResultCode.class);
 		} catch (JsonProcessingException | RestClientException e ) {
 			log.error("{}", e.getMessage());
-			return null;
+			return new ResultCode(1);
 		}
 	}
 }

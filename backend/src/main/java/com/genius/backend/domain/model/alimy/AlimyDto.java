@@ -141,4 +141,17 @@ public class AlimyDto {
 					.append(getYear()).toString();
 		}
 	}
+
+	@Data
+	@Builder
+	@ToString
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Search {
+		private long id;
+		private AlimyStatus status;
+		private String username = "";
+		private String subject = "";
+		private String message = "";
+	}
 }

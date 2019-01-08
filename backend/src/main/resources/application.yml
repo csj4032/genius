@@ -26,13 +26,6 @@ spring:
           fetch_size: 30
           batch_size: 30
 
-  social:
-    kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
-      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
-      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
-      scope: talk_message,profile
-
 server:
   port: 9000
   undertow:
@@ -69,9 +62,16 @@ info:
       version: 1.0.0
 
 ---
-# local
+# office, default
 spring:
   profiles: office, default
+
+  social:
+    kakao:
+      clientId: e471a3c9115dec82d061acd2a58be02b
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
 
   datasource:
     master:
@@ -107,6 +107,13 @@ spring:
 spring:
   profiles: home
 
+  social:
+    kakao:
+      clientId: b84d72468acf74d7d892d55cb8e134ff
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
+
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -137,9 +144,16 @@ spring:
 
 ---
 
-# office
+# real
 spring:
   profiles: real
+
+  social:
+    kakao:
+      clientId: b84d72468acf74d7d892d55cb8e134ff
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
 
   datasource:
     master:

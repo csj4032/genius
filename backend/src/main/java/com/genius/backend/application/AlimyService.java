@@ -9,6 +9,10 @@ import java.util.List;
 
 public interface AlimyService {
 
+	Page<AlimyDto.Response> listForPage(Pageable pageable);
+
+	Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable);
+
 	AlimyDto.Response findById(Long alimyId);
 
 	AlimyDto.Response save(AlimyDto.RequestForSave request);
@@ -16,8 +20,6 @@ public interface AlimyService {
 	AlimyDto.Response update(AlimyDto.RequestForUpdate request);
 
 	Alimy update(AlimyDto.RequestForStatus request);
-
-	Page<AlimyDto.Response> listForPage(Pageable pageable);
 
 	int delete(List<Long> alimyIds);
 

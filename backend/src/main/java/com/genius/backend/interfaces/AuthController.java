@@ -22,22 +22,16 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 
-	@Autowired
-	private UsersConnectionRepository usersConnectionRepository;
-
 	@PostMapping(value = "/auth")
 	public AuthDto.Response auth(@RequestBody AuthDto.Request request) {
-		log.info("{}", request);
 		return authService.auth(request);
 	}
 
 	@GetMapping(value = "/unlink")
 	public String unlink() {
 		var geniusUserDetail = (GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getDetails();
-		var user = userService.findByProviderUserId(geniusUserDetail.getProviderUserId());
-		usersConnectionRepository.createConnectionRepository(geniusUserDetail.getProviderUserId()).removeConnections("kakao");
-		userService.deleteByIdForUnlink(user.get());
-		new KakaoTemplate(user.get().getAccessToken()).userOperation().unlink();
-		return "redirect:/logout";
+		userService.deleteByIdForUnlink(geniusUserDetail.getUser());
+		new KakaoTemplate(geniusUserDetail.getUser().getAccessToken()).userOperation().unlink();
+		return "goodbye";
 	}
 }

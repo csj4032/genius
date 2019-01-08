@@ -5,36 +5,36 @@ import com.genius.backend.domain.model.auth.Role
 import javax.persistence.*
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 data class User(
 		@Id
 		@Column(name = "ID")
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		var id: Long,
+		var id: Long = 0,
 
 		@Column(name = "PROVIDER_USER_ID", unique = true)
-		var providerUserId: String,
+		var providerUserId: String = "",
 
 		@Column(name = "PASSWORD")
-		var password: String,
+		var password: String? = "",
 
 		@Column(name = "EMAIL")
-		var email: String,
+		var email: String? = "",
 
 		@Column(name = "USER_NAME")
-		var username: String,
+		var username: String = "",
 
 		@Column(name = "ACCESS_TOKEN")
-		var accessToken: String,
+		var accessToken: String = "",
 
 		@Column(name = "IMAGE_URL")
-		var imageUrl: String,
+		var imageUrl: String? = "",
 
 		@Column(name = "REFRESH_TOKEN")
-		var refreshToken: String,
+		var refreshToken: String? = "",
 
 		@Column(name = "EXPIRED_TIME")
-		var expiredTime: Long,
+		var expiredTime: Long = 0,
 
 		@Column(nullable = true)
 		@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = Alimy::class)

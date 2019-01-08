@@ -4,6 +4,7 @@ import com.genius.backend.application.AlimyService;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.alimy.AlimyStatus;
+import com.genius.backend.domain.repository.AlimyPredicate;
 import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
@@ -53,7 +54,16 @@ public class AlimyServiceImpl implements AlimyService {
 	public Page<AlimyDto.Response> listForPage(Pageable pageable) {
 		var id = ((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 		var alimyList = alimyRepository.findByUserId(id, pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
+	}
+
+	@Transactional(readOnly = true)
+	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
+		System.out.println(search);
+		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
 	}
 
 	@Override
@@ -109,6 +119,9 @@ public class AlimyServiceImpl implements AlimyService {
 						return false;
 					}
 				})
-				.forEach(e -> new KakaoTemplate(e.getUser().getAccessToken()).talkOperation().sendTalk(e.getMessage()));
+				.forEach(e -> {
+					var resultCode = new KakaoTemplate(e.getUser().getAccessToken()).talkOperation().sendTalk(e.getMessage());
+					log.info("result : {}", resultCode);
+				});
 	}
 }

@@ -9,15 +9,16 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @MasterConnection
-public interface AlimyRepository extends JpaRepository<Alimy, Long> {
+public interface AlimyRepository extends JpaRepository<Alimy, Long>, QuerydslPredicateExecutor<Alimy> {
 
-	List<Alimy> findByStatus(AlimyStatus alimyStatus);
+	Page<Alimy> findByUserId(Long userId, Pageable pageable);
 
 	@Transactional
 	@Modifying
@@ -29,5 +30,5 @@ public interface AlimyRepository extends JpaRepository<Alimy, Long> {
 	@Query("DELETE FROM Alimy a WHERE a.user.id = :id")
 	void deleteByUserId(@Param("id") long id);
 
-	Page<Alimy> findByUserId(Long userId, Pageable pageable);
+	List<Alimy> findByStatus(AlimyStatus alimyStatus);
 }

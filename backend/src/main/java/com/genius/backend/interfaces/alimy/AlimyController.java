@@ -29,10 +29,10 @@ public class AlimyController {
 	@Autowired
 	private AlimyService alimyService;
 
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/alimy")
-	public Page<AlimyDto.Response> alimy(Pageable pageable) {
-		return alimyService.listForPage(pageable);
+	public Page<AlimyDto.Response> alimy(AlimyDto.Search search, Pageable pageable) {
+		return alimyService.searchWithPage(search, pageable);
 	}
 
 	@GetMapping("/alimy/{alimyId}")

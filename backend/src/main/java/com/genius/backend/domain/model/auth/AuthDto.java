@@ -30,10 +30,14 @@ public class AuthDto {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Response {
+		@Builder.Default
 		private long userId = 1l;
+		@Builder.Default
 		private String userName = "최성조";
+		@Builder.Default
 		private String userImage = "http://k.kakaocdn.net/dn/cJDSmp/btqro9kj4ha/jnyMoie9RIQFBFt1aLkwz1/profile_640x640s.jpg";
 		private String accessToken;
+		@Builder.Default
 		private String tokenType = "Bearer";
 	}
 }
