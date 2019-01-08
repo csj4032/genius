@@ -62,7 +62,7 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	@Override
 	public void run(ApplicationArguments args) {
 		//if (!args.containsOption("server.port")) {
-		//	log.error("ERROR: --server.port argument is not found.");
+		//	Log.error("ERROR: --server.port argument is not found.");
 		//System.exit(0);
 		//}
 	}

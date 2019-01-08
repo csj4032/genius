@@ -53,12 +53,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
 		modelMapper.createTypeMap(Alimy.class, AlimyDto.Response.class).addMappings(mapper -> mapper.map(src -> src.getUsername(), AlimyDto.Response::setUsername));
-		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> {
-			mapper.skip(Alimy::setId);
-		});
-		modelMapper.createTypeMap(AlimyDto.RequestForUpdate.class, Alimy.class).addMappings(mapper -> {
-			mapper.skip(Alimy::setAlimyUnit);
-		});
+		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setId));
+		modelMapper.createTypeMap(AlimyDto.RequestForUpdate.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setAlimyUnit));
 		return modelMapper;
 	}
 }

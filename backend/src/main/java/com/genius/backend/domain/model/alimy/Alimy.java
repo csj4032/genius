@@ -1,6 +1,9 @@
 package com.genius.backend.domain.model.alimy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.genius.backend.domain.model.BaseEntity;
 import com.genius.backend.domain.model.user.User;
 import lombok.*;
@@ -19,6 +22,8 @@ import java.util.function.Predicate;
 @ToString(exclude = {"user"})
 @Entity
 @Table(name = "ALIMY")
+@JsonInclude(JsonInclude.Include.CUSTOM)
+@JsonDeserialize
 public class Alimy extends BaseEntity implements Serializable {
 
 	@Id
@@ -65,38 +70,47 @@ public class Alimy extends BaseEntity implements Serializable {
 		}
 	}
 
+	@JsonIgnore
 	public String getUsername() {
 		return this.getUser().getUsername();
 	}
 
+	@JsonIgnore
 	public String getYear() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.YEAR));
 	}
 
+	@JsonIgnore
 	public String getDayOfWeek() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.DAY_OF_WEEK));
 	}
 
+	@JsonIgnore
 	public String getMonth() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.MONTH));
 	}
 
+	@JsonIgnore
 	public String getDayOfMonth() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.DAY_OF_MONTH));
 	}
 
+	@JsonIgnore
 	public String getHours() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.HOURS));
 	}
 
+	@JsonIgnore
 	public String getMinutes() {
 		return getUnitOfUnitType(e -> e.getUnitType().equals(AlimyUnitType.MINUTES));
 	}
 
+	@JsonIgnore
 	public String getUnitOfUnitType(Predicate<AlimyUnit> predicate) {
 		return alimyUnit.stream().filter(predicate).findFirst().orElseThrow().getUnitValue();
 	}
 
+	@JsonIgnore
 	public String getCronExpression() {
 		return new StringBuilder("0 ")
 				.append(getMinutes()).append(" ")

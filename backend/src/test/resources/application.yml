@@ -54,7 +54,7 @@ server:
     worker-threads: 10
 
 logging:
-  file: logs/application.log
+  file: logs/application.Log
   level:
     root: INFO
     org.springframework.web: DEBUG
