@@ -7,17 +7,19 @@ import lombok.Getter;
 @Getter
 public enum LogType implements ConvertedEnum<Integer> {
 
-	HTTP_REQUEST(0, "httpRequest", HttpRequestLog.class),
-	HTTP_RESPONSE(1, "httpResponse", HttpResponseLog.class);
+	HTTP_REQUEST(0, "httpRequest", HttpRequestLog.class, LogBindType.JOIN_POINT),
+	HTTP_RESPONSE(1, "httpResponse", HttpResponseLog.class, LogBindType.PROCEEDING_JOIN_POINT);
 
 	private Integer code;
 	private String name;
 	private Class clazz;
+	private LogBindType logBindType;
 
-	LogType(Integer code, String name, Class clazz) {
+	LogType(Integer code, String name, Class clazz, LogBindType logBindType) {
 		this.code = code;
 		this.name = name;
 		this.clazz = clazz;
+		this.logBindType = logBindType;
 	}
 
 	@Override

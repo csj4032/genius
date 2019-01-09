@@ -40,7 +40,7 @@ public class LogTest {
 	@Test
 	public void saveTest() throws Exception {
 		var objectMapper = new ObjectMapper();
-		var req1 = HttpRequestLog.builder().deviceType(DeviceType.MOBILE.name()).platformType(DevicePlatform.ANDROID.name()).remoteIp("10.10.101.1").path("alimy").build();
+		var req1 = HttpRequestLog.builder().device(DeviceType.MOBILE.name()).remoteAddr("10.10.101.1").path("alimy").build();
 		var log1 = Log.builder().type(LogType.HTTP_REQUEST).value(objectMapper.writeValueAsString(req1)).build();
 		//var log2 = Log.builder().type(LogType.HTTP_RESPONSE).value(objectMapper.writeValueAsString(HttpResponseLog.builder().data(new String("1")).build())).build();
 		this.repository.save(log1);

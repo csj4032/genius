@@ -2,6 +2,8 @@ package com.genius.backend.domain.model.log;
 
 import lombok.*;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @Builder
@@ -10,7 +12,9 @@ import lombok.*;
 @NoArgsConstructor
 public class HttpRequestLog {
 	private String path;
-	private String remoteIp;
-	private String platformType;
-	private String deviceType;
+	private String remoteAddr;
+	private String os;
+	private String device;
+	private String browser;
+	private Map<String, String[]> params;
 }
