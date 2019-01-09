@@ -1,12 +1,19 @@
 # default (production)
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   http:
     log-request-details: true
   devtools:
     livereload:
       enabled: true
+  resources:
+    add-mappings: true
   thymeleaf:
+    enabled: true
     cache: false
+    prefix: classpath:/templates/
+    suffix: .html
   application:
     name: genius
   jpa:
@@ -26,59 +33,61 @@ spring:
           fetch_size: 30
           batch_size: 30
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-  social:
-    kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
-      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
-      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
-      scope: talk_message,profile
-
 server:
   port: 9000
   undertow:
     accesslog:
       enabled: true
       dir: logs
-      prefix: access
+      prefix: access.
     worker-threads: 10
+  error:
+    whitelabel:
+      enabled: false
 
 logging:
   file: logs/application.Log
   level:
     root: INFO
     org.springframework.web: DEBUG
-    com.wemakeprice.genius: DEBUG
+    com.genius.backend: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
 
 genius:
   name: genius
-  age: 38
+  age: 39
+  jwtSecret: genius
+  jwtExpirationInMs: 604800000
 
 ms:
   allowedOrigins: http://10.102.60.137:8080, http://35.247.88.70
 
+info:
+  app:
+    name: Alimy
+    version: 1.0.0
 
 ---
-# local
+
+# office, default
 spring:
-  profiles: local, default
-  #  cache:
-  #    type: couchbase
+  profiles: office, default
+
+  social:
+    kakao:
+      clientId: e471a3c9115dec82d061acd2a58be02b
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
 
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username : ${DATABASE_USERNAME}
       password : ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -89,10 +98,9 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -104,19 +112,18 @@ spring:
       pool-name: wmp-genius-slave
       idle-timeout: 6000
 
-#  couchbase:
-#    bootstrap-hosts: 127.0.0.1
-#    bucket:
-#      name: contents_cache
-#      password:
-
 ---
 
 # real
 spring:
-  profiles: real
-  #  cache:
-  #    type: couchbase
+  profiles: home
+
+  social:
+    kakao:
+      clientId: b84d72468acf74d7d892d55cb8e134ff
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
 
   datasource:
     master:
@@ -132,7 +139,6 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
@@ -147,19 +153,18 @@ spring:
       pool-name: wmp-genius-slave
       idle-timeout: 6000
 
-#  couchbase:
-#    bootstrap-hosts: 127.0.0.1
-#    bucket:
-#      name: contents_cache
-#      password:
-
 ---
 
-# office
+# real
 spring:
-  profiles: office
-  #  cache:
-  #    type: couchbase
+  profiles: real
+
+  social:
+    kakao:
+      clientId: b84d72468acf74d7d892d55cb8e134ff
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
+      userAuthorizationUrl: https://kauth.kakao.com/oauth/token
+      scope: talk_message,profile
 
   datasource:
     master:
@@ -175,7 +180,6 @@ spring:
       minimum-idle: 5
       pool-name: wmp-genius-master
       idle-timeout: 3000
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC

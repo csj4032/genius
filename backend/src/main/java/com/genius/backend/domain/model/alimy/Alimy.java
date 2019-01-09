@@ -45,6 +45,7 @@ public class Alimy extends BaseEntity implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alimy", fetch = FetchType.EAGER)
 	@JsonManagedReference
+	@Builder.Default
 	private Set<AlimyUnit> alimyUnit = new HashSet<>();
 
 	public void setAlimyUnit(AlimyDto.UnitType unitType) {

@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
+				.antMatchers("/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
 				.antMatchers("/").hasRole("USER")
 				.anyRequest()
 				.authenticated()
@@ -127,12 +127,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public AccessDeniedHandler accessDeniedHandler(){
+	public AccessDeniedHandler accessDeniedHandler() {
 		return new GeniusAccessDeniedHandler();
 	}
 
 	@Bean
-	public AuthenticationEntryPoint authenticationEntryPoint(){
+	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new GeniusAuthenticationEntryPoint();
 	}
 

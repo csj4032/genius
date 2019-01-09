@@ -1,16 +1,29 @@
 package com.genius.backend.domain.model.log;
 
+import com.genius.backend.domain.model.BaseEntity;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @ToString
-public class Log {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "LOGS")
+@Entity
+public class Log extends BaseEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private long id;
+
+	@Convert(converter = LogTypeConverter.class)
+	@Column(name = "TYPE")
 	private LogType type;
-	private Class clazz;
+
+	@Column(name = "VALUE")
 	private String value;
 }
