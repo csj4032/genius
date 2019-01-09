@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/static/**");
+		web.ignoring().antMatchers("/static/**", "/js/**", "/css/**", "/webjars/**", "/error");
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
+				.antMatchers("/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
 				.antMatchers("/").hasRole("USER")
 				.anyRequest()
 				.authenticated()

@@ -1,12 +1,19 @@
 # default (production)
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   http:
     log-request-details: true
   devtools:
     livereload:
       enabled: true
+  resources:
+    add-mappings: true
   thymeleaf:
+    enabled: true
     cache: false
+    prefix: classpath:/templates/
+    suffix: .html
   application:
     name: genius
   jpa:
@@ -34,6 +41,9 @@ server:
       dir: logs
       prefix: access.
     worker-threads: 10
+  error:
+    whitelabel:
+      enabled: false
 
 logging:
   file: logs/application.Log
@@ -62,6 +72,7 @@ info:
       version: 1.0.0
 
 ---
+
 # office, default
 spring:
   profiles: office, default
