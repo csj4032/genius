@@ -1,5 +1,6 @@
 package com.genius.backend.domain.model.log;
 
+import com.genius.backend.application.LogService;
 import com.genius.backend.domain.converter.ConvertedEnum;
 import com.genius.backend.domain.converter.ReverseEnumResolver;
 import lombok.Getter;
@@ -35,5 +36,9 @@ public enum LogType implements ConvertedEnum<Integer> {
 
 	public static LogType fromDbValue(Integer dbValue) {
 		return dbValueResolver.get(dbValue);
+	}
+
+	public void accept(LogService logService) {
+		logService.write(this);
 	}
 }

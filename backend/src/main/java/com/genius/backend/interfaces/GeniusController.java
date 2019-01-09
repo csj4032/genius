@@ -1,5 +1,6 @@
 package com.genius.backend.interfaces;
 
+import com.genius.backend.domain.model.log.LogBindType;
 import com.genius.backend.domain.model.log.LogType;
 import com.genius.backend.infrastructure.aspect.PreLogging;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class GeniusController {
 
 	@GetMapping("/greeting")
-	@PreLogging(params = {LogType.HTTP_REQUEST})
-	public String greeting(HttpServletRequest httpServletRequest) {
+	@PreLogging(types = LogBindType.JOIN_POINT)
+	public String greeting() {
 		return "greeting";
 	}
 }

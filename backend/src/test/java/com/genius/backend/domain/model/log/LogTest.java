@@ -1,22 +1,18 @@
 package com.genius.backend.domain.model.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.repository.LogRepository;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mobile.device.*;
+import org.springframework.mobile.device.DeviceType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @ActiveProfiles(value = "office")
 @RunWith(SpringRunner.class)

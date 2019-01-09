@@ -1,10 +1,13 @@
 package com.genius.backend.application;
 
-import com.genius.backend.infrastructure.aspect.PreLogging;
+import com.genius.backend.domain.model.log.LogType;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 
 public interface LogService {
 
-	void logWrite(PreLogging preLogging, JoinPoint joinPoint);
+	void setJoinPoint(JoinPoint point);
+
+	JoinPoint getJoinPoint();
+
+	void write(LogType logType);
 }

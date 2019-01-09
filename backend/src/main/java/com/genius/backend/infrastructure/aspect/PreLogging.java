@@ -1,6 +1,6 @@
 package com.genius.backend.infrastructure.aspect;
 
-import com.genius.backend.domain.model.log.LogType;
+import com.genius.backend.domain.model.log.LogBindType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PreLogging {
 
-	LogType[] params() default {};
+	LogBindType[] types() default {};
 }
