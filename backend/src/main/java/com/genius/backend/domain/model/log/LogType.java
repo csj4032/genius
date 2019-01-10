@@ -1,6 +1,5 @@
 package com.genius.backend.domain.model.log;
 
-import com.genius.backend.application.LogService;
 import com.genius.backend.domain.converter.ConvertedEnum;
 import com.genius.backend.domain.converter.ReverseEnumResolver;
 import lombok.Getter;
@@ -8,19 +7,17 @@ import lombok.Getter;
 @Getter
 public enum LogType implements ConvertedEnum<Integer> {
 
-	HTTP_REQUEST(0, "httpRequest", HttpRequestLog.class, LogBindType.JOIN_POINT),
-	HTTP_RESPONSE(1, "httpResponse", HttpResponseLog.class, LogBindType.PROCEEDING_JOIN_POINT);
+	HTTP_REQUEST(0, "httpRequest", HttpRequestLog.class),
+	HTTP_RESPONSE(1, "httpResponse", HttpResponseLog.class);
 
 	private Integer code;
 	private String name;
 	private Class clazz;
-	private LogBindType logBindType;
 
-	LogType(Integer code, String name, Class clazz, LogBindType logBindType) {
+	LogType(Integer code, String name, Class clazz) {
 		this.code = code;
 		this.name = name;
 		this.clazz = clazz;
-		this.logBindType = logBindType;
 	}
 
 	@Override
@@ -36,9 +33,5 @@ public enum LogType implements ConvertedEnum<Integer> {
 
 	public static LogType fromDbValue(Integer dbValue) {
 		return dbValueResolver.get(dbValue);
-	}
-
-	public void accept(LogService logService) {
-		logService.write(this);
 	}
 }

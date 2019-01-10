@@ -1,11 +1,8 @@
 package com.genius.backend.domain.model.alimy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.genius.backend.domain.model.BaseEntity;
 import lombok.*;
-import org.hibernate.metamodel.model.convert.spi.EnumValueConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,7 +25,7 @@ public class AlimyUnit extends BaseEntity implements Serializable {
 	@JsonBackReference
 	private Alimy alimy;
 
-	@Convert(converter = AlimyUnitTypeConverter.class)
+	@Convert(converter = AlimyUnitTypeAttributeConverter.class)
 	@Column(name = "UNIT_TYPE")
 	private AlimyUnitType unitType;
 

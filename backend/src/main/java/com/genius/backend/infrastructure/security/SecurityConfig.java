@@ -145,6 +145,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/alimy/**", configuration);
 		source.registerCorsConfiguration("/auth/**", configuration);
+		source.registerCorsConfiguration("/error/**", configuration);
 		return source;
 	}
 }

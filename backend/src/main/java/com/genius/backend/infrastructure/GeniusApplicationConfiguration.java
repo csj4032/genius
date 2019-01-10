@@ -2,7 +2,10 @@ package com.genius.backend.infrastructure;
 
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
+import com.genius.backend.infrastructure.interceptor.LoggingInterceptor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +37,7 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(deviceResolverHandlerInterceptor());
+		registry.addInterceptor(loggingInterceptor()).excludePathPatterns("/css/**", "/favicon.ico", "/js/**", "/webjars/**");
 	}
 
 	@Bean
@@ -76,5 +80,10 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Bean
 	public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver() {
 		return new DeviceHandlerMethodArgumentResolver();
+	}
+
+	@Bean
+	public LoggingInterceptor loggingInterceptor() {
+		return new LoggingInterceptor();
 	}
 }

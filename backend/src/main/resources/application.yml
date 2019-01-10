@@ -120,7 +120,7 @@ spring:
 
   social:
     kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
+      clientId: e471a3c9115dec82d061acd2a58be02b
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
@@ -161,7 +161,7 @@ spring:
 
   social:
     kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
+      clientId: e471a3c9115dec82d061acd2a58be02b
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile

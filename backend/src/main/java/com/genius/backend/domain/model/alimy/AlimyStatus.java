@@ -29,22 +29,18 @@ public enum AlimyStatus implements ConvertedEnum<Integer> {
 		throw new UnknownEnumValueException("AlimyStatus: unknown value: " + value);
 	}
 
+	@JsonValue
+	public String getTest() {
+		return text;
+	}
+
 	@Override
 	public Integer toDbValue() {
 		return status;
 	}
 
-	@JsonValue
-	public String getTest(){
-		return text;
-	}
-
 	public Integer getDbValue() {
 		return status;
-	}
-
-	public String getStrValue() {
-		return text;
 	}
 
 	public static final ReverseEnumResolver<AlimyStatus, Integer> dbValueResolver = new ReverseEnumResolver<>(AlimyStatus.class, AlimyStatus::getDbValue);
@@ -52,11 +48,4 @@ public enum AlimyStatus implements ConvertedEnum<Integer> {
 	public static AlimyStatus fromDbValue(Integer dbValue) {
 		return dbValueResolver.get(dbValue);
 	}
-
-	public static final ReverseEnumResolver<AlimyStatus, String> strResolver = new ReverseEnumResolver<>(AlimyStatus.class, AlimyStatus::getStrValue);
-
-	public static AlimyStatus fromStrValue(String value) {
-		return strResolver.get(value);
-	}
 }
-

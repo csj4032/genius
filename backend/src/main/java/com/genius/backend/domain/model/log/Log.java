@@ -20,7 +20,7 @@ public class Log extends BaseEntity {
 	@Column(name = "ID")
 	private long id;
 
-	@Convert(converter = LogTypeConverter.class)
+	@Convert(converter = LogTypeAttributeConverter.class)
 	@Column(name = "TYPE")
 	private LogType type;
 

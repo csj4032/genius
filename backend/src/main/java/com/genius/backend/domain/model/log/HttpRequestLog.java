@@ -10,11 +10,16 @@ import java.util.Map;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpRequestLog {
+public class HttpRequestLog implements LogElement {
 	private String path;
 	private String remoteAddr;
 	private String os;
 	private String device;
 	private String browser;
 	private Map<String, String[]> params;
+
+	@Override
+	public String toJson(LogJsonValue logJsonValue) {
+		return logJsonValue.getJsonValue(this);
+	}
 }
