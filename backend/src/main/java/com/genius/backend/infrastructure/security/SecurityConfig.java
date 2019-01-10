@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/favicon.ico","/static/**", "/js/**", "/css/**", "/webjars/**", "/error");
+		web.ignoring().antMatchers("/favicon.ico", "/static/**", "/js/**", "/css/**", "/webjars/**", "/error");
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
+				.antMatchers("/log/**","/picture/**", "/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
 				.antMatchers("/").hasRole("USER")
 				.anyRequest()
 				.authenticated()

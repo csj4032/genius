@@ -21,16 +21,18 @@ public class LoggingInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		var client = new Parser().parse(request.getHeader("User-Agent"));
-		var value = HttpRequestLog.builder().path(request.getServletPath()).remoteAddr(request.getRemoteAddr()).device(client.device.family).os(client.os.family).browser(client.userAgent.family).build().toJson(new LogJsonValue());
-		var gLog = Log.builder().type(LogType.HTTP_REQUEST).value(value).build();
+		var value = HttpRequestLog.builder().path(request.getServletPath()).remoteAddr(request.getRemoteAddr()).device(client.device.family).os(client.os.family).browser(client.userAgent.family).build();
+		var gLog = Log.builder().type(LogType.HTTP_REQUEST).value(value.toJson(new LogJsonValue())).build();
 		logRepository.save(gLog);
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-		var value = HttpResponseLog.builder().status(response.getStatus()).model(modelAndView.getModel()).viewName(modelAndView.getViewName()).build().toJson(new LogJsonValue());
-		var gLog = Log.builder().type(LogType.HTTP_RESPONSE).value(value).build();
+		var value = modelAndView != null ?
+				HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).model(modelAndView.getModel()).viewName(modelAndView.getViewName()).build()
+				: HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).build();
+		var gLog = Log.builder().type(LogType.HTTP_RESPONSE).value(value.toJson(new LogJsonValue())).build();
 		logRepository.save(gLog);
 	}
 

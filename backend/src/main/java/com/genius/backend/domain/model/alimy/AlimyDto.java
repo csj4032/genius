@@ -150,8 +150,11 @@ public class AlimyDto {
 	public static class Search {
 		private long id;
 		private AlimyStatus status;
+		@Builder.Default
 		private String username = "";
+		@Builder.Default
 		private String subject = "";
+		@Builder.Default
 		private String message = "";
 	}
 }

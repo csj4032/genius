@@ -24,6 +24,14 @@
 			<id>spring-milestones</id>
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>apache.snapshots</id>
+			<name>Maven Plugin Snapshots</name>
+			<url>http://repository.apache.org/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<properties>

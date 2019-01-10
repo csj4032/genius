@@ -37,7 +37,7 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(deviceResolverHandlerInterceptor());
-		registry.addInterceptor(loggingInterceptor()).excludePathPatterns("/css/**", "/favicon.ico", "/js/**", "/webjars/**");
+		registry.addInterceptor(loggingInterceptor()).excludePathPatterns("/css/**", "/favicon.ico", "/js/**", "/log/**", "/webjars/**");
 	}
 
 	@Bean

@@ -17,6 +17,11 @@
 
 	<repositories>
 		<repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>http://www.mvnrepository.com</url>
+		</repository>
+		<repository>
 			<id>spring-snapshots</id>
 			<url>http://repo.spring.io/snapshot</url>
 			<snapshots>
@@ -30,14 +35,6 @@
 		<repository>
 			<id>ip-filter-mvn-repo</id>
 			<url>https://raw.github.com/madvirus/ip-filter/mvn-repo/</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>elliotte</id>
-			<url>https://raw.github.com/csj4032/elliotte/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
@@ -291,6 +288,11 @@
 			<artifactId>uap-java</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+			<version>5.6.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -301,29 +303,29 @@
 			</plugin>
 
 			<!--<plugin>-->
-				<!--<groupId>com.mysema.maven</groupId>-->
-				<!--<artifactId>apt-maven-plugin</artifactId>-->
-				<!--<version>${apt-maven-plugin.version}</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<goals>-->
-							<!--<goal>test-process</goal>-->
-							<!--<goal>process</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>-->
-							<!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
-							<!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-				<!--<dependencies>-->
-					<!--<dependency>-->
-						<!--<groupId>com.querydsl</groupId>-->
-						<!--<artifactId>querydsl-apt</artifactId>-->
-						<!--<version>${querydsl.version}</version>-->
-					<!--</dependency>-->
-				<!--</dependencies>-->
+			<!--<groupId>com.mysema.maven</groupId>-->
+			<!--<artifactId>apt-maven-plugin</artifactId>-->
+			<!--<version>${apt-maven-plugin.version}</version>-->
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<goals>-->
+			<!--<goal>test-process</goal>-->
+			<!--<goal>process</goal>-->
+			<!--</goals>-->
+			<!--<configuration>-->
+			<!--<testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>-->
+			<!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
+			<!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--<dependencies>-->
+			<!--<dependency>-->
+			<!--<groupId>com.querydsl</groupId>-->
+			<!--<artifactId>querydsl-apt</artifactId>-->
+			<!--<version>${querydsl.version}</version>-->
+			<!--</dependency>-->
+			<!--</dependencies>-->
 			<!--</plugin>-->
 
 			<plugin>
@@ -439,16 +441,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<name>Maven Plugin Snapshots</name>
-			<url>http://repository.apache.org/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
