@@ -47,18 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private GeniusUserDetailsService geniusUserDetailsService;
 
-	@Autowired
-	private ConnectionFactoryLocator connectionFactoryLocator;
-
-	@Autowired
-	private UsersConnectionRepository usersConnectionRepository;
-
-	@Autowired
-	private KakaoConnectionSignUp kakaoConnectionSignup;
-
-	@Autowired
-	private SignInAdapter signInAdapter;
-
 	@Value("${ms.allowedOrigins}")
 	private List allowedOrigins;
 
@@ -80,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/log/**","/picture/**", "/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
+				.antMatchers("/log/**", "/picture/**", "/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
 				.antMatchers("/").hasRole("USER")
 				.anyRequest()
 				.authenticated()
@@ -99,10 +87,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public ProviderSignInController providerSignInController() {
+	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, KakaoConnectionSignUp kakaoConnectionSignup, SignInAdapter signInAdapter) {
 		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(kakaoConnectionSignup);
-		ProviderSignInController providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
-		return providerSignInController;
+		return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
 	}
 
 	@Bean
@@ -111,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
+	@Override
 	public UserDetailsService userDetailsService() {
 		return new GeniusUserDetailsService();
 	}

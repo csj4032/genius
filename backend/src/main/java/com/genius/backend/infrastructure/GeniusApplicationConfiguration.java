@@ -4,8 +4,6 @@ import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.infrastructure.interceptor.LoggingInterceptor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
