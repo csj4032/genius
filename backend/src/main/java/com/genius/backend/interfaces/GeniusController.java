@@ -38,9 +38,9 @@ public class GeniusController {
 	@NotNull
 	private BufferedImage getBufferedImage(Integer width, Integer height, String color, String text) {
 		var intValue = Integer.parseInt(color, 16);
-		var bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		var bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		var graphics2 = (Graphics2D) bufferedImage.getGraphics();
-		graphics2.setColor(Color.WHITE);
+		graphics2.setColor(new Color(255, 255, 255, 0));
 		graphics2.fillRect(0, 0, width, height);
 		if (!text.isEmpty()) {
 			graphics2.setPaint(new Color((intValue >> 16) & 0xFF, (intValue >> 8) & 0xFF, intValue & 0xFF));
