@@ -44,7 +44,7 @@ public class GeniusController {
 		graphics2.fillRect(0, 0, width, height);
 		if (!text.isEmpty()) {
 			graphics2.setPaint(new Color((intValue >> 16) & 0xFF, (intValue >> 8) & 0xFF, intValue & 0xFF));
-			graphics2.setFont(new Font("DejaVu Sans", Font.BOLD, 100));
+			graphics2.setFont(new Font("DejaVu Sans", Font.PLAIN, 100));
 			graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			var fm = graphics2.getFontMetrics();
 			graphics2.drawString(text, bufferedImage.getWidth() - fm.stringWidth(text), fm.getHeight() - 5);

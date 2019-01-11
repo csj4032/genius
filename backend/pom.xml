@@ -297,32 +297,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!--<plugin>-->
-			<!--<groupId>com.mysema.maven</groupId>-->
-			<!--<artifactId>apt-maven-plugin</artifactId>-->
-			<!--<version>${apt-maven-plugin.version}</version>-->
-			<!--<executions>-->
-			<!--<execution>-->
-			<!--<goals>-->
-			<!--<goal>test-process</goal>-->
-			<!--<goal>process</goal>-->
-			<!--</goals>-->
-			<!--<configuration>-->
-			<!--<testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>-->
-			<!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
-			<!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
-			<!--</configuration>-->
-			<!--</execution>-->
-			<!--</executions>-->
-			<!--<dependencies>-->
-			<!--<dependency>-->
-			<!--<groupId>com.querydsl</groupId>-->
-			<!--<artifactId>querydsl-apt</artifactId>-->
-			<!--<version>${querydsl.version}</version>-->
-			<!--</dependency>-->
-			<!--</dependencies>-->
-			<!--</plugin>-->
-
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
@@ -436,5 +410,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

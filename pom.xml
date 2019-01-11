@@ -11,7 +11,7 @@
 	<groupId>com.genius</groupId>
 	<artifactId>genius</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>genius project</name>
+	<name>alimy</name>
 	<description>project for genius</description>
 	<packaging>pom</packaging>
 
@@ -52,6 +52,7 @@
 	</properties>
 
 	<modules>
+		<module>frontend</module>
 		<module>spring-social-kakao</module>
 		<module>backend</module>
 	</modules>

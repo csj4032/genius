@@ -1,5 +1,7 @@
 /backend/logs
 /backend/target
+/frontend/build
+/frontend/target
 /spring-social-kakao/target
 /logs
 /target
