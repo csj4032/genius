@@ -297,6 +297,32 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<!--<plugin>-->
+			<!--<groupId>com.mysema.maven</groupId>-->
+			<!--<artifactId>apt-maven-plugin</artifactId>-->
+			<!--<version>${apt-maven-plugin.version}</version>-->
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<goals>-->
+			<!--<goal>test-process</goal>-->
+			<!--<goal>process</goal>-->
+			<!--</goals>-->
+			<!--<configuration>-->
+			<!--<testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>-->
+			<!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
+			<!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--<dependencies>-->
+			<!--<dependency>-->
+			<!--<groupId>com.querydsl</groupId>-->
+			<!--<artifactId>querydsl-apt</artifactId>-->
+			<!--<version>${querydsl.version}</version>-->
+			<!--</dependency>-->
+			<!--</dependencies>-->
+			<!--</plugin>-->
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
@@ -312,31 +338,6 @@
 				<version>3.3.0-SNAPSHOT</version>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy Vue.js frontend content</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src/main/resources/public</outputDirectory>
-							<overwrite>true</overwrite>
-							<resources>
-								<resource>
-									<directory>${project.parent.basedir}/frontend/dist</directory>
-									<includes>
-										<include>/</include>
-										<include>index.html</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>
 				<artifactId>kotlin-maven-plugin</artifactId>
@@ -410,4 +411,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
