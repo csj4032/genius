@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 @Getter
 @Setter
@@ -27,5 +30,12 @@ public class ApiError {
 		this.status = status;
 		this.message = message;
 		errors = Arrays.asList(error);
+	}
+
+	public ApiError(HttpStatus status, Map<String, Object> error) {
+		super();
+		this.status = status;
+		this.message = error.get("message").toString();
+		errors = error.values().stream().map(e -> e.toString()).collect(toList());
 	}
 }

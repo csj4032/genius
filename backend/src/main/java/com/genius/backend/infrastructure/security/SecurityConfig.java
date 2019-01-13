@@ -20,7 +20,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
@@ -68,14 +70,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/","/log/**", "/picture/**", "/greeting", "/login", "/auth/**", "/signin/**", "/signup/**", "/actuator/**").permitAll()
-				.anyRequest()
-				.authenticated()
+				.antMatchers("/actuator/**").hasRole("MANAGER")
+				.antMatchers("/", "/greeting", "/auth/**", "/picture/**").permitAll()
+				.anyRequest().authenticated()
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler());
+				.exceptionHandling()
+				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/alimy/**"))
+				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/log/**"))
+				.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
+				.accessDeniedHandler(accessDeniedHandler());
 
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
