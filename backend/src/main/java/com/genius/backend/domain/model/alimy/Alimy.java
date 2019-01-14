@@ -50,25 +50,33 @@ public class Alimy extends BaseEntity implements Serializable {
 
 	public void setAlimyUnit(AlimyDto.UnitType unitType) {
 		if (alimyUnit.isEmpty()) {
-			AlimyUnit seconds = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.SECONDS).unitValue(unitType.getSeconds()).build();
-			AlimyUnit minutes = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.MINUTES).unitValue(unitType.getMinutes()).build();
-			AlimyUnit hours = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.HOURS).unitValue(unitType.getHours()).build();
-			AlimyUnit dayOfMonth = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.DAY_OF_MONTH).unitValue(unitType.getDayOfMonth()).build();
-			AlimyUnit month = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.MONTH).unitValue(unitType.getMonth()).build();
-			AlimyUnit dayOfWeek = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.DAY_OF_WEEK).unitValue(unitType.getDayOfWeek()).build();
-			AlimyUnit year = AlimyUnit.builder().alimy(this).unitType(AlimyUnitType.YEAR).unitValue(unitType.getYear()).build();
-			this.alimyUnit = Set.of(seconds, minutes, hours, dayOfMonth, month, dayOfWeek, year);
+			unitTypeUnPivot(alimyUnit, unitType, this);
 		} else {
-			this.alimyUnit.stream().forEach(e-> {
-				if(e.getUnitType().equals(AlimyUnitType.SECONDS)) e.setUnitValue(unitType.getSeconds());
-				if(e.getUnitType().equals(AlimyUnitType.MINUTES)) e.setUnitValue(unitType.getMinutes());
-				if(e.getUnitType().equals(AlimyUnitType.HOURS)) e.setUnitValue(unitType.getHours());
-				if(e.getUnitType().equals(AlimyUnitType.DAY_OF_MONTH)) e.setUnitValue(unitType.getDayOfMonth());
-				if(e.getUnitType().equals(AlimyUnitType.MONTH)) e.setUnitValue(unitType.getMonth());
-				if(e.getUnitType().equals(AlimyUnitType.DAY_OF_WEEK)) e.setUnitValue(unitType.getDayOfWeek());
-				if(e.getUnitType().equals(AlimyUnitType.YEAR)) e.setUnitValue(unitType.getYear());
-			});
+			unitTypePivot(alimyUnit, unitType);
 		}
+	}
+
+	private void unitTypeUnPivot(Set<AlimyUnit> alimyUnit, AlimyDto.UnitType unitType, Alimy alimy) {
+		AlimyUnit seconds = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.SECONDS).unitValue(unitType.getSeconds()).build();
+		AlimyUnit minutes = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.MINUTES).unitValue(unitType.getMinutes()).build();
+		AlimyUnit hours = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.HOURS).unitValue(unitType.getHours()).build();
+		AlimyUnit dayOfMonth = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.DAY_OF_MONTH).unitValue(unitType.getDayOfMonth()).build();
+		AlimyUnit month = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.MONTH).unitValue(unitType.getMonth()).build();
+		AlimyUnit dayOfWeek = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.DAY_OF_WEEK).unitValue(unitType.getDayOfWeek()).build();
+		AlimyUnit year = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.YEAR).unitValue(unitType.getYear()).build();
+		alimyUnit.addAll(Set.of(seconds, minutes, hours, dayOfMonth, month, dayOfWeek, year));
+	}
+
+	private void unitTypePivot(Set<AlimyUnit> alimyUnit, AlimyDto.UnitType unitType) {
+		alimyUnit.stream().forEach(e -> {
+			if (e.getUnitType().equals(AlimyUnitType.SECONDS)) e.setUnitValue(unitType.getSeconds());
+			if (e.getUnitType().equals(AlimyUnitType.MINUTES)) e.setUnitValue(unitType.getMinutes());
+			if (e.getUnitType().equals(AlimyUnitType.HOURS)) e.setUnitValue(unitType.getHours());
+			if (e.getUnitType().equals(AlimyUnitType.DAY_OF_MONTH)) e.setUnitValue(unitType.getDayOfMonth());
+			if (e.getUnitType().equals(AlimyUnitType.MONTH)) e.setUnitValue(unitType.getMonth());
+			if (e.getUnitType().equals(AlimyUnitType.DAY_OF_WEEK)) e.setUnitValue(unitType.getDayOfWeek());
+			if (e.getUnitType().equals(AlimyUnitType.YEAR)) e.setUnitValue(unitType.getYear());
+		});
 	}
 
 	@JsonIgnore
