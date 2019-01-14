@@ -62,7 +62,7 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Transactional(readOnly = true)
 	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
-		search.setUserId(((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+		//search.setUserId(((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
 		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
 		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
 		}.getType()), pageable, alimyList.size());
