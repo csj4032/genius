@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -62,7 +61,7 @@ public class GeniusErrorController extends AbstractErrorController {
 		if (status == HttpStatus.NOT_FOUND) {
 			return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND, new Date(), HttpStatus.NOT_FOUND.getReasonPhrase()), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, new Date(), errors.get("message").toString(), "error"), new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, new Date(), errors.get("message").toString()), new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@Override

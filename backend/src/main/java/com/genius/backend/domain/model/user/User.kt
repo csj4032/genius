@@ -1,12 +1,13 @@
 package com.genius.backend.domain.model.user
 
+import com.genius.backend.domain.model.BaseEntity
 import com.genius.backend.domain.model.alimy.Alimy
 import com.genius.backend.domain.model.auth.Role
 import javax.persistence.*
 
 @Entity
 @Table(name = "USERS")
-data class User(
+data class User (
 		@Id
 		@Column(name = "ID")
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +46,6 @@ data class User(
 				joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
 				inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")])
 		var roles: Set<Role>? = null
-) {
+) : BaseEntity() {
 	constructor() : this(0, "", "", "", "", "", "", "", 0, null, null)
 }

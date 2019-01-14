@@ -56,16 +56,14 @@ public class AlimyServiceImpl implements AlimyService {
 	public Page<AlimyDto.Response> listForPage(Pageable pageable) {
 		var id = ((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 		var alimyList = alimyRepository.findByUserId(id, pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
-		}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
 	}
 
 	@Transactional(readOnly = true)
 	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
 		search.setUserId(((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
 		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
-		}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
 	}
 
 	@Override

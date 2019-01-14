@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.disable()
 				.authorizeRequests()
 				.antMatchers("/actuator/**").hasRole("MANAGER")
-				.antMatchers("/alimy/**", "/log/**").hasRole("USER")
+				//.antMatchers("/alimy/**", "/log/**").hasRole("USER")
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

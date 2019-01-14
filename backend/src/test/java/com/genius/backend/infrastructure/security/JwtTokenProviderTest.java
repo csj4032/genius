@@ -13,7 +13,7 @@ public class JwtTokenProviderTest {
 	@Test
 	public void generateTokenTest() {
 		var user = new User();
-		user.setId(1);
+		user.setId(2);
 		var geniusUserDetail = new GeniusUserDetail(user);
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + 6000000);
