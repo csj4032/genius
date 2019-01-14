@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
 			var user = userSaveOrUpdate(request, accessTokenInfo, profile, userService.findByProviderUserId(profile.getId()));
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getProviderUserId(), GeniusUserDetail.create(user).getAuthorities()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			return AuthDto.Response.builder().userId(user.getId()).userName(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(authentication)).build();
+			return AuthDto.Response.builder().userId(user.getId()).username(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(authentication)).build();
 		} catch (HttpClientErrorException | AuthenticationException e) {
 			log.error(e.getMessage());
 		}
