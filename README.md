@@ -6,6 +6,11 @@
 ## 기능 명세
 Spring boot With Kotlin + React
 
+## Frontend
+```
+$ git clone git@bitbucket.org:rrest/kakao_alarm_fe2.git frontend
+```
+
 ## Backend Build And Start
 ```
 $ mvn clean install -DskipTests
