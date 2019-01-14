@@ -13,10 +13,11 @@ import java.io.IOException;
 public class GeniusAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
-	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException ex) throws IOException, ServletException {
 		httpServletRequest.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.FORBIDDEN.value());
-		httpServletRequest.setAttribute("javax.servlet.error.message", "권한이 없습니다.");
-		var requestDispatcher = httpServletRequest.getRequestDispatcher("/error/rest");
+		httpServletRequest.setAttribute("javax.servlet.error.message", HttpStatus.FORBIDDEN.getReasonPhrase());
+		httpServletRequest.setAttribute("javax.servlet.error.exception", ex);
+		var requestDispatcher = httpServletRequest.getRequestDispatcher("/error");
 		requestDispatcher.forward(httpServletRequest, httpServletResponse);
 	}
 }

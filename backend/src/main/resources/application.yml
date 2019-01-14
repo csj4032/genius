@@ -1,7 +1,5 @@
 # default (production)
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   http:
     log-request-details: true
   devtools:
