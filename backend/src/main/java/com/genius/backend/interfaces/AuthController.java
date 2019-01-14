@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 public class AuthController {
@@ -22,7 +24,7 @@ public class AuthController {
 	private AuthService authService;
 
 	@PostMapping(value = "/auth")
-	public AuthDto.Response auth(@RequestBody AuthDto.Request request) {
+	public AuthDto.Response auth(@Valid @RequestBody AuthDto.Request request) {
 		return authService.auth(request);
 	}
 

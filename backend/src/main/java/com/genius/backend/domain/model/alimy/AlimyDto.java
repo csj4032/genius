@@ -87,6 +87,7 @@ public class AlimyDto {
 	@NoArgsConstructor
 	public static class Response {
 		private long id;
+		private long userId;
 		private String username;
 		private Integer status;
 		private String subject;
@@ -149,6 +150,7 @@ public class AlimyDto {
 	@NoArgsConstructor
 	public static class Search {
 		private long id;
+		private long userId;
 		private AlimyStatus status;
 		@Builder.Default
 		private String username = "";

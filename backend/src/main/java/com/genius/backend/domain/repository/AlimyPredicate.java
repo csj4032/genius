@@ -16,6 +16,10 @@ public class AlimyPredicate {
 			builder.and(alimy.id.eq(search.getId()));
 		}
 
+		if (search.getUserId() != 0) {
+			builder.and(alimy.user.id.eq(search.getUserId()));
+		}
+
 		if(!search.getUsername().isEmpty()) {
 			builder.and(alimy.user.username.like(search.getUsername()));
 		}

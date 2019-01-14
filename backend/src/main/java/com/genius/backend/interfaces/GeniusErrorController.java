@@ -34,6 +34,10 @@ public class GeniusErrorController extends AbstractErrorController {
 		var modelAndView = new ModelAndView("errors/error");
 		modelAndView.addAllObjects(getErrorAttributes(request, false));
 		response.setStatus(status.value());
+		if (status == HttpStatus.UNAUTHORIZED) {
+			modelAndView.setViewName("/errors/401");
+			return modelAndView;
+		}
 		if (status == HttpStatus.FORBIDDEN) {
 			modelAndView.setViewName("/errors/403");
 			return modelAndView;

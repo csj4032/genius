@@ -22,7 +22,7 @@ public class AccessKeyRefreshScheduling {
 	@Value("${spring.social.kakao.clientId}")
 	private String clientId;
 
-	//@Scheduled(cron = "0 0 0/1 * * ?")
+	@Scheduled(cron = "0 0 0/1 * * ?")
 	public void byMinute() {
 		log.info("AccessToken Refresh Start");
 		userRepository.findAll().stream().forEach(e -> {
