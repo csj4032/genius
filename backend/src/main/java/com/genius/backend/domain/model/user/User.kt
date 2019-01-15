@@ -41,7 +41,7 @@ data class User (
 		@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = Alimy::class)
 		var alimys: Set<Alimy>? = null,
 
-		@ManyToMany(targetEntity = Role::class)
+		@ManyToMany(targetEntity = Role::class, fetch = FetchType.EAGER)
 		@JoinTable(name = "USERS_ROLES",
 				joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
 				inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")])

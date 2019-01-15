@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.kakao.api.AccessTokenInfo;
@@ -41,7 +40,9 @@ public class AuthServiceImpl implements AuthService {
 			var accessTokenInfo = userOperation.accessTokenInfo();
 			var profile = userOperation.getUserProfile();
 			var user = userSaveOrUpdate(request, accessTokenInfo, profile, userService.findByProviderUserId(profile.getId()));
-			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getProviderUserId(), GeniusUserDetail.create(user).getAuthorities()));
+			var userDetails = GeniusUserDetail.create(user);
+			//Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails.getId(), userDetails.getPassword(), userDetails.getAuthorities()));
+			var authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			return AuthDto.Response.builder().userId(user.getId()).username(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(authentication)).build();
 		} catch (HttpClientErrorException | AuthenticationException e) {

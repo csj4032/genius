@@ -15,7 +15,7 @@ public class LogController {
 	@Autowired
 	private LogService logService;
 
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/log")
 	public List<LogDto.Response> logs() {
 		return logService.findAll();

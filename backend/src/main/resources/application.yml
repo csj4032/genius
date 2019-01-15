@@ -17,7 +17,7 @@ spring:
   jpa:
     database: MYSQL
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       naming:
@@ -32,7 +32,7 @@ spring:
           batch_size: 30
 
 server:
-  port: 8080
+  port: 9030
   undertow:
     accesslog:
       enabled: true

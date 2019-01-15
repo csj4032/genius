@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class GeniusUserDetail implements SocialUserDetails {
 
 	private static final long serialVersionUID = 5197941260523577515L;
@@ -82,7 +84,7 @@ public class GeniusUserDetail implements SocialUserDetails {
 	}
 
 	public static GeniusUserDetail create(User user) {
-		List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+		Collection<GrantedAuthority> authorities = Collections.unmodifiableCollection(user.getRoles().stream().map(e -> new SimpleGrantedAuthority("ROLE_" + e.getName())).collect(toList()));
 		return new GeniusUserDetail(user, authorities);
 	}
 }

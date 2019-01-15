@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpiredTime(request.getExpiresIn());
 		user.setUsername(profile.getProperties().getNickname());
 		user.setImageUrl(profile.getProperties().getProfile_image());
-		user.setRoles(Set.of(Role.builder().id(1L).name("USER").build()));
+		user.setRoles(Set.of(Role.builder().id(1L).name("USER").build(), Role.builder().id(1L).name("MANAGER").build()));
 		return userRepository.save(user);
 	}
 

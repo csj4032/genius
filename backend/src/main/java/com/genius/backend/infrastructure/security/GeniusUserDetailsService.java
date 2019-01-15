@@ -22,7 +22,7 @@ public class GeniusUserDetailsService implements UserDetailsService {
 		return GeniusUserDetail.create(user);
 	}
 
-	public UserDetails loadUserByUserId(Long id) {
+	public GeniusUserDetail loadUserByUserId(Long id) {
 		return GeniusUserDetail.create(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.valueOf(id), "User not found with Id : " + id)));
 	}
 }

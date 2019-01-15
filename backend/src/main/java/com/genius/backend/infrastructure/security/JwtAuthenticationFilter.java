@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
@@ -26,7 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 		try {
 			String jwt = getJwtFromRequest(httpServletRequest);
-
 			if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
 				Long userId = jwtTokenProvider.getUserIdFromJWT(jwt);
 				UserDetails userDetails = geniusUserDetailsService.loadUserByUserId(userId);

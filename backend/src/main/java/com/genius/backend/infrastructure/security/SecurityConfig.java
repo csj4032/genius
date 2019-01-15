@@ -23,6 +23,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
@@ -70,9 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/actuator/**").hasRole("MANAGER")
-				//.antMatchers("/alimy/**", "/log/**").hasRole("USER")
+				.antMatchers("/**").permitAll()
+				.antMatchers("/actuator/**").hasRole("ADMIN")
 				.and()
+				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
@@ -81,13 +83,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/log/**"))
 				.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
 				.accessDeniedHandler(accessDeniedHandler());
-
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		return new JwtAuthenticationFilter();
+	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+		var jwtAuthenticationFilter = new JwtAuthenticationFilter();
+		return jwtAuthenticationFilter;
 	}
 
 	@Bean
