@@ -8,7 +8,7 @@ import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.alimy.AlimyStatus;
 import com.genius.backend.domain.model.log.*;
 import com.genius.backend.domain.repository.*;
-import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
+import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -55,14 +55,14 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Override
 	public Page<AlimyDto.Response> listForPage(Pageable pageable) {
-		var id = ((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		var id = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 		var alimyList = alimyRepository.findByUserId(id, pageable).getContent();
 		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
 	}
 
 	@Transactional(readOnly = true)
 	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
-		search.setUserId(((GeniusUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+		search.setUserId(((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
 		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
 		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
 	}

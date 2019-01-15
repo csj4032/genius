@@ -1,24 +1,24 @@
 package com.genius.backend.application.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.genius.backend.application.AuthService;
 import com.genius.backend.application.UserService;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.user.User;
-import com.genius.backend.infrastructure.security.JwtTokenProvider;
-import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
+import com.genius.backend.infrastructure.security.jwt.JwtTokenProvider;
+import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.kakao.api.AccessTokenInfo;
 import org.springframework.social.kakao.api.KakaoProfile;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.Optional;
+import java.util.Collections;
 
 @Slf4j
 @Service
@@ -34,24 +34,20 @@ public class AuthServiceImpl implements AuthService {
 	private AuthenticationManager authenticationManager;
 
 	@Override
-	public AuthDto.Response auth(AuthDto.Request request) {
+	public AuthDto.Response auth(AuthDto.Request request) throws JsonProcessingException {
 		var userOperation = new KakaoTemplate(request.getAccessToken()).userOperation();
 		try {
-			var accessTokenInfo = userOperation.accessTokenInfo();
 			var profile = userOperation.getUserProfile();
-			var user = userSaveOrUpdate(request, accessTokenInfo, profile, userService.findByProviderUserId(profile.getId()));
-			var userDetails = GeniusUserDetail.create(user);
-			var authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			return AuthDto.Response.builder().userId(user.getId()).username(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(authentication)).build();
+			var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(profile.getId(), profile.getId(), Collections.emptyList()));
+			var user = userSaveOrUpdate(request, profile, authentication);
+			return AuthDto.Response.builder().userId(user.getId()).username(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(user)).build();
 		} catch (HttpClientErrorException | AuthenticationException e) {
 			log.error(e.getMessage());
 		}
 		return null;
 	}
 
-	private User userSaveOrUpdate(AuthDto.Request request, AccessTokenInfo accessTokenInfo, KakaoProfile profile, Optional<User> userOptional) {
-		if (userOptional.isPresent()) return userService.update(request, profile, userOptional.get());
-		return userService.save(request, accessTokenInfo, profile);
+	private User userSaveOrUpdate(AuthDto.Request request, KakaoProfile profile, Authentication authentication) {
+		return (authentication.getPrincipal() == null) ? userService.save(request, profile) : userService.update(request, profile, ((GeniusSocialUserDetail) authentication.getPrincipal()).getUser());
 	}
 }

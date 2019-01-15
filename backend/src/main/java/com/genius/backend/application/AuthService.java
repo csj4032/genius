@@ -5,5 +5,5 @@ import com.genius.backend.domain.model.auth.AuthDto;
 
 public interface AuthService {
 
-	AuthDto.Response auth(AuthDto.Request request);
+	AuthDto.Response auth(AuthDto.Request request) throws JsonProcessingException;
 }

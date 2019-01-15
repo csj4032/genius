@@ -7,22 +7,21 @@ import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class GeniusUserDetail implements SocialUserDetails {
+public class GeniusSocialUserDetail implements SocialUserDetails {
 
 	private static final long serialVersionUID = 5197941260523577515L;
 
 	private User user;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public GeniusUserDetail(User user) {
+	public GeniusSocialUserDetail(User user) {
 		this.user = user;
 	}
 
-	public GeniusUserDetail(User user, Collection<? extends GrantedAuthority> authorities) {
+	public GeniusSocialUserDetail(User user, Collection<? extends GrantedAuthority> authorities) {
 		this.user = user;
 		this.authorities = authorities;
 	}
@@ -83,8 +82,18 @@ public class GeniusUserDetail implements SocialUserDetails {
 		return Long.toString(user.getId());
 	}
 
-	public static GeniusUserDetail create(User user) {
+	public static GeniusSocialUserDetail create(User user) {
 		Collection<GrantedAuthority> authorities = Collections.unmodifiableCollection(user.getRoles().stream().map(e -> new SimpleGrantedAuthority("ROLE_" + e.getName())).collect(toList()));
-		return new GeniusUserDetail(user, authorities);
+		return new GeniusSocialUserDetail(user, authorities);
+	}
+
+	public static GeniusSocialUserDetail create(GeniusUserDetailToken geniusUserDetailToken) {
+		Collection<GrantedAuthority> authorities = Collections.unmodifiableCollection(geniusUserDetailToken.getRoles().stream().map(e -> new SimpleGrantedAuthority("ROLE_" + e)).collect(toList()));
+		var user = new User();
+		user.setId(geniusUserDetailToken.getId());
+		user.setPassword(geniusUserDetailToken.getPassword());
+		user.setProviderUserId(geniusUserDetailToken.getPassword());
+		user.setUsername(geniusUserDetailToken.getUsername());
+		return new GeniusSocialUserDetail(user, authorities);
 	}
 }

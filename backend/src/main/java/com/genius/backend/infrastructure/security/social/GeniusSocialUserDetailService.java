@@ -18,6 +18,6 @@ public class GeniusSocialUserDetailService implements SocialUserDetailsService {
 	@Override
 	public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException, DataAccessException {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-		return (GeniusUserDetail) userDetails;
+		return (GeniusSocialUserDetail) userDetails;
 	}
 }

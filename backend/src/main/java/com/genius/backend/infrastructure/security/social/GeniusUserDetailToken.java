@@ -12,6 +12,7 @@ import java.util.Set;
 @Builder
 public class GeniusUserDetailToken {
 	private long id;
+	private String username;
 	private String password;
 	private Set<String> roles;
 }

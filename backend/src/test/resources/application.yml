@@ -34,7 +34,7 @@ spring:
           batch_size: 30
 
 server:
-  port: 9000
+  port: 9030
   undertow:
     accesslog:
       enabled: true

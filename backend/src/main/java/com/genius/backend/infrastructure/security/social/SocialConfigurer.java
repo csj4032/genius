@@ -20,7 +20,7 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 @Configuration
 @EnableSocial
-public class SocialConfig extends SocialConfigurerAdapter {
+public class SocialConfigurer extends SocialConfigurerAdapter {
 
 	@Value("${spring.social.kakao.clientId}")
 	private String clientId;

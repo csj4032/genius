@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(AuthDto.Request request, AccessTokenInfo accessTokenInfo, KakaoProfile profile) {
+	public User save(AuthDto.Request request, KakaoProfile profile) {
 		var user = new User();
-		user.setProviderUserId(accessTokenInfo.getId());
+		user.setProviderUserId(profile.getId());
 		user.setAccessToken(request.getAccessToken());
 		user.setRefreshToken(request.getRefreshToken());
 		user.setExpiredTime(request.getExpiresIn());

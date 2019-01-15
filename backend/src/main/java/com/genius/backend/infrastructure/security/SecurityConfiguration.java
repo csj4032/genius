@@ -1,5 +1,7 @@
 package com.genius.backend.infrastructure.security;
 
+import com.genius.backend.infrastructure.security.jwt.JwtOnAuthenticationFilter;
+import com.genius.backend.infrastructure.security.jwt.JwtAuthenticationFilter;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetailService;
 import com.genius.backend.infrastructure.security.social.KakaoConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.*;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
@@ -45,7 +46,9 @@ import java.util.List;
 		prePostEnabled = true
 )
 @ComponentScan(basePackages = {"com.genius.backend"})
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	private static String alimyUrl = "/alimy/**";
 
 	@Autowired
 	private GeniusUserDetailsService geniusUserDetailsService;
@@ -75,20 +78,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/actuator/**").hasRole("ADMIN")
 				.and()
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				//.addFilterBefore(jwtOnAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.exceptionHandling()
-				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/alimy/**"))
+				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher(alimyUrl))
 				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/log/**"))
 				.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
 				.accessDeniedHandler(accessDeniedHandler());
 	}
 
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-		var jwtAuthenticationFilter = new JwtAuthenticationFilter();
+	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+		var jwtAuthenticationFilter = new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(alimyUrl), new AntPathRequestMatcher("/logs/**")));
 		return jwtAuthenticationFilter;
+	}
+
+	@Bean
+	public JwtOnAuthenticationFilter jwtOnAuthenticationFilter() throws Exception {
+		return new JwtOnAuthenticationFilter("/auth", authenticationManager());
 	}
 
 	@Bean

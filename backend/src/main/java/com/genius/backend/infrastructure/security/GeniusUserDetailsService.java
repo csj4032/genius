@@ -2,13 +2,14 @@ package com.genius.backend.infrastructure.security;
 
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.domain.repository.UserRepository;
-import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
+import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class GeniusUserDetailsService implements UserDetailsService {
@@ -17,12 +18,13 @@ public class GeniusUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	@Override
-	public final GeniusUserDetail loadUserByUsername(String id) throws UsernameNotFoundException {
-		User user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new UsernameNotFoundException("User not found with Id : " + id));
-		return GeniusUserDetail.create(user);
+	public final GeniusSocialUserDetail loadUserByUsername(String providerUserId) throws UsernameNotFoundException {
+		Optional<User> user = userRepository.findByProviderUserId(providerUserId);
+		if (user.isPresent()) return GeniusSocialUserDetail.create(user.get());
+		return null;
 	}
 
-	public GeniusUserDetail loadUserByUserId(Long id) {
-		return GeniusUserDetail.create(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.valueOf(id), "User not found with Id : " + id)));
+	public GeniusSocialUserDetail loadUserByUserId(Long id) {
+		return GeniusSocialUserDetail.create(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.valueOf(id), "User not found with Id : " + id)));
 	}
 }

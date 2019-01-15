@@ -13,7 +13,7 @@ public interface UserService {
 
 	User save(User user);
 
-	User save(AuthDto.Request request, AccessTokenInfo accessTokenInfo, KakaoProfile profile);
+	User save(AuthDto.Request request, KakaoProfile profile);
 
 	User update(AuthDto.Request request, KakaoProfile profile, User user);
 

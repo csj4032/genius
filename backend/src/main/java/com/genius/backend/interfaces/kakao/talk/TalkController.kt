@@ -1,6 +1,6 @@
 package com.genius.backend.interfaces.kakao.talk
 
-import com.genius.backend.infrastructure.security.social.GeniusUserDetail
+import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail
 import lombok.extern.slf4j.Slf4j
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,7 +17,7 @@ class TalkController {
 	@PostMapping("/send/me")
 	fun sendMe(message: String): ResponseEntity<ResultCode> {
 		val authentication = SecurityContextHolder.getContext().authentication
-		val geniusUserDetail = authentication.details as GeniusUserDetail
+		val geniusUserDetail = authentication.details as GeniusSocialUserDetail
 		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().accessToken)
 		return ResponseEntity(kakaoTemplate.talkOperation().sendTalk(message), HttpStatus.OK)
 	}
