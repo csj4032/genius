@@ -42,7 +42,7 @@ public class ApiError {
 		this.status = status;
 		this.timestamp = timestamp;
 		this.message = error.get("message").toString();
-		errors = error.values().stream().map(e -> e.toString()).collect(toList());
+		errors = error.values().stream().map(Object::toString).collect(toList());
 	}
 
 	public ApiError(HttpStatus status, Date timestamp, String message) {

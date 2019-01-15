@@ -3,7 +3,6 @@ package com.genius.backend.interfaces;
 import com.genius.backend.application.AuthService;
 import com.genius.backend.application.UserService;
 import com.genius.backend.domain.model.auth.AuthDto;
-import com.genius.backend.infrastructure.aspect.PreLogging;
 import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

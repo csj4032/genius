@@ -7,6 +7,10 @@ import com.querydsl.core.types.Predicate;
 
 public class AlimyPredicate {
 
+	private AlimyPredicate() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static Predicate search(AlimyDto.Search search) {
 
 		QAlimy alimy = QAlimy.alimy;

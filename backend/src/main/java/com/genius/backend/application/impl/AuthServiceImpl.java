@@ -41,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
 			var profile = userOperation.getUserProfile();
 			var user = userSaveOrUpdate(request, accessTokenInfo, profile, userService.findByProviderUserId(profile.getId()));
 			var userDetails = GeniusUserDetail.create(user);
-			//Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails.getId(), userDetails.getPassword(), userDetails.getAuthorities()));
 			var authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			return AuthDto.Response.builder().userId(user.getId()).username(user.getUsername()).userImage(user.getImageUrl()).tokenType("Bearer").accessToken(tokenProvider.generateToken(authentication)).build();

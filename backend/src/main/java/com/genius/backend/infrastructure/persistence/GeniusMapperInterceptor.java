@@ -20,6 +20,7 @@ public class GeniusMapperInterceptor implements Interceptor {
 		MappedStatement mappedStatement = (MappedStatement) args[0];
 		Object param = args[1];
 		BoundSql boundSql = mappedStatement.getBoundSql(param);
+		log.info("{}", boundSql);
 		return invocation.proceed();
 	}
 
@@ -30,6 +31,6 @@ public class GeniusMapperInterceptor implements Interceptor {
 
 	@Override
 	public void setProperties(Properties properties) {
-
+		throw new UnsupportedOperationException();
 	}
 }

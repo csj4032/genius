@@ -1,6 +1,7 @@
 package com.genius.backend.application.impl;
 
 import com.genius.backend.application.UserService;
+import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteByIdForUnlink(User user) {
 		if (!user.getAlimys().isEmpty()) {
-			alimyUnitRepository.deleteAlimyUnitByAlimyIds(user.getAlimys().stream().map(e -> e.getId()).collect(toList()));
+			alimyUnitRepository.deleteAlimyUnitByAlimyIds(user.getAlimys().stream().map(Alimy::getId).collect(toList()));
 			alimyRepository.deleteByUserId(user.getId());
 		}
 		userRepository.delete(user);

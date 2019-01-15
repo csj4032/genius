@@ -2,7 +2,6 @@ package com.genius.backend.infrastructure.interceptor;
 
 import com.genius.backend.application.LogService;
 import com.genius.backend.domain.model.log.*;
-import com.genius.backend.domain.repository.LogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -35,10 +34,5 @@ public class LoggingInterceptor implements HandlerInterceptor {
 				: HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).build();
 		var gLog = Log.builder().type(LogType.HTTP_RESPONSE).value(value.toJson(new LogJsonValue())).build();
 		logService.save(gLog);
-	}
-
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-
 	}
 }
