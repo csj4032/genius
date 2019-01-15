@@ -1,4 +1,9 @@
 /backend/logs
+/backend/src/main/resources/static/index.html
+/backend/src/main/resources/static/static
+/backend/src/main/resources/static/favicon*
+/backend/src/main/resources/static/*.js
+/backend/src/main/resources/static/*.json
 /backend/target
 /frontend/build
 /frontend/target
