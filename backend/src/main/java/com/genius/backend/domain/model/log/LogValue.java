@@ -6,4 +6,6 @@ public interface LogValue {
 
 	String getJsonValue(HttpResponseLog httpResponseLog);
 
+	String getJsonValue(SendTalkLog sendTalkLog);
+
 }

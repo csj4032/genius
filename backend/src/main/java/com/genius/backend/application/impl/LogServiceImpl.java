@@ -25,6 +25,11 @@ public class LogServiceImpl implements LogService {
 	protected ObjectMapper objectMapper;
 
 	@Override
+	public void save(Log log) {
+		logRepository.save(log);
+	}
+
+	@Override
 	public List<LogDto.Response> findAll() {
 		return logRepository.findAll().stream().map(getLogResponse()).collect(toList());
 	}

@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.interceptor;
 
+import com.genius.backend.application.LogService;
 import com.genius.backend.domain.model.log.*;
 import com.genius.backend.domain.repository.LogRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +17,14 @@ import java.io.IOException;
 public class LoggingInterceptor implements HandlerInterceptor {
 
 	@Autowired
-	LogRepository logRepository;
+	private LogService logService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		var client = new Parser().parse(request.getHeader("User-Agent"));
 		var value = HttpRequestLog.builder().path(request.getServletPath()).remoteAddr(request.getRemoteAddr()).device(client.device.family).os(client.os.family).browser(client.userAgent.family).build();
 		var gLog = Log.builder().type(LogType.HTTP_REQUEST).value(value.toJson(new LogJsonValue())).build();
-		logRepository.save(gLog);
+		logService.save(gLog);
 		return true;
 	}
 
@@ -33,7 +34,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
 				HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).model(modelAndView.getModel()).viewName(modelAndView.getViewName()).build()
 				: HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).build();
 		var gLog = Log.builder().type(LogType.HTTP_RESPONSE).value(value.toJson(new LogJsonValue())).build();
-		logRepository.save(gLog);
+		logService.save(gLog);
 	}
 
 	@Override

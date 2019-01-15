@@ -6,10 +6,8 @@ import com.genius.backend.application.exception.NotExistUserException;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.alimy.AlimyStatus;
-import com.genius.backend.domain.repository.AlimyPredicate;
-import com.genius.backend.domain.repository.AlimyRepository;
-import com.genius.backend.domain.repository.AlimyUnitRepository;
-import com.genius.backend.domain.repository.UserRepository;
+import com.genius.backend.domain.model.log.*;
+import com.genius.backend.domain.repository.*;
 import com.genius.backend.infrastructure.security.social.GeniusUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -42,6 +40,9 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Autowired
 	private AlimyUnitRepository alimyUnitRepository;
+
+	@Autowired
+	private LogRepository logRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -105,10 +106,12 @@ public class AlimyServiceImpl implements AlimyService {
 		return alimy;
 	}
 
+
 	@Override
 	public void sendTalkForBatch() {
 		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
 		var date = new Date();
+
 		alimyList.parallelStream()
 				.filter(e -> {
 					try {
@@ -121,6 +124,9 @@ public class AlimyServiceImpl implements AlimyService {
 				})
 				.forEach(e -> {
 					var resultCode = new KakaoTemplate(e.getUser().getAccessToken()).talkOperation().sendTalk(e.getMessage());
+					var value = SendTalkLog.builder().subject(e.getSubject()).message(e.getMessage()).cronExpression(e.getCronExpression()).build();
+					var gLog = Log.builder().type(LogType.SEND_TALK).value(value.toJson(new LogJsonValue())).build();
+					logRepository.save(gLog);
 					log.info("result : {}", resultCode);
 				});
 	}
