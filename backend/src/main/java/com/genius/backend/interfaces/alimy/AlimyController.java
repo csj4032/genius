@@ -26,6 +26,7 @@ public class AlimyController {
 		return alimyService.searchWithPage(search, pageable);
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/alimy/{alimyId}")
 	public ResponseEntity<AlimyDto.Response> alimyForId(@PathVariable("alimyId") Long alimyId) {
 		return new ResponseEntity<>(alimyService.findById(alimyId), HttpStatus.OK);

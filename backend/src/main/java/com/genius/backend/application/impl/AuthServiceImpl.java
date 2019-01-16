@@ -45,6 +45,8 @@ public class AuthServiceImpl implements AuthService {
 			log.error(e.getMessage());
 		}
 		return null;
+
+
 	}
 
 	private User userSaveOrUpdate(AuthDto.Request request, KakaoProfile profile, Authentication authentication) {

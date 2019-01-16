@@ -17,16 +17,17 @@ public class AuthDto {
 		@JsonProperty(value = "access_token")
 		private String accessToken;
 		@NotNull
-		@JsonProperty(value = "expries_in")
+		@JsonProperty(value = "expires_in")
 		private long expiresIn;
 		@JsonProperty(value = "refresh_token")
 		@NotNull
 		private String refreshToken;
-		@JsonProperty(value = "refresh_token_expries_in")
+		@JsonProperty(value = "refresh_token_expires_in")
 		private long refreshTokenExpiresIn;
 		private String scope;
 		@JsonProperty(value = "token_type")
 		private String tokenType;
+		private String stateToken;
 	}
 
 	@Data

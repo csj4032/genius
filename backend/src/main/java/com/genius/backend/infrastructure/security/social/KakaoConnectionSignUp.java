@@ -19,7 +19,7 @@ public class KakaoConnectionSignUp implements ConnectionSignUp {
 	@Override
 	public String execute(Connection<?> connection) {
 		log.info("알리미 앱 가입 {} : {}, : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
-		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(System.out::println, () -> {
+		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> {
 			userRepository.save(getUser(connection));
 			Kakao kakao = (Kakao) connection.getApi();
 			kakao.talkOperation().sendTalk("알리미 앱 가입 성공");

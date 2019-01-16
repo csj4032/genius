@@ -1,7 +1,7 @@
 package com.genius.backend.infrastructure.security;
 
-import com.genius.backend.infrastructure.security.jwt.JwtOnAuthenticationFilter;
 import com.genius.backend.infrastructure.security.jwt.JwtAuthenticationFilter;
+import com.genius.backend.infrastructure.security.jwt.JwtOnAuthenticationFilter;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetailService;
 import com.genius.backend.infrastructure.security.social.KakaoConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,13 +19,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.*;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
@@ -49,21 +49,22 @@ import java.util.List;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static String alimyUrl = "/alimy/**";
+	private static String logUrl = "/log/**";
 
 	@Autowired
-	private GeniusUserDetailsService geniusUserDetailsService;
+	private AuthenticationProvider geniusDaoAuthenticationProvider;
 
 	@Value("${ms.allowedOrigins}")
 	private List allowedOrigins;
 
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(geniusUserDetailsService).passwordEncoder(passwordEncoder());
+		auth.authenticationProvider(geniusDaoAuthenticationProvider);
 	}
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/favicon.ico", "/static/**", "/js/**", "/css/**", "/webjars/**", "/error");
+		web.ignoring().antMatchers("/favicon.ico", "/favicon_fast.ico", "/static/**", "/js/**", "/css/**", "/webjars/**", "/error");
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/actuator/**").hasRole("ADMIN")
 				.and()
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				//.addFilterBefore(jwtOnAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtOnAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
@@ -91,13 +92,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		var jwtAuthenticationFilter = new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(alimyUrl), new AntPathRequestMatcher("/logs/**")));
-		return jwtAuthenticationFilter;
+		return new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(alimyUrl), new AntPathRequestMatcher(logUrl)));
 	}
 
 	@Bean
 	public JwtOnAuthenticationFilter jwtOnAuthenticationFilter() throws Exception {
-		return new JwtOnAuthenticationFilter("/auth", authenticationManager());
+		return new JwtOnAuthenticationFilter("/auth/", authenticationManager());
 	}
 
 	@Bean
@@ -108,18 +108,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public SocialUserDetailsService socialUserDetailsService() {
-		return new GeniusSocialUserDetailService(geniusUserDetailsService);
+		return new GeniusSocialUserDetailService(userDetailsService());
 	}
 
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
 		return new GeniusUserDetailsService();
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Bean

@@ -37,9 +37,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {MybatisAutoConfiguration.class, DataSourceAutoConfiguration.class})
 @EnableConfigurationProperties({GeniusProperties.class, RandomProperties.class})
 @EntityScan(basePackageClasses = {Jsr310JpaConverters.class}, basePackages = {"com.genius.backend.domain"})
+@EnableAutoConfiguration(exclude = {MybatisAutoConfiguration.class, DataSourceAutoConfiguration.class})
 public class BackendApplication extends SpringBootServletInitializer implements ApplicationRunner {
 
 	@Override

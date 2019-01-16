@@ -13,6 +13,6 @@ public class LoggingAspect {
 
 	@Before(value = "@annotation(preLogging)", argNames = "joinPoint,preLogging")
 	public void preLogging(JoinPoint joinPoint, PreLogging preLogging) {
-
+		log.info(joinPoint.getKind());
 	}
 }

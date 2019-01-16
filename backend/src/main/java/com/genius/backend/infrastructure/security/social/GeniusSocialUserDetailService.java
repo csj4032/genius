@@ -1,9 +1,7 @@
 package com.genius.backend.infrastructure.security.social;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
@@ -16,7 +14,7 @@ public class GeniusSocialUserDetailService implements SocialUserDetailsService {
 	}
 
 	@Override
-	public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException, DataAccessException {
+	public SocialUserDetails loadUserByUserId(String userId) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
 		return (GeniusSocialUserDetail) userDetails;
 	}

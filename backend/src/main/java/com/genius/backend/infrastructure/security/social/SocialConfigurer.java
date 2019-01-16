@@ -1,7 +1,5 @@
 package com.genius.backend.infrastructure.security.social;
 
-import com.genius.backend.domain.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +23,6 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Value("${spring.social.kakao.clientId}")
 	private String clientId;
 
-	@Autowired
-	private UserRepository userRepository;
-
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
 		KakaoConnectionFactory kakaoConnectionFactory = new KakaoConnectionFactory(clientId);
@@ -36,7 +31,7 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 
 	@Bean
 	public SignInAdapter signInAdapter() {
-		return new KakaoSignInAdapter(userRepository);
+		return new KakaoSignInAdapter();
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.genius.backend.domain.model.log;
 
 import com.genius.backend.domain.model.BaseEntity;
 import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;
 
