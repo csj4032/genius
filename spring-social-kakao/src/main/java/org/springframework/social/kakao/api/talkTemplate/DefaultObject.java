@@ -1,12 +1,12 @@
 package org.springframework.social.kakao.api.talkTemplate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.social.kakao.api.ResultCode;
+import org.springframework.social.kakao.api.TalkOperation;
 
-@Getter
-@Setter
-public class DefaultObject {
-	@JsonProperty("object_type")
-	private String objectType;
+public abstract class DefaultObject implements TalkObject {
+
+	@Override
+	public ResultCode accept(TalkOperation talkOperation) {
+		return talkOperation.sendTalk(this);
+	}
 }

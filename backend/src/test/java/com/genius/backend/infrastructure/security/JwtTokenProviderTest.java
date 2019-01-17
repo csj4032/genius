@@ -21,14 +21,15 @@ public class JwtTokenProviderTest {
 	public void generateTokenTest() throws IOException {
 		var objectMapper = new ObjectMapper();
 		var user = new User();
-		user.setId(2);
+		user.setId(1);
+		user.setUsername("최성조");
 		user.setProviderUserId("1234");
-		user.setRoles(Set.of(Role.builder().id(1L).name("ADMIN").build()));
+		user.setRoles(Set.of(Role.builder().id(3L).name("USER").build()));
 		var geniusUserDetail = GeniusSocialUserDetail.create(user);
 		Date now = new Date();
-		Date expiryDate = new Date(now.getTime() + 6000000);
-		//var geniusToken = GeniusUserDetailToken.builder().id(geniusUserDetail.getId()).password(geniusUserDetail.getProviderUserId()).roles(user.getRoles().stream().map(e-> e.getName()).collect(Collectors.toSet())).build();
-		String token = Jwts.builder().setSubject("1").setIssuedAt(new Date()).setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, "genius").compact();
+		Date expiryDate = new Date(now.getTime() + 600000000);
+		var geniusToken = GeniusUserDetailToken.builder().id(geniusUserDetail.getId()).username(geniusUserDetail.getUsername()).password(geniusUserDetail.getProviderUserId()).roles(user.getRoles().stream().map(e-> e.getName()).collect(Collectors.toSet())).build();
+		String token = Jwts.builder().setSubject(objectMapper.writeValueAsString(geniusToken)).setIssuedAt(new Date()).setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, "genius").compact();
 		System.out.println(token);
 		Claims claims = Jwts.parser().setSigningKey("genius").parseClaimsJws(token).getBody();
 		System.out.println(claims.getSubject());

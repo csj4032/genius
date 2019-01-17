@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.kakao.api.Kakao;
+import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class KakaoSignInAdapter implements SignInAdapter {
 		var geniusSocialUserDetail = createDetail(localUserId, connection);
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(connection.getDisplayName(), geniusSocialUserDetail.getProviderUserId(), geniusSocialUserDetail.getAuthorities()));
 		var kakao = (Kakao) connection.getApi();
-		kakao.talkOperation().sendTalk("알리미 앱 로그인 성공");
+		kakao.talkOperation().sendTalk(TextObject.builder().text("로그인 성공").build());
 		return "/";
 	}
 

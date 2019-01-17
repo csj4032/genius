@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
+import org.springframework.social.kakao.api.talkTemplate.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,8 @@ public class AlimyServiceImpl implements AlimyService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	private static String IMAGE_URL = "http://alimy.choibom.com/picture/640/640/ffffff/png?text=%s";
+
 	@Override
 	public AlimyDto.Response findById(Long id) {
 		Optional<Alimy> alimy = alimyRepository.findById(id);
@@ -57,14 +60,16 @@ public class AlimyServiceImpl implements AlimyService {
 	public Page<AlimyDto.Response> listForPage(Pageable pageable) {
 		var id = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 		var alimyList = alimyRepository.findByUserId(id, pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
 	}
 
 	@Transactional(readOnly = true)
 	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
 		search.setUserId(((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
 		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
 	}
 
 	@Override
@@ -123,7 +128,9 @@ public class AlimyServiceImpl implements AlimyService {
 					}
 				})
 				.forEach(e -> {
-					var resultCode = new KakaoTemplate(e.getUser().getAccessToken()).talkOperation().sendTalk(e.getMessage());
+					var imageUrl = String.format(IMAGE_URL, e.getSubject());
+					var talkOperation = new KakaoTemplate(e.getUser().getAccessToken()).talkOperation();
+					var resultCode = FeedObject.builder().content(ContentObject.builder().title(e.getSubject()).description(e.getMessage()).imageUrl(imageUrl).build()).build().accept(talkOperation);
 					var value = SendTalkLog.builder().subject(e.getSubject()).message(e.getMessage()).cronExpression(e.getCronExpression()).build();
 					var gLog = Log.builder().type(LogType.SEND_TALK).value(value.toJson(new LogJsonValue())).build();
 					logRepository.save(gLog);

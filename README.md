@@ -8,7 +8,7 @@ Spring boot With Kotlin + React
 
 ## Frontend
 ```
-$ git clone git@bitbucket.org:rrest/kakao_alarm_fe2.git frontend
+$ git clone https://csj4032@bitbucket.org/rrest/kakao_alarm_fe3.git frontend
 ```
 
 ## Backend Build And Start

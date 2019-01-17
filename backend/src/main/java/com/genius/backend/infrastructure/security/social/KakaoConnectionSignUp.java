@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.kakao.api.Kakao;
+import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,7 +23,7 @@ public class KakaoConnectionSignUp implements ConnectionSignUp {
 		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> {
 			userRepository.save(getUser(connection));
 			Kakao kakao = (Kakao) connection.getApi();
-			kakao.talkOperation().sendTalk("알리미 앱 가입 성공");
+			kakao.talkOperation().sendTalk(TextObject.builder().text("알리미 앱 가입").build());
 		});
 		return connection.createData().getProviderUserId();
 	}
