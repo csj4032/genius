@@ -1,9 +1,8 @@
-package com.genius.backend.infrastructure.restTemplate;
+package com.genius.backend.infrastructure.resttemplate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -15,7 +14,6 @@ public class RestTemplateConfiguration {
 		okHttp3ClientHttpRequestFactory.setConnectTimeout(10 * 1000);
 		okHttp3ClientHttpRequestFactory.setReadTimeout(10 * 1000);
 		okHttp3ClientHttpRequestFactory.setWriteTimeout(10 * 1000);
-		RestTemplate restTemplate = new RestTemplate(okHttp3ClientHttpRequestFactory);
-		return restTemplate;
+		return new RestTemplate(okHttp3ClientHttpRequestFactory);
 	}
 }

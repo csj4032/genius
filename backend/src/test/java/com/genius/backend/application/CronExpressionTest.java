@@ -38,8 +38,9 @@ public class CronExpressionTest {
 	public void cronDescriptorTest() {
 		CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(QUARTZ);
 		CronParser parser = new CronParser(cronDefinition);
-		Cron quartzCron = parser.parse("0 * * ? * * 2019-2099");
+		Cron quartzCron = parser.parse("0 2 10-12,14-18 ? * 2-6 2019-2099");
 		String descriptor = CronDescriptor.instance(Locale.KOREA).describe(quartzCron);
+		System.out.println(descriptor);
 		Assert.assertEquals("매 분 매 년 2019 ~ 2099 까지", descriptor);
 		quartzCron.validate();
 	}

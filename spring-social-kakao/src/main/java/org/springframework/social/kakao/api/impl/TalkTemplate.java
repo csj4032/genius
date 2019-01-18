@@ -1,7 +1,5 @@
 package org.springframework.social.kakao.api.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,8 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.social.kakao.api.KakaoTalkProfile;
 import org.springframework.social.kakao.api.ResultCode;
 import org.springframework.social.kakao.api.TalkOperation;
-import org.springframework.social.kakao.api.talkTemplate.LinkObject;
-import org.springframework.social.kakao.api.talkTemplate.TextObject;
+import org.springframework.social.kakao.api.talkTemplate.TalkObject;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -38,29 +35,21 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 	}
 
 	@Override
-	public ResultCode sendTalk(String text) {
+	public ResultCode send(TalkObject talkObject) {
+		return onSend(talkObject.toJsonMessage());
+	}
+
+	private ResultCode onSend(String messageObject) {
 		MultiValueMap<String, Object> templateObject = new LinkedMultiValueMap<>();
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		LinkObject linkObject = new LinkObject();
-		linkObject.setMobileWebUrl("http://m.mscompany.com");
-		linkObject.setWebUrl("http://www.mscompany.com");
-
-		TextObject textObject = new TextObject();
-		textObject.setObjectType("text");
-		textObject.setText(text);
-		textObject.setLink(linkObject);
-		textObject.setButtonTitle("ms company");
-
+		templateObject.set("template_object", messageObject);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
+		headers.add("Authorization", "Bearer " + accessToken);
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(templateObject, headers);
 		try {
-			templateObject.set("template_object", objectMapper.writeValueAsString(textObject));
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
-			headers.add("Authorization", "Bearer " + accessToken);
-			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(templateObject, headers);
 			return restTemplate.postForObject(TALK_SEND_URL, requestEntity, ResultCode.class);
-		} catch (JsonProcessingException | RestClientException e ) {
+		} catch (RestClientException e) {
 			log.error("{}", e.getMessage());
 			return new ResultCode(1);
 		}

@@ -1,6 +1,5 @@
 package com.genius.backend.infrastructure.security.social;
 
-import com.genius.backend.domain.model.auth.Role;
 import lombok.*;
 
 import java.util.Set;

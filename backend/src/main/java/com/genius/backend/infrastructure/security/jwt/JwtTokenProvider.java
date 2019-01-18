@@ -32,17 +32,10 @@ public class JwtTokenProvider {
 	@Value("${genius.jwtExpirationInMs}")
 	private int jwtExpirationInMs;
 
-	public boolean validateToken(String token) {
+	public boolean validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
 		if (!StringUtils.hasText(token)) return false;
-
-		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-			return true;
-		} catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-			log.error(ex.getMessage());
-		}
-
-		return false;
+		Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+		return true;
 	}
 
 	public Long getUserIdFromJWT(String token) {
@@ -50,9 +43,14 @@ public class JwtTokenProvider {
 		return Long.parseLong(claims.getSubject());
 	}
 
-	public GeniusUserDetailToken getGeniusUserDetailTokenFromJWT(String token) throws IOException {
+	public GeniusUserDetailToken getGeniusUserDetailTokenFromJWT(String token) {
 		var claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-		return new ObjectMapper().readValue(claims.getSubject(), GeniusUserDetailToken.class);
+		try {
+			return new ObjectMapper().readValue(claims.getSubject(), GeniusUserDetailToken.class);
+		} catch (Exception ex) {
+			log.error(ex.getLocalizedMessage());
+		}
+		return null;
 	}
 
 	public String generateToken(User user) throws JsonProcessingException {

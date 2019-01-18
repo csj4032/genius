@@ -18,6 +18,8 @@ import java.util.Date;
 @RequestMapping({"${server.error.path:/error}"})
 public class GeniusErrorController extends AbstractErrorController {
 
+	private static final String MESSAGE="message";
+
 	public GeniusErrorController() {
 		super(new DefaultErrorAttributes());
 	}
@@ -30,33 +32,30 @@ public class GeniusErrorController extends AbstractErrorController {
 		response.setStatus(status.value());
 		if (status == HttpStatus.UNAUTHORIZED) {
 			modelAndView.setViewName("/errors/401");
-			return modelAndView;
 		}
 		if (status == HttpStatus.FORBIDDEN) {
 			modelAndView.setViewName("/errors/403");
-			return modelAndView;
 		}
 		if (status == HttpStatus.NOT_FOUND) {
 			modelAndView.setViewName("/errors/404");
-			return modelAndView;
 		}
 		return modelAndView;
 	}
 
 	@RequestMapping
 	public ResponseEntity<ApiError> error(HttpServletRequest request) {
-		var status = this.getStatus(request);
+		var status = getStatus(request);
 		var errors = getErrorAttributes(request, false);
 		if (status == HttpStatus.UNAUTHORIZED) {
-			return new ResponseEntity<>(new ApiError(HttpStatus.UNAUTHORIZED, new Date(), HttpStatus.UNAUTHORIZED.getReasonPhrase()), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new ApiError(HttpStatus.UNAUTHORIZED, new Date(), errors.get(MESSAGE).toString()), HttpStatus.UNAUTHORIZED);
 		}
 		if (status == HttpStatus.FORBIDDEN) {
-			return new ResponseEntity<>(new ApiError(HttpStatus.FORBIDDEN, new Date(), HttpStatus.FORBIDDEN.getReasonPhrase()), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(new ApiError(HttpStatus.FORBIDDEN, new Date(), errors.get(MESSAGE).toString()), HttpStatus.FORBIDDEN);
 		}
 		if (status == HttpStatus.NOT_FOUND) {
-			return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND, new Date(), HttpStatus.NOT_FOUND.getReasonPhrase()), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND, new Date(), errors.get(MESSAGE).toString()), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, new Date(), errors.get("message").toString()), new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, new Date(), errors.get(MESSAGE).toString()), new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@Override

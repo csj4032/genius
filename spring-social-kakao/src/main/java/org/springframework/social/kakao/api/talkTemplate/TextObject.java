@@ -1,20 +1,28 @@
 package org.springframework.social.kakao.api.talkTemplate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TextObject extends DefaultObject {
+	@JsonProperty("object_type")
+	@Builder.Default
+	private ObjectType objectType = ObjectType.TEXT;
 	private String text;
-	private LinkObject link;
+	@Builder.Default
+	private LinkObject link = new LinkObject();
 	@JsonProperty("button_title")
-	private String buttonTitle;
+	@Builder.Default
+	private String buttonTitle = "Alimy";
 	private ButtonObject[] buttons;
 }

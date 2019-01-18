@@ -3,11 +3,13 @@ package org.springframework.social.kakao.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.social.kakao.api.talkTemplate.LinkObject;
+import org.springframework.social.kakao.api.talkTemplate.ObjectType;
 import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,9 +27,10 @@ public class KakaoTest {
 	static final String ACCESS_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 	static final String APP_KEY = "b84d72468acf74d7d892d55cb8e134ff";
 	static final String AUTHORIZE_CODE = "ccRa8SWRdiil4Goc_uACaA4zegTsz8jnj61w1wW8s-NpHI9ElKV-fmqNddCaBV5q5BfhRwopdkgAAAFnl1X7KA";
-	static String ACCESS_TOKEN = "qkqTwbKmgV2jwGeKNwhxXjUja40gPl_4CNJ7FAopdeIAAAFoLGp3ew";
+	static String ACCESS_TOKEN = "FQDEdZlbHPCU8tuWAAeVMPFjjRfumLLHvDlXOQopdeIAAAFoWtKzyA";
 
 	@Test
+	@Ignore
 	public void initKakao() throws JsonProcessingException {
 		var restTemplate = new RestTemplate();
 
@@ -45,24 +48,12 @@ public class KakaoTest {
 
 	@Test
 	public void sendTalk() throws JsonProcessingException {
-
 		var restTemplate = new RestTemplate();
 		var templateObject = new LinkedMultiValueMap<String, Object>();
 		var objectMapper = new ObjectMapper();
 		var headers = new HttpHeaders();
-
-		LinkObject linkObject = new LinkObject();
-		linkObject.setMobileWebUrl("mobile");
-		linkObject.setWebUrl("web");
-
-		TextObject textObject = new TextObject();
-		textObject.setObjectType("text");
-		textObject.setText("Test");
-		textObject.setButtonTitle("button");
-		textObject.setLink(linkObject);
-
+		var textObject = new TextObject(ObjectType.TEXT, "Test", new LinkObject() ,null ,null);
 		templateObject.set("template_object", objectMapper.writeValueAsString(textObject));
-
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
 		headers.add("Authorization", "Bearer " + ACCESS_TOKEN);
@@ -81,6 +72,7 @@ public class KakaoTest {
 	}
 
 	@Test
+	@Ignore
 	public void unlinkTest() {
 		var restTemplate = new RestTemplate();
 		var headers = new HttpHeaders();

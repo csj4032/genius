@@ -5,10 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
 import org.springframework.stereotype.Component;
 

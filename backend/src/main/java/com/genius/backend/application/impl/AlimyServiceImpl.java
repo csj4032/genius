@@ -6,7 +6,10 @@ import com.genius.backend.application.exception.NotExistUserException;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.alimy.AlimyStatus;
-import com.genius.backend.domain.model.log.*;
+import com.genius.backend.domain.model.log.Log;
+import com.genius.backend.domain.model.log.LogJsonValue;
+import com.genius.backend.domain.model.log.LogType;
+import com.genius.backend.domain.model.log.SendTalkLog;
 import com.genius.backend.domain.repository.*;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.kakao.api.ResultCode;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
+import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,14 +64,16 @@ public class AlimyServiceImpl implements AlimyService {
 	public Page<AlimyDto.Response> listForPage(Pageable pageable) {
 		var id = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 		var alimyList = alimyRepository.findByUserId(id, pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
 	}
 
 	@Transactional(readOnly = true)
 	public Page<AlimyDto.Response> searchWithPage(AlimyDto.Search search, Pageable pageable) {
 		search.setUserId(((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
 		var alimyList = alimyRepository.findAll(AlimyPredicate.search(search), pageable).getContent();
-		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {}.getType()), pageable, alimyList.size());
+		return new PageImpl(modelMapper.map(alimyList, new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()), pageable, alimyList.size());
 	}
 
 	@Override
@@ -106,7 +115,6 @@ public class AlimyServiceImpl implements AlimyService {
 		return alimy;
 	}
 
-
 	@Override
 	public void sendTalkForBatch() {
 		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
@@ -123,11 +131,18 @@ public class AlimyServiceImpl implements AlimyService {
 					}
 				})
 				.forEach(e -> {
-					var resultCode = new KakaoTemplate(e.getUser().getAccessToken()).talkOperation().sendTalk(e.getMessage());
-					var value = SendTalkLog.builder().subject(e.getSubject()).message(e.getMessage()).cronExpression(e.getCronExpression()).build();
-					var gLog = Log.builder().type(LogType.SEND_TALK).value(value.toJson(new LogJsonValue())).build();
-					logRepository.save(gLog);
+					ResultCode resultCode = onSendTalk(e);
 					log.info("result : {}", resultCode);
 				});
+	}
+
+	@Retryable(value = {RuntimeException.class}, maxAttempts = 2, backoff = @Backoff(delay = 5000))
+	private ResultCode onSendTalk(Alimy alimy) {
+		var talkOperation = new KakaoTemplate(alimy.getUser().getAccessToken()).talkOperation();
+		var resultCode = TextObject.builder().text(alimy.getSubject() + "\n" + alimy.getMessage()).build().accept(talkOperation);
+		var value = SendTalkLog.builder().subject(alimy.getSubject()).message(alimy.getMessage()).cronExpression(alimy.getCronExpression()).build();
+		var gLog = Log.builder().type(LogType.SEND_TALK).value(value.toJson(new LogJsonValue())).build();
+		logRepository.save(gLog);
+		return resultCode;
 	}
 }

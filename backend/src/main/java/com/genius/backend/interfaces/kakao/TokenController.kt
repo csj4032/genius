@@ -20,6 +20,6 @@ class TokenController() {
 		headers.set("Authorization", "Bearer ${accessToken}")
 		val entity = HttpEntity<HttpHeaders>(headers)
 		val responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, AccessTokenInfo::class.java)
-		return responseEntity.statusCode.name;
+		return responseEntity.statusCode.name
 	}
 }

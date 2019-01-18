@@ -3,6 +3,7 @@ package com.genius.backend.infrastructure.security.jwt;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -11,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,18 +32,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-		if (!requiresAuthenticationRequestMatcher.matches(httpServletRequest))
+
+		if (!requiresAuthenticationRequestMatcher.matches(httpServletRequest)) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
+			return;
+		}
 
 		var jwt = getJwtFromRequest(httpServletRequest);
 
-		if (jwtTokenProvider.validateToken(jwt)) {
-			var geniusSocialUserDetail = GeniusSocialUserDetail.create(jwtTokenProvider.getGeniusUserDetailTokenFromJWT(jwt));
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, geniusSocialUserDetail.getPassword(), geniusSocialUserDetail.getAuthorities());
-			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+		try {
+			if (jwtTokenProvider.validateToken(jwt)) {
+				var geniusSocialUserDetail = GeniusSocialUserDetail.create(jwtTokenProvider.getGeniusUserDetailTokenFromJWT(jwt));
+				var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, geniusSocialUserDetail.getPassword(), geniusSocialUserDetail.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+		} catch (Exception ex) {
+			log.error(ex.getLocalizedMessage());
+			httpServletRequest.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.UNAUTHORIZED.value());
+			httpServletRequest.setAttribute(RequestDispatcher.ERROR_MESSAGE, ex.getLocalizedMessage());
+			httpServletRequest.setAttribute(RequestDispatcher.ERROR_EXCEPTION, ex);
+			httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
 		}
-
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
 

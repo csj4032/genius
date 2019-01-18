@@ -9,7 +9,6 @@ import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.kakao.api.AccessTokenInfo;
 import org.springframework.social.kakao.api.KakaoProfile;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpiredTime(request.getExpiresIn());
 		user.setUsername(profile.getProperties().getNickname());
 		user.setImageUrl(profile.getProperties().getProfile_image());
-		user.setRoles(Set.of(Role.builder().id(1L).name("USER").build(), Role.builder().id(1L).name("MANAGER").build()));
+		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build(), Role.builder().id(2l).name("MANAGER").build()));
 		return userRepository.save(user);
 	}
 

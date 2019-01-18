@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.social.kakao.api.ResultCode
 import org.springframework.social.kakao.api.impl.KakaoTemplate
+import org.springframework.social.kakao.api.talkTemplate.LinkObject
+import org.springframework.social.kakao.api.talkTemplate.TextObject
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -19,6 +21,7 @@ class TalkController {
 		val authentication = SecurityContextHolder.getContext().authentication
 		val geniusUserDetail = authentication.details as GeniusSocialUserDetail
 		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().accessToken)
-		return ResponseEntity(kakaoTemplate.talkOperation().sendTalk(message), HttpStatus.OK)
+		var textObject = TextObject.builder().text(message).build()
+		return ResponseEntity(kakaoTemplate.talkOperation().send(textObject), HttpStatus.OK)
 	}
 }

@@ -16,4 +16,5 @@ public interface LogMapper {
 	@Select("SELECT ID FROM LOGS WHERE TYPE = 0")
 	@Results(value = {@Result(property = "id", column = "ID")})
 	List<Log> findByLogType(@Param("logType") LogType logType);
+
 }

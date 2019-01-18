@@ -30,6 +30,7 @@ spring:
         jdbc:
           fetch_size: 30
           batch_size: 30
+    open-in-view: false
 
 server:
   port: 9030
@@ -54,6 +55,11 @@ management:
   endpoint:
     health:
       show-details: always
+
+mybatis:
+  type-aliases-package: com.genius.backend.domain.mapper
+  type-handlers-package: com.genius.backend.domain.typehandler
+  mapper-locations: classpath:/com/genius/backend/**/*.xml
 
 genius:
   name: genius
@@ -90,12 +96,12 @@ spring:
       password : ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-      idle-timeout: 3000
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
@@ -103,12 +109,12 @@ spring:
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
-      minimum-idle: 10
+      minimum-idle: 5
       pool-name: wmp-genius-slave
-      idle-timeout: 6000
 
 ---
 
@@ -131,12 +137,12 @@ spring:
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-      idle-timeout: 3000
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
@@ -144,12 +150,12 @@ spring:
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
-      minimum-idle: 10
+      minimum-idle: 5
       pool-name: wmp-genius-slave
-      idle-timeout: 6000
 
 ---
 
@@ -172,12 +178,12 @@ spring:
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-      idle-timeout: 3000
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
@@ -185,9 +191,9 @@ spring:
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
-      minimum-idle: 10
+      minimum-idle: 5
       pool-name: wmp-genius-slave
-      idle-timeout: 6000
