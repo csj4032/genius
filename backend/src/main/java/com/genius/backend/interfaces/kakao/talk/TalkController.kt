@@ -22,6 +22,6 @@ class TalkController {
 		val geniusUserDetail = authentication.details as GeniusSocialUserDetail
 		val kakaoTemplate = KakaoTemplate(geniusUserDetail.getUser().accessToken)
 		var textObject = TextObject.builder().text(message).build()
-		return ResponseEntity(kakaoTemplate.talkOperation().sendTalk(textObject), HttpStatus.OK)
+		return ResponseEntity(kakaoTemplate.talkOperation().send(textObject), HttpStatus.OK)
 	}
 }

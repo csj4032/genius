@@ -6,6 +6,6 @@ public interface TalkOperation {
 
 	KakaoTalkProfile getUserProfile();
 
-	ResultCode sendTalk(TalkObject talkObject);
+	ResultCode send(TalkObject talkObject);
 
 }

@@ -24,7 +24,7 @@ public class KakaoSignInAdapter implements SignInAdapter {
 		var geniusSocialUserDetail = createDetail(localUserId, connection);
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(connection.getDisplayName(), geniusSocialUserDetail.getProviderUserId(), geniusSocialUserDetail.getAuthorities()));
 		var kakao = (Kakao) connection.getApi();
-		kakao.talkOperation().sendTalk(TextObject.builder().text("로그인 성공").build());
+		kakao.talkOperation().send(TextObject.builder().text("로그인 성공").build());
 		return "/";
 	}
 

@@ -7,6 +7,6 @@ public abstract class DefaultObject implements TalkObject {
 
 	@Override
 	public ResultCode accept(TalkOperation talkOperation) {
-		return talkOperation.sendTalk(this);
+		return talkOperation.send(this);
 	}
 }

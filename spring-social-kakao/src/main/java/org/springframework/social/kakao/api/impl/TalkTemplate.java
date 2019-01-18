@@ -35,19 +35,19 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 	}
 
 	@Override
-	public ResultCode sendTalk(TalkObject talkObject) {
-		return sendTalk(talkObject.toJsonMessage());
+	public ResultCode send(TalkObject talkObject) {
+		return onSend(talkObject.toJsonMessage());
 	}
 
-	private ResultCode sendTalk(String messageObject) {
+	private ResultCode onSend(String messageObject) {
 		MultiValueMap<String, Object> templateObject = new LinkedMultiValueMap<>();
+		templateObject.set("template_object", messageObject);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
+		headers.add("Authorization", "Bearer " + accessToken);
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(templateObject, headers);
 		try {
-			templateObject.set("template_object", messageObject);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
-			headers.add("Authorization", "Bearer " + accessToken);
-			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(templateObject, headers);
 			return restTemplate.postForObject(TALK_SEND_URL, requestEntity, ResultCode.class);
 		} catch (RestClientException e) {
 			log.error("{}", e.getMessage());

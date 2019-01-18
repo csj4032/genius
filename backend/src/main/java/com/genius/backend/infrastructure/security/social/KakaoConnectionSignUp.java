@@ -23,7 +23,7 @@ public class KakaoConnectionSignUp implements ConnectionSignUp {
 		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> {
 			userRepository.save(getUser(connection));
 			Kakao kakao = (Kakao) connection.getApi();
-			kakao.talkOperation().sendTalk(TextObject.builder().text("알리미 앱 가입").build());
+			kakao.talkOperation().send(TextObject.builder().text("알리미 앱 가입").build());
 		});
 		return connection.createData().getProviderUserId();
 	}
