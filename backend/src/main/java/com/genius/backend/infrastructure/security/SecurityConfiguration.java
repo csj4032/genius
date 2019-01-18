@@ -92,7 +92,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		return new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(alimyUrl), new AntPathRequestMatcher(logUrl)));
+		return new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(logUrl), new AntPathRequestMatcher(alimyUrl)));
 	}
 
 	@Bean

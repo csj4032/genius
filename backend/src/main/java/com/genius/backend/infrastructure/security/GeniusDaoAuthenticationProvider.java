@@ -27,7 +27,7 @@ public class GeniusDaoAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) {
-		var kakaoToken = authentication.getPrincipal() == null ? "NONE_PROVIDED" : authentication.getName();
+		String kakaoToken = authentication.getPrincipal() == null ? "NONE_PROVIDED" : authentication.getName();
 		GeniusSocialUserDetail userDetails = null;
 		KakaoProfile profile = null;
 		try {
@@ -50,7 +50,7 @@ public class GeniusDaoAuthenticationProvider implements AuthenticationProvider {
 	}
 
 	protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
-		UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal, authentication.getCredentials(), user.getAuthorities());
+		var result = new UsernamePasswordAuthenticationToken(principal, authentication.getCredentials(), user.getAuthorities());
 		result.setDetails(authentication.getDetails());
 		return result;
 	}
