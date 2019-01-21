@@ -6,4 +6,8 @@ import org.springframework.social.ApiBinding;
  * @author Genius Choi
  */
 public interface Line extends ApiBinding {
+
+	UserOperations userOperation();
+
+	String getAccessToken();
 }

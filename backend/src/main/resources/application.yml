@@ -91,6 +91,7 @@ spring:
     line:
       appId: 1640331163
       appSecret: f09af6f73432ea00094b53205a60b2ba
+      scope: profile,openid,email
 
   datasource:
     master:
@@ -132,6 +133,10 @@ spring:
       appSecret: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
+    line:
+      appId: 1640331163
+      appSecret: f09af6f73432ea00094b53205a60b2ba
+      scope: profile,openid,email
 
   datasource:
     master:
@@ -173,6 +178,10 @@ spring:
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
+    line:
+      appId: 1640331163
+      appSecret: f09af6f73432ea00094b53205a60b2ba
+      scope: profile,openid,email
 
   datasource:
     master:

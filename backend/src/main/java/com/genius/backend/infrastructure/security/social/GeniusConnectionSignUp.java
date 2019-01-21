@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 @Service
-public class KakaoConnectionSignUp implements ConnectionSignUp {
+public class GeniusConnectionSignUp implements ConnectionSignUp {
 
 	@Autowired
 	private UserRepository userRepository;

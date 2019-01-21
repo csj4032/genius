@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,24 +23,21 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 @EnableConfigurationProperties({KakaoProperties.class, LineProperties.class})
 public class SocialConfigurer extends SocialConfigurerAdapter {
 
-	protected KakaoProperties kakaoProperties;
-	private LineProperties lineProperties;
+	@Autowired
+	private KakaoProperties kakaoProperties;
 
-	protected SocialConfigurer(KakaoProperties kakaoProperties, LineProperties lineProperties) {
-		this.kakaoProperties = kakaoProperties;
-		this.lineProperties = lineProperties;
-	}
+	@Autowired
+	private LineProperties lineProperties;
 
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
-		KakaoConnectionFactory kakaoConnectionFactory = new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret());
-		LineConnectionFactory lineConnectionFactory = new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret());
-		connectionFactoryConfigurer.addConnectionFactory(kakaoConnectionFactory);
+		connectionFactoryConfigurer.addConnectionFactory(new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret()));
+		connectionFactoryConfigurer.addConnectionFactory(new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret()));
 	}
 
 	@Bean
 	public SignInAdapter signInAdapter() {
-		return new KakaoSignInAdapter();
+		return new GeniusSignInAdapter();
 	}
 
 	@Override
@@ -50,7 +48,7 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 		InMemoryUsersConnectionRepository repository = new InMemoryUsersConnectionRepository(connectionFactoryLocator);
-		repository.setConnectionSignUp(new KakaoConnectionSignUp());
+		repository.setConnectionSignUp(new GeniusConnectionSignUp());
 		return repository;
 	}
 

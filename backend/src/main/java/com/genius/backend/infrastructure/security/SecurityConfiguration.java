@@ -3,7 +3,7 @@ package com.genius.backend.infrastructure.security;
 import com.genius.backend.infrastructure.security.jwt.JwtAuthenticationFilter;
 import com.genius.backend.infrastructure.security.jwt.JwtOnAuthenticationFilter;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetailService;
-import com.genius.backend.infrastructure.security.social.KakaoConnectionSignUp;
+import com.genius.backend.infrastructure.security.social.GeniusConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -101,8 +101,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, KakaoConnectionSignUp kakaoConnectionSignup, SignInAdapter signInAdapter) {
-		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(kakaoConnectionSignup);
+	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, GeniusConnectionSignUp geniusConnectionSignUp, SignInAdapter signInAdapter) {
+		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(geniusConnectionSignUp);
 		return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
 	}
 

@@ -12,7 +12,7 @@ import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @Slf4j
-public class KakaoSignInAdapter implements SignInAdapter {
+public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Autowired
 	private UserRepository userRepository;
