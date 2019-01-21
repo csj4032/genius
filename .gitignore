@@ -8,6 +8,7 @@
 /frontend/build
 /frontend/target
 /spring-social-kakao/target
+/spring-social-line/target
 /logs
 /target
 /.idea/
