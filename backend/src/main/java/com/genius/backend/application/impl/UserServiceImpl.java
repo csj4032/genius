@@ -9,7 +9,10 @@ import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.kakao.api.KakaoProfile;
+import org.springframework.social.kakao.api.impl.KakaoTemplate;
+import org.springframework.social.kakao.connect.KakaoOAuth2Template;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +22,12 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	@Value("${spring.social.kakao.appId}")
+	private String appId;
+
+	@Value("${spring.social.kakao.appSecret}")
+	private String appSecret;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -79,5 +88,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> findByProviderUserId(String providerUserId) {
 		return userRepository.findByProviderUserId(providerUserId);
+	}
+
+	@Override
+	public void refreshAccess() {
+		userRepository.findAll().stream().forEach(e -> {
+			var kakaoOAuth2Template = new KakaoOAuth2Template(appId, appSecret);
+			var refreshTokenInfo = kakaoOAuth2Template.refreshAccess(e.getRefreshToken(), null);
+			e.setAccessToken(refreshTokenInfo.getAccessToken());
+			e.setExpiredTime(refreshTokenInfo.getExpireTime());
+			userRepository.save(e);
+		});
 	}
 }

@@ -23,4 +23,5 @@ public interface UserService {
 
 	void deleteByIdForUnlink(User user);
 
+	void refreshAccess();
 }

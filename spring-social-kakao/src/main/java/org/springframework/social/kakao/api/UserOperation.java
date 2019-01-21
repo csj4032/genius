@@ -1,7 +1,5 @@
 package org.springframework.social.kakao.api;
 
-import java.util.Map;
-
 public interface UserOperation {
 
 	String getProfileId();

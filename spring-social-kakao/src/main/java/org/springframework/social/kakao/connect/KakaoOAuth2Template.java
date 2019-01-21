@@ -12,11 +12,12 @@ import java.util.LinkedHashMap;
 
 public class KakaoOAuth2Template extends OAuth2Template {
 
-	public KakaoOAuth2Template(String clientId) {
-		super(clientId, "", "https://kauth.kakao.com/oauth/authorize", "https://kauth.kakao.com/oauth/token");
+	public KakaoOAuth2Template(String clientId, String clientSecret) {
+		super(clientId, clientSecret, "https://kauth.kakao.com/oauth/authorize", "https://kauth.kakao.com/oauth/token");
 		setUseParametersForClientAuthentication(true);
 	}
 
+	@Override
 	protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
+import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.domain.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -36,6 +39,7 @@ public class KakaoConnectionSignUp implements ConnectionSignUp {
 		user.setAccessToken(connection.createData().getAccessToken());
 		user.setRefreshToken(connection.createData().getRefreshToken());
 		user.setExpiredTime(connection.createData().getExpireTime());
+		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
 		return user;
 	}
 }

@@ -1,28 +1,31 @@
 package org.springframework.social.kakao.connect;
 
+import org.springframework.social.ApiException;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UserProfileBuilder;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.KakaoProfile;
-import org.springframework.social.kakao.api.KakaoProfileProperties;
 
 public class KakaoAdapter implements ApiAdapter<Kakao> {
 
 	@Override
-	public boolean test(Kakao api) {
-		return false;
+	public boolean test(Kakao kakao) {
+		try {
+			kakao.userOperation().getUserProfile();
+			return true;
+		} catch (ApiException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public void setConnectionValues(Kakao kakao, ConnectionValues values) {
 		KakaoProfile profile = kakao.userOperation().getUserProfile();
-		KakaoProfileProperties properties = profile.getProperties();
-		if (properties == null) properties = new KakaoProfileProperties();
 		values.setProviderUserId(profile.getId());
 		values.setDisplayName(profile.getProperties().getNickname());
-		values.setProfileUrl("");
+		values.setProfileUrl(profile.getProperties().getProfile_image());
 		values.setImageUrl(profile.getProperties().getProfile_image());
 	}
 
