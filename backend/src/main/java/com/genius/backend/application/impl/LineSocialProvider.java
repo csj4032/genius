@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class LineSocailProvider extends AbstractSocialProvider {
+public class LineSocialProvider extends AbstractSocialProvider {
 
 	@Override
 	public void sendAlimy(List<Alimy> alimies) {

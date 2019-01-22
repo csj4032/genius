@@ -11,7 +11,6 @@ import com.genius.backend.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.kakao.api.KakaoProfile;
-import org.springframework.social.kakao.api.impl.KakaoTemplate;
 import org.springframework.social.kakao.connect.KakaoOAuth2Template;
 import org.springframework.stereotype.Service;
 

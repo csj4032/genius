@@ -8,8 +8,7 @@ import com.genius.backend.domain.model.log.SendTalkLog;
 import com.genius.backend.domain.repository.LogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
+import org.springframework.social.connect.Connection;
 import org.springframework.social.kakao.api.impl.KakaoTemplate;
 import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class KakaoSocailProvider extends AbstractSocialProvider {
+public class KakaoSocialProvider extends AbstractSocialProvider {
 
 	@Autowired
 	private LogRepository logRepository;
@@ -28,7 +27,11 @@ public class KakaoSocailProvider extends AbstractSocialProvider {
 		alimy.stream().filter(e -> e.getProviderId().equals("kakao")).forEach(e -> onSendAlimy(e));
 	}
 
-	@Retryable(value = {RuntimeException.class}, maxAttempts = 2, backoff = @Backoff(delay = 5000))
+	@Override
+	public void signinAfter(Connection<?> connection) {
+
+	}
+
 	protected void onSendAlimy(Alimy alimy) {
 		var talkOperation = new KakaoTemplate(alimy.getUser().getAccessToken()).talkOperation();
 		TextObject.builder().text(alimy.getSubject() + "\n" + alimy.getMessage()).build().accept(talkOperation);

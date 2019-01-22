@@ -7,11 +7,10 @@ import com.genius.backend.application.exception.NotExistUserException;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.domain.model.alimy.AlimyStatus;
-import com.genius.backend.domain.model.log.Log;
-import com.genius.backend.domain.model.log.LogJsonValue;
-import com.genius.backend.domain.model.log.LogType;
-import com.genius.backend.domain.model.log.SendTalkLog;
-import com.genius.backend.domain.repository.*;
+import com.genius.backend.domain.repository.AlimyPredicate;
+import com.genius.backend.domain.repository.AlimyRepository;
+import com.genius.backend.domain.repository.AlimyUnitRepository;
+import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -22,13 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.kakao.api.ResultCode;
-import org.springframework.social.kakao.api.impl.KakaoTemplate;
-import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,9 +46,6 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Autowired
 	private AlimyUnitRepository alimyUnitRepository;
-
-	@Autowired
-	private LogRepository logRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;

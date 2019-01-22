@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
+import com.genius.backend.application.SocialProvider;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.domain.repository.UserRepository;
@@ -7,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
-import org.springframework.social.kakao.api.Kakao;
-import org.springframework.social.kakao.api.talkTemplate.TextObject;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -23,9 +22,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 	@Override
 	public String execute(Connection<?> connection) {
 		log.info("알리미 앱 가입 {} : {}, : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
-		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> {
-			userRepository.save(getUser(connection));
-		});
+		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> userRepository.save(getUser(connection)));
 		return connection.createData().getProviderUserId();
 	}
 
