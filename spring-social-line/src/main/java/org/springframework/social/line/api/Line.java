@@ -9,5 +9,7 @@ public interface Line extends ApiBinding {
 
 	UserOperations userOperation();
 
+	MessagesOperations messagesOperations();
+
 	String getAccessToken();
 }

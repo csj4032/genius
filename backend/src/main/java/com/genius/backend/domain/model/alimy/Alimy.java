@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.genius.backend.application.SocialProvider;
 import com.genius.backend.domain.model.BaseEntity;
 import com.genius.backend.domain.model.user.User;
 import lombok.*;
@@ -128,5 +129,10 @@ public class Alimy extends BaseEntity implements Serializable {
 				.append(getMonth()).append(" ")
 				.append(getDayOfWeek()).append(" ")
 				.append(getYear()).toString();
+	}
+
+	@JsonIgnore
+	public String getProviderId() {
+		return getUser().getProviderId();
 	}
 }

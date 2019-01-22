@@ -7,13 +7,16 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "USERS")
-data class User (
+data class User(
 		@Id
 		@Column(name = "ID")
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long = 0,
 
-		@Column(name = "PROVIDER_USER_ID", unique = true)
+		@Column(name = "PROVIDER_ID")
+		var providerId: String = "",
+
+		@Column(name = "PROVIDER_USER_ID")
 		var providerUserId: String = "",
 
 		@Column(name = "PASSWORD")
@@ -38,14 +41,14 @@ data class User (
 		var expiredTime: Long = 0,
 
 		@Column(nullable = true)
-		@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = Alimy::class)
+		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity = Alimy::class)
 		var alimys: Set<Alimy>? = null,
 
-		@ManyToMany(targetEntity = Role::class, fetch = FetchType.EAGER)
+		@ManyToMany(targetEntity = Role::class, fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
 		@JoinTable(name = "USERS_ROLES",
 				joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
 				inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")])
 		var roles: Set<Role>? = null
 ) : BaseEntity() {
-	constructor() : this(0, "", "", "", "", "", "", "", 0, null, null)
+	constructor() : this(0, "", "", "", "", "", "", "", "", 0, null, null)
 }

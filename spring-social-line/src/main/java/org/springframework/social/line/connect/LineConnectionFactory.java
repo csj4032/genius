@@ -10,6 +10,5 @@ public class LineConnectionFactory extends OAuth2ConnectionFactory<Line> {
 
 	public LineConnectionFactory(String appId, String appSecret) {
 		super("line", new LineServiceProvider(appId, appSecret), new LineAdapter());
-		setScope("openid%20profile");
 	}
 }

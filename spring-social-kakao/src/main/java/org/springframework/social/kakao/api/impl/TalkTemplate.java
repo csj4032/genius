@@ -43,12 +43,8 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 		MultiValueMap<String, Object> templateObject = new LinkedMultiValueMap<>();
 		templateObject.set("template_object", messageObject);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		headers.setAccept(List.of(MediaType.APPLICATION_FORM_URLENCODED));
-		headers.add("Authorization", "Bearer " + accessToken);
-		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(templateObject, headers);
 		try {
-			return restTemplate.postForObject(TALK_SEND_URL, requestEntity, ResultCode.class);
+			return restTemplate.postForObject(TALK_SEND_URL, new HttpEntity<>(templateObject, headers), ResultCode.class);
 		} catch (RestClientException e) {
 			log.error("{}", e.getMessage());
 			return new ResultCode(1);

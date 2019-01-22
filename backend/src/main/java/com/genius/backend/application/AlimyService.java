@@ -23,6 +23,6 @@ public interface AlimyService {
 
 	int delete(List<Long> alimyIds);
 
-	void sendTalkForBatch();
+	void sendAlimyForBatch();
 
 }

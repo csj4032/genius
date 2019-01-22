@@ -1,6 +1,7 @@
 package com.genius.backend.application.impl;
 
 import com.genius.backend.application.AlimyService;
+import com.genius.backend.application.SocialProvider;
 import com.genius.backend.application.exception.NotExistAlimyException;
 import com.genius.backend.application.exception.NotExistUserException;
 import com.genius.backend.domain.model.alimy.Alimy;
@@ -13,6 +14,7 @@ import com.genius.backend.domain.model.log.SendTalkLog;
 import com.genius.backend.domain.repository.*;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.quartz.CronExpression;
@@ -34,6 +36,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -53,6 +58,9 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private List<SocialProvider> socialProviders;
 
 	@Override
 	public AlimyDto.Response findById(Long id) {
@@ -116,33 +124,22 @@ public class AlimyServiceImpl implements AlimyService {
 	}
 
 	@Override
-	public void sendTalkForBatch() {
+	public void sendAlimyForBatch() {
 		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
-		var date = new Date();
-
-		alimyList.parallelStream()
-				.filter(e -> {
-					try {
-						CronExpression cronTrigger = new CronExpression(e.getCronExpression());
-						return cronTrigger.isSatisfiedBy(date);
-					} catch (ParseException ex) {
-						log.error("잘못된 크론 표현식 입니다. AlimyId : {} {}", e.getId(), e.getCronExpression());
-						return false;
-					}
-				})
-				.forEach(e -> {
-					ResultCode resultCode = onSendTalk(e);
-					log.info("result : {}", resultCode);
-				});
+		var alimyListWithFilter = alimyList.parallelStream().filter(getAlimyPredicate(new Date())).collect(toList());
+		socialProviders.stream().forEach(e -> e.sendAlimy(alimyListWithFilter));
 	}
 
-	@Retryable(value = {RuntimeException.class}, maxAttempts = 2, backoff = @Backoff(delay = 5000))
-	private ResultCode onSendTalk(Alimy alimy) {
-		var talkOperation = new KakaoTemplate(alimy.getUser().getAccessToken()).talkOperation();
-		var resultCode = TextObject.builder().text(alimy.getSubject() + "\n" + alimy.getMessage()).build().accept(talkOperation);
-		var value = SendTalkLog.builder().subject(alimy.getSubject()).message(alimy.getMessage()).cronExpression(alimy.getCronExpression()).build();
-		var gLog = Log.builder().type(LogType.SEND_TALK).value(value.toJson(new LogJsonValue())).build();
-		logRepository.save(gLog);
-		return resultCode;
+	@NotNull
+	private Predicate<Alimy> getAlimyPredicate(Date date) {
+		return e -> {
+			try {
+				CronExpression cronTrigger = new CronExpression(e.getCronExpression());
+				return cronTrigger.isSatisfiedBy(date);
+			} catch (ParseException ex) {
+				log.error("잘못된 크론 표현식 입니다. AlimyId : {} {}", e.getId(), e.getCronExpression());
+				return false;
+			}
+		};
 	}
 }

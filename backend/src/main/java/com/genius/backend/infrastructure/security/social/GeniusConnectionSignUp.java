@@ -25,21 +25,20 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 		log.info("알리미 앱 가입 {} : {}, : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
 		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> {
 			userRepository.save(getUser(connection));
-			Kakao kakao = (Kakao) connection.getApi();
-			kakao.talkOperation().send(TextObject.builder().text("알리미 앱 가입").build());
 		});
 		return connection.createData().getProviderUserId();
 	}
 
 	private User getUser(Connection<?> connection) {
 		var user = new User();
+		user.setProviderId(connection.createData().getProviderId());
 		user.setProviderUserId(connection.createData().getProviderUserId());
 		user.setUsername(connection.getDisplayName());
 		user.setImageUrl(connection.createData().getImageUrl());
 		user.setAccessToken(connection.createData().getAccessToken());
 		user.setRefreshToken(connection.createData().getRefreshToken());
 		user.setExpiredTime(connection.createData().getExpireTime());
-		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
+		user.setRoles(Set.of(Role.builder().name("USER").build()));
 		return user;
 	}
 }
