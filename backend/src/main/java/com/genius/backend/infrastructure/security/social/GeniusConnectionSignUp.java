@@ -1,6 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
-import com.genius.backend.application.SocialProvider;
+import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.domain.repository.UserRepository;
@@ -28,7 +28,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 
 	private User getUser(Connection<?> connection) {
 		var user = new User();
-		user.setProviderId(connection.createData().getProviderId());
+		user.setProviderType(ProviderType.valueOf(connection.createData().getProviderId().toUpperCase()));
 		user.setProviderUserId(connection.createData().getProviderUserId());
 		user.setUsername(connection.getDisplayName());
 		user.setImageUrl(connection.createData().getImageUrl());

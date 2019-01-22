@@ -1,5 +1,6 @@
 package com.genius.backend.domain.model.user
 
+import com.genius.backend.application.ProviderType
 import com.genius.backend.domain.model.BaseEntity
 import com.genius.backend.domain.model.alimy.Alimy
 import com.genius.backend.domain.model.auth.Role
@@ -13,8 +14,8 @@ data class User(
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long = 0,
 
-		@Column(name = "PROVIDER_ID")
-		var providerId: String = "",
+		@Column(name = "PROVIDER_TYPE")
+		var providerType: ProviderType,
 
 		@Column(name = "PROVIDER_USER_ID")
 		var providerUserId: String = "",
@@ -50,5 +51,5 @@ data class User(
 				inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")])
 		var roles: Set<Role>? = null
 ) : BaseEntity() {
-	constructor() : this(0, "", "", "", "", "", "", "", "", 0, null, null)
+	constructor() : this(0, ProviderType.KAKAO, "", "", "", "", "", "", "", 0, null, null)
 }

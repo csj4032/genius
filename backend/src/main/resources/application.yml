@@ -133,8 +133,8 @@ spring:
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
     line:
-      appId: 1640331163
-      appSecret: f09af6f73432ea00094b53205a60b2ba
+      appId: 1640532996
+      appSecret: 1856fd835f2f93f9020060993b78c71a
 
   datasource:
     master:
@@ -177,8 +177,8 @@ spring:
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
     line:
-      appId: 1640331163
-      appSecret: f09af6f73432ea00094b53205a60b2ba
+      appId: 1640532996
+      appSecret: 1856fd835f2f93f9020060993b78c71a
 
   datasource:
     master:

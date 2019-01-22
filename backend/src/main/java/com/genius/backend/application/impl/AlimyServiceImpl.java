@@ -1,7 +1,6 @@
 package com.genius.backend.application.impl;
 
 import com.genius.backend.application.AlimyService;
-import com.genius.backend.application.SocialProvider;
 import com.genius.backend.application.exception.NotExistAlimyException;
 import com.genius.backend.application.exception.NotExistUserException;
 import com.genius.backend.domain.model.alimy.Alimy;
@@ -32,8 +31,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toList;
-
 @Slf4j
 @Service
 public class AlimyServiceImpl implements AlimyService {
@@ -49,9 +46,6 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
-	@Autowired
-	private List<SocialProvider> socialProviders;
 
 	@Override
 	public AlimyDto.Response findById(Long id) {
@@ -117,8 +111,8 @@ public class AlimyServiceImpl implements AlimyService {
 	@Override
 	public void sendAlimyForBatch() {
 		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
-		var alimyListWithFilter = alimyList.parallelStream().filter(getAlimyPredicate(new Date())).collect(toList());
-		socialProviders.stream().forEach(e -> e.sendAlimy(alimyListWithFilter));
+		var date = new Date();
+		alimyList.parallelStream().filter(getAlimyPredicate(date)).forEach(e -> e.getProviderType().sendAlimy(e));
 	}
 
 	@NotNull
