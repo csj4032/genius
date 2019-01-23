@@ -140,6 +140,10 @@ spring:
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
+    message:
+      appId: 1640533899
+      appSecret: 47f26a58a31e86fffe7039a002ff846c
+      accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
 
   datasource:
     master:
@@ -185,6 +189,10 @@ spring:
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
+    message:
+      appId: 1640533899
+      appSecret: 47f26a58a31e86fffe7039a002ff846c
+      accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
 
   datasource:
     master:
