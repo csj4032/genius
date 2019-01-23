@@ -132,7 +132,7 @@ spring:
 
   social:
     kakao:
-      appId: e471a3c9115dec82d061acd2a58be02b
+      appId: b84d72468acf74d7d892d55cb8e134ff
       appSecret: https://kauth.kakao.com/oauth/authorize
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
@@ -181,7 +181,7 @@ spring:
 
   social:
     kakao:
-      appId: e471a3c9115dec82d061acd2a58be02b
+      appId: b84d72468acf74d7d892d55cb8e134ff
       appSecret: https://kauth.kakao.com/oauth/authorize
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
