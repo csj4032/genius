@@ -35,7 +35,7 @@ THREE.RaytracingRenderer = function ( parameters ) {
 
 	var toRender = [], workerId = 0, sceneId = 0;
 
-	console.log( '%cSpinning off ' + workers + ' Workers ', 'font-size: 20px; background: black; color: white; font-family: monospace;' );
+	console.log( '%cSpinning off ' + workers + ' Workers ', 'fonts-size: 20px; background: black; color: white; fonts-family: monospace;' );
 
 	this.setWorkers = function ( w ) {
 

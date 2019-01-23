@@ -8,19 +8,16 @@
 	<meta name="description" content="사랑하는 아내와 딸">
 	<meta name="keywords" content="genius">
 	<link rel="shortcut icon" href="/favicon.ico"/>
-	<link>
 	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 </head>
 <body>
+<div id="info"></div>
 <div id="container"></div>
-<div id="info">
-	<div><img src="/picture/755/135/ffffff/png?text=Special Thanks"/></div>
-	<div><img src="/picture/240/120/ffffff/png?text=rrest"/></div>
-</div>
 <div id="footer"></div>
 <script src="/three/build/three.js"></script>
+<script src="/three/js/controls/FirstPersonControls.js"></script>
 <script src="/three/js/WebGL.js"></script>
 <script src="/three/js/libs/stats.min.js"></script>
 <script src="/three/js/loaders/GLTFLoader.js"></script>
@@ -47,17 +44,31 @@
 	if (WEBGL.isWebGLAvailable() === false) {
 		document.body.appendChild(WEBGL.getWebGLErrorMessage());
 	}
-	var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+	var camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
 	var mixers = [];
-	var stats;
 	var clock = new THREE.Clock();
+	var FLOOR = -250;
+
 	init();
 	animate();
 
 	function init() {
 		var container = document.getElementById('container');
+
 		camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 5000);
 		camera.position.set(0, 0, 250);
+
+		controls = new THREE.FirstPersonControls(camera);
+		controls.lookSpeed = 0.0125;
+		controls.movementSpeed = 500;
+		controls.noFly = false;
+		controls.lookVertical = true;
+		controls.constrainVertical = true;
+		controls.verticalMin = 1.5;
+		controls.verticalMax = 2.0;
+		controls.lon = 270;
+		controls.lat = 40;
+
 		scene = new THREE.Scene();
 		scene.background = new THREE.Color().setHSL(0.6, 0, 1);
 		scene.fog = new THREE.Fog(scene.background, 1, 5000);
@@ -108,7 +119,12 @@
 		uniforms.topColor.value.copy(hemiLight.color);
 		scene.fog.color.copy(uniforms.bottomColor.value);
 		var skyGeo = new THREE.SphereBufferGeometry(4000, 32, 15);
-		var skyMat = new THREE.ShaderMaterial({vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide});
+		var skyMat = new THREE.ShaderMaterial({
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
+			uniforms: uniforms,
+			side: THREE.BackSide
+		});
 		var sky = new THREE.Mesh(skyGeo, skyMat);
 		scene.add(sky);
 		// MODEL
@@ -126,6 +142,29 @@
 			mixer.clipAction(gltf.animations[0]).setDuration(1).play();
 			mixers.push(mixer);
 		});
+
+		loader = new THREE.FontLoader();
+		loader.load('/three/fonts/helvetiker_bold.typeface.json', function (font) {
+			var textGeo = new THREE.TextBufferGeometry("Hello!", {
+				font: font,
+				size: 15,
+				height: 10,
+				curveSegments: 5,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelEnabled: true
+			});
+			textGeo.computeBoundingBox();
+			var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+			var textMaterial = new THREE.MeshPhongMaterial({color: 0xffffff, specular: 0xffffff});
+			var mesh = new THREE.Mesh(textGeo, textMaterial);
+			mesh.position.x = centerOffset;
+			mesh.position.y = -20;
+			mesh.castShadow = true;
+			mesh.receiveShadow = true;
+			scene.add(mesh);
+		});
+
 		// RENDERER
 		renderer = new THREE.WebGLRenderer({antialias: true});
 		renderer.setPixelRatio(window.devicePixelRatio);
@@ -134,12 +173,8 @@
 		renderer.gammaInput = true;
 		renderer.gammaOutput = true;
 		renderer.shadowMap.enabled = true;
-		// STATS
-		stats = new Stats();
-		//container.appendChild(stats.dom);
-		//
+
 		window.addEventListener('resize', onWindowResize, false);
-		document.addEventListener('keydown', onKeyDown, false);
 	}
 
 	function onWindowResize() {
@@ -148,24 +183,9 @@
 		renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
-	function onKeyDown(event) {
-		switch (event.keyCode) {
-			case 72: // h
-				hemiLight.visible = !hemiLight.visible;
-				hemiLightHelper.visible = !hemiLightHelper.visible;
-				break;
-			case 68: // d
-				dirLight.visible = !dirLight.visible;
-				dirLightHeper.visible = !dirLightHeper.visible;
-				break;
-		}
-	}
-
-	//
 	function animate() {
 		requestAnimationFrame(animate);
 		render();
-		stats.update();
 	}
 
 	function render() {
@@ -173,6 +193,8 @@
 		for (var i = 0; i < mixers.length; i++) {
 			mixers[i].update(delta);
 		}
+		controls.update(delta);
+		renderer.clear();
 		renderer.render(scene, camera);
 	}
 </script>

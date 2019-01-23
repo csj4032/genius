@@ -29679,7 +29679,7 @@
 	 * Text = 3D Text
 	 *
 	 * parameters = {
-	 *  font: <THREE.Font>, // font
+	 *  fonts: <THREE.Font>, // fonts
 	 *
 	 *  size: <float>, // size of the text
 	 *  height: <float>, // thickness to extrude text
@@ -29722,7 +29722,7 @@
 
 		if ( ! ( font && font.isFont ) ) {
 
-			console.error( 'THREE.TextGeometry: font parameter is not an instance of THREE.Font.' );
+			console.error( 'THREE.TextGeometry: fonts parameter is not an instance of THREE.Font.' );
 			return new Geometry();
 
 		}

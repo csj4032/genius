@@ -129,7 +129,7 @@
 			var mesh = gltf.scene.children[0];
 			var s = 0.35;
 			mesh.scale.set(s, s, s);
-			mesh.position.y = -40;
+			mesh.position.y = -35;
 			mesh.rotation.y = -1;
 			mesh.castShadow = true;
 			mesh.receiveShadow = true;
@@ -147,7 +147,7 @@
 		renderer.gammaOutput = true;
 		renderer.shadowMap.enabled = true;
 		// STATS
-		stats = new Stats();
+		//stats = new Stats();
 		//container.appendChild(stats.dom);
 		//
 		window.addEventListener('resize', onWindowResize, false);
