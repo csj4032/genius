@@ -134,6 +134,7 @@ spring:
     kakao:
       appId: e471a3c9115dec82d061acd2a58be02b
       appSecret: https://kauth.kakao.com/oauth/authorize
+      accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
     line:
@@ -176,7 +177,8 @@ spring:
 
   social:
     kakao:
-      clientId: e471a3c9115dec82d061acd2a58be02b
+      appId: e471a3c9115dec82d061acd2a58be02b
+      appSecret: https://kauth.kakao.com/oauth/authorize
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
