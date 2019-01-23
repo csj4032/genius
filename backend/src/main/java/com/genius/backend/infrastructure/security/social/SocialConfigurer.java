@@ -32,7 +32,7 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
 		connectionFactoryConfigurer.addConnectionFactory(new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret()));
-		connectionFactoryConfigurer.addConnectionFactory(new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret()));
+		connectionFactoryConfigurer.addConnectionFactory(new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken()));
 	}
 
 	@Bean

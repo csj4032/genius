@@ -1,11 +1,10 @@
 package org.springframework.social.kakao.api;
 
-import org.springframework.social.kakao.api.talkTemplate.TalkObject;
+import org.springframework.social.kakao.api.impl.json.TextMixin;
 
 public interface TalkOperation {
 
 	KakaoTalkProfile getUserProfile();
 
-	ResultCode send(TalkObject talkObject);
-
+	ResultCode send(TextMixin textMessageMixin);
 }

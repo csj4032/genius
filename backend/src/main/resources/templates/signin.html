@@ -3,24 +3,190 @@
 <head>
 	<title>Login</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>
-	<style>
-	</style>
+	<link rel="stylesheet" th:href="@{/css/signin.css}" href="../../css/signin.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+		function login(path) {
+			let frm = document.getElementById("frm");
+			frm.action = path;
+			frm.submit();
+		}
+	</script>
 </head>
 <body>
-<div class="container">
-	<div class="row">
-		<form action="/signin/kakao" method="post">
-			<button>카카오</button>
-		</form>
-		<form action="/signin/line?bot_prompt=normal&scope=openid%20profile%20email" method="post">
-			<button>라인</button>
-		</form>
-		<form action="/signin/facebook" method="post">
-			<button>facebook</button>
+<div id="container"></div>
+<div id="info">
+	<div class="login-form">
+		<form id="frm" action="#" method="post">
+			<h2 class="text-center">Sign in</h2>
+			<div class="text-center social-btn">
+				<button onclick="login('/signin/kakao');" class="btn btn-block btn-kakao"><i class="fa fa-kakao"></i> Sign in with <b>Kakao</b></button>
+				<button onclick="login('/signin/line?bot_prompt=normal&scope=openid%20profile%20email');" class="btn btn-block btn-line"><i class="fa fa-line"></i> Sign in with <b>Line</b></button>
+				<button onclick="login('/signin/facebook');" class="btn btn-block btn-facebook"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></button>
+			</div>
 		</form>
 	</div>
 </div>
+<div id="footer"></div>
+<script src="/three/build/three.js"></script>
+<script src="/three/js/WebGL.js"></script>
+<script src="/three/js/libs/stats.min.js"></script>
+<script src="/three/js/loaders/GLTFLoader.js"></script>
+<script type="x-shader/x-vertex" id="vertexShader">
+			varying vec3 vWorldPosition;
+			void main() {
+				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+				vWorldPosition = worldPosition.xyz;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+</script>
+<script type="x-shader/x-fragment" id="fragmentShader">
+			uniform vec3 topColor;
+			uniform vec3 bottomColor;
+			uniform float offset;
+			uniform float exponent;
+			varying vec3 vWorldPosition;
+			void main() {
+				float h = normalize( vWorldPosition + offset ).y;
+				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+			}
+</script>
+<script>
+	if (WEBGL.isWebGLAvailable() === false) {
+		document.body.appendChild(WEBGL.getWebGLErrorMessage());
+	}
+	var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+	var mixers = [];
+	var stats;
+	var clock = new THREE.Clock();
+	init();
+	animate();
+
+	function init() {
+		var container = document.getElementById('container');
+		camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 5000);
+		camera.position.set(0, 0, 250);
+		scene = new THREE.Scene();
+		scene.background = new THREE.Color().setHSL(0.6, 0, 1);
+		scene.fog = new THREE.Fog(scene.background, 1, 5000);
+		// LIGHTS
+		hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+		hemiLight.color.setHSL(0.6, 1, 0.6);
+		hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+		hemiLight.position.set(0, 50, 0);
+		scene.add(hemiLight);
+		hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
+		scene.add(hemiLightHelper);
+		//
+		dirLight = new THREE.DirectionalLight(0xffffff, 1);
+		dirLight.color.setHSL(0.1, 1, 0.95);
+		dirLight.position.set(-1, 1.75, 1);
+		dirLight.position.multiplyScalar(30);
+		scene.add(dirLight);
+		dirLight.castShadow = true;
+		dirLight.shadow.mapSize.width = 2048;
+		dirLight.shadow.mapSize.height = 2048;
+		var d = 50;
+		dirLight.shadow.camera.left = -d;
+		dirLight.shadow.camera.right = d;
+		dirLight.shadow.camera.top = d;
+		dirLight.shadow.camera.bottom = -d;
+		dirLight.shadow.camera.far = 3500;
+		dirLight.shadow.bias = -0.0001;
+		dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
+		scene.add(dirLightHeper);
+		// GROUND
+		var groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
+		var groundMat = new THREE.MeshPhongMaterial({color: 0xffffff, specular: 0x050505});
+		groundMat.color.setHSL(0.095, 1, 0.75);
+		var ground = new THREE.Mesh(groundGeo, groundMat);
+		ground.rotation.x = -Math.PI / 2;
+		ground.position.y = -33;
+		scene.add(ground);
+		ground.receiveShadow = true;
+		// SKYDOME
+		var vertexShader = document.getElementById('vertexShader').textContent;
+		var fragmentShader = document.getElementById('fragmentShader').textContent;
+		var uniforms = {
+			topColor: {value: new THREE.Color(0x0077ff)},
+			bottomColor: {value: new THREE.Color(0xffffff)},
+			offset: {value: 33},
+			exponent: {value: 0.6}
+		};
+		uniforms.topColor.value.copy(hemiLight.color);
+		scene.fog.color.copy(uniforms.bottomColor.value);
+		var skyGeo = new THREE.SphereBufferGeometry(4000, 32, 15);
+		var skyMat = new THREE.ShaderMaterial({vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide});
+		var sky = new THREE.Mesh(skyGeo, skyMat);
+		scene.add(sky);
+		// MODEL
+		var loader = new THREE.GLTFLoader();
+		loader.load('/three/models/gltf/Horse.glb', function (gltf) {
+			var mesh = gltf.scene.children[0];
+			var s = 0.35;
+			mesh.scale.set(s, s, s);
+			mesh.position.y = -40;
+			mesh.rotation.y = -1;
+			mesh.castShadow = true;
+			mesh.receiveShadow = true;
+			scene.add(mesh);
+			var mixer = new THREE.AnimationMixer(mesh);
+			mixer.clipAction(gltf.animations[0]).setDuration(1).play();
+			mixers.push(mixer);
+		});
+		// RENDERER
+		renderer = new THREE.WebGLRenderer({antialias: true});
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		container.appendChild(renderer.domElement);
+		renderer.gammaInput = true;
+		renderer.gammaOutput = true;
+		renderer.shadowMap.enabled = true;
+		// STATS
+		stats = new Stats();
+		//container.appendChild(stats.dom);
+		//
+		window.addEventListener('resize', onWindowResize, false);
+		document.addEventListener('keydown', onKeyDown, false);
+	}
+
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+	}
+
+	function onKeyDown(event) {
+		switch (event.keyCode) {
+			case 72: // h
+				hemiLight.visible = !hemiLight.visible;
+				hemiLightHelper.visible = !hemiLightHelper.visible;
+				break;
+			case 68: // d
+				dirLight.visible = !dirLight.visible;
+				dirLightHeper.visible = !dirLightHeper.visible;
+				break;
+		}
+	}
+
+	//
+	function animate() {
+		requestAnimationFrame(animate);
+		render();
+		stats.update();
+	}
+
+	function render() {
+		var delta = clock.getDelta();
+		for (var i = 0; i < mixers.length; i++) {
+			mixers[i].update(delta);
+		}
+		renderer.render(scene, camera);
+	}
+</script>
 </body>
 </html>

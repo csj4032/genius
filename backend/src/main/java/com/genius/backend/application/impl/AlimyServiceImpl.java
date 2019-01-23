@@ -112,7 +112,6 @@ public class AlimyServiceImpl implements AlimyService {
 	public void sendAlimyForBatch() {
 		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
 		var date = new Date();
-		alimyList.parallelStream().filter(getAlimyPredicate(date)).forEach(e -> e.getProviderType().sendAlimy(e));
 	}
 
 	@NotNull

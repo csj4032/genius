@@ -1,19 +1,18 @@
 package org.springframework.social.kakao.api.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.social.kakao.api.KakaoTalkProfile;
 import org.springframework.social.kakao.api.ResultCode;
 import org.springframework.social.kakao.api.TalkOperation;
-import org.springframework.social.kakao.api.talkTemplate.TalkObject;
+import org.springframework.social.kakao.api.impl.json.TextMixin;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Slf4j
 public class TalkTemplate extends AbstractKakaoOperations implements TalkOperation {
@@ -35,13 +34,18 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 	}
 
 	@Override
-	public ResultCode send(TalkObject talkObject) {
-		return onSend(talkObject.toJsonMessage());
+	public ResultCode send(TextMixin textMixin) {
+		try {
+			return send(new ObjectMapper().writeValueAsString(textMixin));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	private ResultCode onSend(String messageObject) {
+	private ResultCode send(String message) {
 		MultiValueMap<String, Object> templateObject = new LinkedMultiValueMap<>();
-		templateObject.set("template_object", messageObject);
+		templateObject.set("template_object", message);
 		HttpHeaders headers = new HttpHeaders();
 		try {
 			return restTemplate.postForObject(TALK_SEND_URL, new HttpEntity<>(templateObject, headers), ResultCode.class);

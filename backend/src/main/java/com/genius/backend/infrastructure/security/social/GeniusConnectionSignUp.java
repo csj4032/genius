@@ -4,12 +4,14 @@ import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.domain.repository.UserRepository;
+import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -22,7 +24,11 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 	@Override
 	public String execute(Connection<?> connection) {
 		log.info("알리미 앱 가입 {} : {}, : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
-		userRepository.findByProviderUserId(connection.createData().getProviderUserId()).ifPresentOrElse(User::toString, () -> userRepository.save(getUser(connection)));
+		Optional<User> userOptional = userRepository.findByProviderUserId(connection.createData().getProviderUserId());
+		if(!userOptional.isPresent()){
+			userRepository.save(getUser(connection));
+			SocialProviderBuilder.create(connection).sendMessage("Welcome Alimy");
+		}
 		return connection.createData().getProviderUserId();
 	}
 
@@ -35,7 +41,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 		user.setAccessToken(connection.createData().getAccessToken());
 		user.setRefreshToken(connection.createData().getRefreshToken());
 		user.setExpiredTime(connection.createData().getExpireTime());
-		user.setRoles(Set.of(Role.builder().name("USER").build()));
+		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
 		return user;
 	}
 }

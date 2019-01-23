@@ -1,17 +1,13 @@
 package com.genius.backend.infrastructure.security.social;
 
-import com.genius.backend.application.SocialVisitor;
-import com.genius.backend.application.impl.SocialSignInVisitor;
 import com.genius.backend.domain.repository.UserRepository;
+import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
-import org.springframework.social.kakao.api.Kakao;
-import org.springframework.social.line.api.Line;
-import org.springframework.social.line.config.support.LineApiHelper;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @Slf4j
@@ -22,15 +18,14 @@ public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
-		log.info("유저 로그인 성공 토큰 업데이트");
-		log.info("{} signin : {}", connection.getKey().getProviderId(), localUserId);
-		var geniusSocialUserDetail = createDetail(localUserId, connection);
+		log.info("getProviderId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
+		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(connection.getDisplayName(), geniusSocialUserDetail.getProviderUserId(), geniusSocialUserDetail.getAuthorities()));
-		return "/";
+		SocialProviderBuilder.create(connection).sendMessage("Login Success");
+		return "/greeting";
 	}
 
-	private GeniusSocialUserDetail createDetail(String localUserId, Connection<?> connection) {
-		System.out.println(connection.getClass().getTypeName());
+	private GeniusSocialUserDetail updateGeniusSocialUserDetail(String localUserId, Connection<?> connection) {
 		var user = userRepository.findByProviderUserId(localUserId).orElseThrow(() -> new NullPointerException());
 		user.setImageUrl(connection.getImageUrl());
 		user.setUsername(connection.getDisplayName());

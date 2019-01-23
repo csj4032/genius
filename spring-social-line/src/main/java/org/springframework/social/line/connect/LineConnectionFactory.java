@@ -9,6 +9,10 @@ import org.springframework.social.line.api.Line;
 public class LineConnectionFactory extends OAuth2ConnectionFactory<Line> {
 
 	public LineConnectionFactory(String appId, String appSecret) {
-		super("line", new LineServiceProvider(appId, appSecret), new LineAdapter());
+		this(appId, appSecret, null);
+	}
+
+	public LineConnectionFactory(String appId, String appSecret, String messageAccessToken) {
+		super("line", new LineServiceProvider(appId, appSecret, messageAccessToken), new LineAdapter());
 	}
 }

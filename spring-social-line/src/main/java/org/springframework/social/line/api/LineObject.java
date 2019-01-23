@@ -3,7 +3,7 @@ package org.springframework.social.line.api;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LineObject {
+public abstract class LineObject {
 
 	private Map<String, Object> extraData;
 

@@ -3,7 +3,9 @@ package org.springframework.social.line.api.impl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.social.line.api.MessageResponse;
 import org.springframework.social.line.api.MessagesOperations;
+import org.springframework.social.line.api.impl.json.PushMessageMixin;
 import org.springframework.web.client.RestTemplate;
 
 public class MessagesTemplate extends AbstractLineOperations implements MessagesOperations {
@@ -16,11 +18,11 @@ public class MessagesTemplate extends AbstractLineOperations implements Messages
 	}
 
 	@Override
-	public String sendPushMessage(String message) {
+	public MessageResponse pushMessage(PushMessageMixin pushMessage) {
 		requireUserAuthorization();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> entity = new HttpEntity<>(message, headers);
-		return restTemplate.postForObject(buildUri("/bot/message/push"), entity, String.class);
+		HttpEntity<PushMessageMixin> entity = new HttpEntity<>(pushMessage, headers);
+		return restTemplate.postForObject(buildUri("/v2/bot/message/push"), entity, MessageResponse.class);
 	}
 }

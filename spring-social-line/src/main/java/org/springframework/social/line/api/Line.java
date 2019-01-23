@@ -12,4 +12,8 @@ public interface Line extends ApiBinding {
 	MessagesOperations messagesOperations();
 
 	String getAccessToken();
+
+	String getMessageAccessToken();
+
+	boolean isBotLinked();
 }
