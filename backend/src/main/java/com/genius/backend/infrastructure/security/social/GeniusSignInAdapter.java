@@ -18,7 +18,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
-		log.info("getProviderId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
+		log.info("providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(connection.getDisplayName(), geniusSocialUserDetail.getProviderUserId(), geniusSocialUserDetail.getAuthorities()));
 		SocialProviderBuilder.create(connection).sendMessage("Login Success");
