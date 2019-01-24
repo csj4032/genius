@@ -24,8 +24,8 @@
 		<form id="frm" action="#" method="post">
 			<h2 class="text-center">Sign in</h2>
 			<div class="text-center social-btn">
-				<button onclick="login('/signin/kakao');" class="btn btn-block btn-kakao"><i class="fa fa-kakao"></i> Sign in with <b>Kakao</b></button>
-				<button onclick="login('/signin/line?bot_prompt=normal&scope=openid%20profile%20email');" class="btn btn-block btn-line"><i class="fa fa-line"></i> Sign in with <b>Line</b></button>
+				<button onclick="login('/signin/kakao');" class="btn btn-block btn-kakao"><i class="fa fa-sign-in"></i> Sign in with <b>Kakao</b></button>
+				<button onclick="login('/signin/line?bot_prompt=normal&scope=openid%20profile%20email');" class="btn btn-block btn-line"><i class="fa fa-sign-in"></i> Sign in with <b>Line</b></button>
 				<button onclick="login('/signin/facebook');" class="btn btn-block btn-facebook"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></button>
 			</div>
 		</form>
@@ -61,7 +61,6 @@
 	}
 	var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
 	var mixers = [];
-	var stats;
 	var clock = new THREE.Clock();
 	init();
 	animate();
@@ -146,12 +145,8 @@
 		renderer.gammaInput = true;
 		renderer.gammaOutput = true;
 		renderer.shadowMap.enabled = true;
-		// STATS
-		//stats = new Stats();
-		//container.appendChild(stats.dom);
-		//
+
 		window.addEventListener('resize', onWindowResize, false);
-		document.addEventListener('keydown', onKeyDown, false);
 	}
 
 	function onWindowResize() {
@@ -160,24 +155,9 @@
 		renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
-	function onKeyDown(event) {
-		switch (event.keyCode) {
-			case 72: // h
-				hemiLight.visible = !hemiLight.visible;
-				hemiLightHelper.visible = !hemiLightHelper.visible;
-				break;
-			case 68: // d
-				dirLight.visible = !dirLight.visible;
-				dirLightHeper.visible = !dirLightHeper.visible;
-				break;
-		}
-	}
-
-	//
 	function animate() {
 		requestAnimationFrame(animate);
 		render();
-		stats.update();
 	}
 
 	function render() {

@@ -12,6 +12,8 @@ public class SocialProviderBuilder {
 			return new KakaoSocialProvider(connection);
 		} else if (connection.getKey().getProviderId().equals("line")) {
 			return new LineSocialProvider(connection);
+		} else if (connection.getKey().getProviderId().equals("facebook")) {
+			return new FacebookSocialProvider(connection);
 		} else {
 			throw new IllegalArgumentException("Connection not supported");
 		}

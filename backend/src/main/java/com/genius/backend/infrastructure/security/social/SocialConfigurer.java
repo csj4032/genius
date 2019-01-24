@@ -14,13 +14,14 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SignInAdapter;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.kakao.connect.KakaoConnectionFactory;
 import org.springframework.social.line.connect.LineConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 @Configuration
 @EnableSocial
-@EnableConfigurationProperties({KakaoProperties.class, LineProperties.class})
+@EnableConfigurationProperties({KakaoProperties.class, LineProperties.class, FacebookProperties.class})
 public class SocialConfigurer extends SocialConfigurerAdapter {
 
 	@Autowired
@@ -29,10 +30,14 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Autowired
 	private LineProperties lineProperties;
 
+	@Autowired
+	private FacebookProperties facebookProperties;
+
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
 		connectionFactoryConfigurer.addConnectionFactory(new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret()));
 		connectionFactoryConfigurer.addConnectionFactory(new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken()));
+		connectionFactoryConfigurer.addConnectionFactory(new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace()));
 	}
 
 	@Bean

@@ -4,6 +4,7 @@ import com.genius.backend.application.ProviderType
 import com.genius.backend.domain.model.BaseEntity
 import com.genius.backend.domain.model.alimy.Alimy
 import com.genius.backend.domain.model.auth.Role
+import com.genius.backend.domain.model.log.LogTypeAttributeConverter
 import javax.persistence.*
 
 @Entity
@@ -14,6 +15,7 @@ data class User(
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long = 0,
 
+		@Convert(converter = ProviderTypeAttributeConverter::class)
 		@Column(name = "PROVIDER_TYPE")
 		var providerType: ProviderType,
 

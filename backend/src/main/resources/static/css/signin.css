@@ -1,57 +1,29 @@
-.login-form {
-    width: 340px;
-    margin: 30px auto;
-}
+.login-form {width:340px;margin:30px auto;}
+.login-form form {margin-bottom:15px;background:#f7f7f7;box-shadow:0px 2px 2px rgba(0, 0, 0, 0.3);padding:30px;}
+.login-form h2 {margin:0 0 15px;}
+.login-form .hint-text {color:#777;padding-bottom:15px;text-align:center;}
+.or-seperator i {padding:0 10px;background:#f7f7f7;position:relative;top:-11px;z-index:1;}
+.social-btn .btn {margin:10px 0;font-size:15px;text-align:left;line-height:24px;}
+.social-btn .btn i {float:left;margin:4px 15px 0 5px;min-width:15px;}
+.input-group-addon .fa {font-size:18px;}
 
-.login-form form {
-    margin-bottom: 15px;
-    background: #f7f7f7;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-}
+.btn-kakao{color:#351c1c;background-color:#ffd903;border-color:rgba(0,0,0,0.2)}.btn-kakao:focus,.btn-kakao.focus{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}
+.btn-kakao:hover{color:#351c1c;background-color:#ffd103;border-color:rgba(0,0,0,0.2)}
+.btn-kakao:active,.btn-kakao.active,.open>.dropdown-toggle.btn-facebook{color:#351c1c;background-color:#ffc903;border-color:rgba(0,0,0,0.2)}.btn-kakao:active:hover,.btn-kakao.active:hover,.open>.dropdown-toggle.btn-kakao:hover,.btn-kakao:active:focus,.btn-kakao.active:focus,.open>.dropdown-toggle.btn-facebook:focus,.btn-kakao:active.focus,.btn-kakao.active.focus,.open>.dropdown-toggle.btn-kakao.focus{color:#351c1c;background-color:#ffd303;border-color:rgba(0,0,0,0.2)}
+.btn-kakao:active,.btn-kakao.active,.open>.dropdown-toggle.btn-facebook{background-image:none}
+.btn-kakao.disabled:hover,.btn-kakao[disabled]:hover,fieldset[disabled] .btn-kakao:hover,.btn-kakao.disabled:focus,.btn-kakao[disabled]:focus,fieldset[disabled] .btn-facebook:focus,.btn-kakao.disabled.focus,.btn-kakao[disabled].focus,fieldset[disabled] .btn-kakao.focus{background-color:#351c1c;border-color:rgba(0,0,0,0.2)}
+.btn-kakao .badge{color:#ffc903;background-color:#351c1c}
 
-.login-form h2 {
-    margin: 0 0 15px;
-}
+.btn-line {color:#fff;background-color:#58bf38;border-color:rgba(0,0,0,0.2)}.btn-line:focus,.btn-line.focus{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}
+.btn-line:hover{color:#fff;background-color:#03bb01;border-color:rgba(0,0,0,0.2)}
+.btn-line:active,.btn-line.active,.open>.dropdown-toggle.btn-line{color:#fff;background-color:#50b033;border-color:rgba(0,0,0,0.2)}.btn-line:active:hover,.btn-line.active:hover,.open>.dropdown-toggle.btn-facebook:hover,.btn-line:active:focus,.btn-line.active:focus,.open>.dropdown-toggle.btn-line:focus,.btn-line:active.focus,.btn-facebook.active.focus,.open>.dropdown-toggle.btn-line.focus{color:#fff;background-color:#50b033;border-color:rgba(0,0,0,0.2)}
+.btn-line:active,.btn-line.active,.open>.dropdown-toggle.btn-line{background-image:none}
+.btn-line.disabled:hover,.btn-facebook[disabled]:hover,fieldset[disabled] .btn-facebook:hover,.btn-line.disabled:focus,.btn-line[disabled]:focus,fieldset[disabled] .btn-line:focus,.btn-facebook.disabled.focus,.btn-facebook[disabled].focus,fieldset[disabled] .btn-facebook.focus{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
+.btn-line .badge{color:#58bf38;background-color:#fff}
 
-.login-form .hint-text {
-    color: #777;
-    padding-bottom: 15px;
-    text-align: center;
-}
-
-.or-seperator i {
-    padding: 0 10px;
-    background: #f7f7f7;
-    position: relative;
-    top: -11px;
-    z-index: 1;
-}
-
-.social-btn .btn {
-    margin: 10px 0;
-    font-size: 15px;
-    text-align: left;
-    line-height: 24px;
-}
-
-.social-btn .btn i {
-    float: left;
-    margin: 4px 15px 0 5px;
-    min-width: 15px;
-}
-
-.input-group-addon .fa {
-    font-size: 18px;
-}
-
-.btn-kakao {color: #3C1E1E;background-color: #FFEC42;border-color: #FFDE00;}
-.btn-kakao:hover {background-color: #FFDE00;border-color: #FFDE00;}
-.btn-line {color: #FFF;background-color: #00b900;border-color: #00a900;}
-.btn-line:hover {color:#fff;background-color: #00a900;border-color: #00a900;}
 .btn-facebook{color:#fff;background-color:#3b5998;border-color:rgba(0,0,0,0.2)}.btn-facebook:focus,.btn-facebook.focus{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}
 .btn-facebook:hover{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}
 .btn-facebook:active,.btn-facebook.active,.open>.dropdown-toggle.btn-facebook{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}.btn-facebook:active:hover,.btn-facebook.active:hover,.open>.dropdown-toggle.btn-facebook:hover,.btn-facebook:active:focus,.btn-facebook.active:focus,.open>.dropdown-toggle.btn-facebook:focus,.btn-facebook:active.focus,.btn-facebook.active.focus,.open>.dropdown-toggle.btn-facebook.focus{color:#fff;background-color:#23345a;border-color:rgba(0,0,0,0.2)}
 .btn-facebook:active,.btn-facebook.active,.open>.dropdown-toggle.btn-facebook{background-image:none}
-.btn-facebook.disabled,.btn-facebook[disabled],fieldset[disabled] .btn-facebook,.btn-facebook.disabled:hover,.btn-facebook[disabled]:hover,fieldset[disabled] .btn-facebook:hover,.btn-facebook.disabled:focus,.btn-facebook[disabled]:focus,fieldset[disabled] .btn-facebook:focus,.btn-facebook.disabled.focus,.btn-facebook[disabled].focus,fieldset[disabled] .btn-facebook.focus,.btn-facebook.disabled:active,.btn-facebook[disabled]:active,fieldset[disabled] .btn-facebook:active,.btn-facebook.disabled.active,.btn-facebook[disabled].active,fieldset[disabled] .btn-facebook.active{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
+.btn-facebook.disabled:hover,.btn-facebook[disabled]:hover,fieldset[disabled] .btn-facebook:hover,.btn-facebook.disabled:focus,.btn-facebook[disabled]:focus,fieldset[disabled] .btn-facebook:focus,.btn-facebook.disabled.focus,.btn-facebook[disabled].focus,fieldset[disabled] .btn-facebook.focus{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
 .btn-facebook .badge{color:#3b5998;background-color:#fff}
