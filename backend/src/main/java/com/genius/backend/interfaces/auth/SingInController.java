@@ -1,4 +1,4 @@
-package com.genius.backend.interfaces;
+package com.genius.backend.interfaces.auth;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,6 @@ public class SingInController {
 
 	@GetMapping(value = "/signin")
 	public String login() {
-		return "signin.html";
+		return "signin";
 	}
 }

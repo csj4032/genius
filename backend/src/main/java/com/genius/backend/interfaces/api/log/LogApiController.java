@@ -1,4 +1,4 @@
-package com.genius.backend.interfaces.log;
+package com.genius.backend.interfaces.api.log;
 
 import com.genius.backend.application.LogService;
 import com.genius.backend.domain.model.log.Log;

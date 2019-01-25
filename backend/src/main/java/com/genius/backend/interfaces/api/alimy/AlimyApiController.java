@@ -1,4 +1,4 @@
-package com.genius.backend.interfaces.alimy;
+package com.genius.backend.interfaces.api.alimy;
 
 import com.genius.backend.application.AlimyService;
 import com.genius.backend.domain.model.alimy.AlimyDto;

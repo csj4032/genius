@@ -25,9 +25,9 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 
 	@Override
 	public String execute(Connection<?> connection) {
-		log.info("알리미 앱 가입 {} : {} : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
 		Optional<User> userOptional = userRepository.findByProviderUserId(connection.createData().getProviderUserId());
 		if (!userOptional.isPresent()) {
+			log.info("알리미 앱 가입 {} : {} : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
 			userRepository.save(getUser(connection));
 			SocialProviderBuilder.create(connection).sendMessage("Welcome Alimy");
 		}

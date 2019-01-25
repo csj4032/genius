@@ -1,4 +1,4 @@
-package com.genius.backend.interfaces;
+package com.genius.backend.interfaces.auth;
 
 import com.genius.backend.application.UserService;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;

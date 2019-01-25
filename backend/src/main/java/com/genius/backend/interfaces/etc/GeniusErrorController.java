@@ -1,4 +1,4 @@
-package com.genius.backend.interfaces;
+package com.genius.backend.interfaces.etc;
 
 import com.genius.backend.domain.ApiError;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;

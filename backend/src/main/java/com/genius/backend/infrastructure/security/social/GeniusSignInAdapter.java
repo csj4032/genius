@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 
 @Slf4j
 public class GeniusSignInAdapter implements SignInAdapter {
@@ -20,9 +22,11 @@ public class GeniusSignInAdapter implements SignInAdapter {
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
 		log.info("providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(connection.getDisplayName(), geniusSocialUserDetail.getProviderUserId(), geniusSocialUserDetail.getAuthorities()));
-		SocialProviderBuilder.create(connection).sendMessage("Login Success");
-		return "/greeting";
+		var authentication = new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null, geniusSocialUserDetail.getAuthorities());
+		//authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		//SocialProviderBuilder.create(connection).sendMessage("Login Success");
+		return null;
 	}
 
 	private GeniusSocialUserDetail updateGeniusSocialUserDetail(String localUserId, Connection<?> connection) {

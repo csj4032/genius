@@ -32,28 +32,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+		if (requiresAuthenticationRequestMatcher.matches(httpServletRequest)) {
+			var jwt = getJwtFromRequest(httpServletRequest);
 
-		if (!requiresAuthenticationRequestMatcher.matches(httpServletRequest)) {
-			filterChain.doFilter(httpServletRequest, httpServletResponse);
-			return;
-		}
-
-		var jwt = getJwtFromRequest(httpServletRequest);
-
-		try {
-			if (jwtTokenProvider.validateToken(jwt)) {
-				var geniusSocialUserDetail = GeniusSocialUserDetail.create(jwtTokenProvider.getGeniusUserDetailTokenFromJWT(jwt));
-				var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, geniusSocialUserDetail.getPassword(), geniusSocialUserDetail.getAuthorities());
-				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-				SecurityContextHolder.getContext().setAuthentication(authentication);
+			try {
+				if (jwtTokenProvider.validateToken(jwt)) {
+					var geniusSocialUserDetail = GeniusSocialUserDetail.create(jwtTokenProvider.getGeniusUserDetailTokenFromJWT(jwt));
+					var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, geniusSocialUserDetail.getPassword(), geniusSocialUserDetail.getAuthorities());
+					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+			} catch (Exception ex) {
+				log.error(ex.getLocalizedMessage());
+				httpServletRequest.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.UNAUTHORIZED.value());
+				httpServletRequest.setAttribute(RequestDispatcher.ERROR_MESSAGE, ex.getLocalizedMessage());
+				httpServletRequest.setAttribute(RequestDispatcher.ERROR_EXCEPTION, ex);
+				httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
+				return;
 			}
-		} catch (Exception ex) {
-			log.error(ex.getLocalizedMessage());
-			httpServletRequest.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.UNAUTHORIZED.value());
-			httpServletRequest.setAttribute(RequestDispatcher.ERROR_MESSAGE, ex.getLocalizedMessage());
-			httpServletRequest.setAttribute(RequestDispatcher.ERROR_EXCEPTION, ex);
-			httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
 		}
+
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
 

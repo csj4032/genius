@@ -7,6 +7,7 @@ import org.springframework.social.autoconfigure.SocialProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "spring.social.kakao")
-public class KakaoProperties extends SocialProperties {
+@ConfigurationProperties(prefix = "spring.social.facebook")
+public class FacebookProperties extends SocialProperties {
+	private String appNamespace;
 }
