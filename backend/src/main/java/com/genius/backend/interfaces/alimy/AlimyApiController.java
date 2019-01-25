@@ -15,7 +15,8 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-public class AlimyController {
+@RequestMapping("/api/v1")
+public class AlimyApiController {
 
 	@Autowired
 	private AlimyService alimyService;

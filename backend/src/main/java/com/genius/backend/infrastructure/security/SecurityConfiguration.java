@@ -48,8 +48,7 @@ import java.util.List;
 @ComponentScan(basePackages = {"com.genius.backend"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private static String alimyUrl = "/alimy/**";
-	private static String logUrl = "/log/**";
+	private static String apiUrl = "/api/**";
 
 	@Autowired
 	private AuthenticationProvider geniusDaoAuthenticationProvider;
@@ -84,15 +83,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.exceptionHandling()
-				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher(alimyUrl))
-				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/log/**"))
+				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher(apiUrl))
 				.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
 				.accessDeniedHandler(accessDeniedHandler());
 	}
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		return new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(logUrl), new AntPathRequestMatcher(alimyUrl)));
+		return new JwtAuthenticationFilter(new OrRequestMatcher(new AntPathRequestMatcher(apiUrl)));
 	}
 
 	@Bean
@@ -140,9 +138,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/alimy/**", configuration);
+		source.registerCorsConfiguration("/api/**", configuration);
 		source.registerCorsConfiguration("/auth/**", configuration);
-		source.registerCorsConfiguration("/error/**", configuration);
 		return source;
 	}
 }
