@@ -95,11 +95,6 @@ spring:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
         accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
-    facebook:
-      appId: 614621795661724
-      appSecret: 188f8920f4d2edecf9ae9b993173d9e1
-      appNamespace: genius_alimy
-      pageAccessToken: EAAIO3JWdvxYBAGpZBGCbjgeieLzKMc21MSx0j5rc0G6ubTdTSlWvN78rGKBoxGZAyNLpdzYZA3qwDLsDAAkItr1cmZCbbcO6zSvlR5PkZCncjVlltojI8zlUxPg3mcGZAoiG95tCuY2GV4tjLdKntRaZC1GvQKp3zsZCankr8EDrPBUSL5j3zZAHk
 
   datasource:
     master:
@@ -149,11 +144,6 @@ spring:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
         accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
-    facebook:
-      appId: 579290519158550
-      appSecret: 47bd3b973f358a9f527b7968348556b5
-      appNamespace: genius_choi
-      pageAccessToken: EAAIO3JWdvxYBAGpZBGCbjgeieLzKMc21MSx0j5rc0G6ubTdTSlWvN78rGKBoxGZAyNLpdzYZA3qwDLsDAAkItr1cmZCbbcO6zSvlR5PkZCncjVlltojI8zlUxPg3mcGZAoiG95tCuY2GV4tjLdKntRaZC1GvQKp3zsZCankr8EDrPBUSL5j3zZAHk
 
   datasource:
     master:
@@ -203,11 +193,6 @@ spring:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
         accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
-    facebook:
-      appId: 579290519158550
-      appSecret: 47bd3b973f358a9f527b7968348556b5
-      appNamespace: genius_choi
-      pageAccessToken: EAAIO3JWdvxYBAGpZBGCbjgeieLzKMc21MSx0j5rc0G6ubTdTSlWvN78rGKBoxGZAyNLpdzYZA3qwDLsDAAkItr1cmZCbbcO6zSvlR5PkZCncjVlltojI8zlUxPg3mcGZAoiG95tCuY2GV4tjLdKntRaZC1GvQKp3zsZCankr8EDrPBUSL5j3zZAHk
 
   datasource:
     master:

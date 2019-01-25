@@ -11,6 +11,8 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,10 +25,9 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 
 	@Override
 	public String execute(Connection<?> connection) {
-		log.info("알리미 앱 가입 {} : {}, : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
-		log.info("알리미 앱 가입 세부정보 {} ", connection.createData().getRefreshToken());
+		log.info("알리미 앱 가입 {} : {} : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
 		Optional<User> userOptional = userRepository.findByProviderUserId(connection.createData().getProviderUserId());
-		if(!userOptional.isPresent()){
+		if (!userOptional.isPresent()) {
 			userRepository.save(getUser(connection));
 			SocialProviderBuilder.create(connection).sendMessage("Welcome Alimy");
 		}
