@@ -10,4 +10,6 @@ import org.springframework.social.autoconfigure.SocialProperties;
 @ConfigurationProperties(prefix = "spring.social.facebook")
 public class FacebookProperties extends SocialProperties {
 	private String appNamespace;
+	private String returnUrl;
+	private String scope;
 }

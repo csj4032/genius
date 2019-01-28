@@ -14,6 +14,7 @@ spring:
     suffix: .html
   application:
     name: genius
+    url: http://localhost:9030
   jpa:
     database: MYSQL
     generate-ddl: false
@@ -80,6 +81,8 @@ info:
 # office, default
 spring:
   profiles: office, default
+  application:
+    url: http://localhost:9030
 
   social:
     kakao:
@@ -99,11 +102,12 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      returnUrl: http://localhost:9030
 
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username : ${DATABASE_USERNAME}
       password : ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -116,7 +120,7 @@ spring:
       pool-name: wmp-genius-master
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -133,6 +137,8 @@ spring:
 # home
 spring:
   profiles: home
+  application:
+    url: http://localhost:9030
 
   social:
     kakao:
@@ -152,6 +158,7 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      returnUrl: http://localhost:9030
 
   datasource:
     master:
@@ -186,6 +193,8 @@ spring:
 # real
 spring:
   profiles: real
+  application:
+    url: https://alimy.choibom.com
 
   social:
     kakao:
@@ -205,6 +214,7 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      returnUrl: https://alimy.choibom.com
 
   datasource:
     master:

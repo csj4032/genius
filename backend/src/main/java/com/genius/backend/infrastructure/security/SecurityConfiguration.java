@@ -56,6 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Value("${ms.allowedOrigins}")
 	private List allowedOrigins;
 
+	@Value("${spring.application.url}")
+	private String applicationUrl;
+
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(geniusDaoAuthenticationProvider);
@@ -101,7 +104,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, GeniusConnectionSignUp geniusConnectionSignUp, SignInAdapter signInAdapter) {
 		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(geniusConnectionSignUp);
-		return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
+		var providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
+		return providerSignInController;
 	}
 
 	@Bean

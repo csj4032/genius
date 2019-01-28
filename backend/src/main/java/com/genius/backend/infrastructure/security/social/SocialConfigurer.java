@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +13,13 @@ import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
+import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.kakao.connect.KakaoConnectionFactory;
 import org.springframework.social.line.connect.LineConnectionFactory;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 @Configuration
@@ -36,8 +39,21 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
 		connectionFactoryConfigurer.addConnectionFactory(new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret()));
-		connectionFactoryConfigurer.addConnectionFactory(new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken()));
-		connectionFactoryConfigurer.addConnectionFactory(new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace()));
+		connectionFactoryConfigurer.addConnectionFactory(getLineConnectionFactory());
+		connectionFactoryConfigurer.addConnectionFactory(getFacebookConnectionFactory());
+	}
+
+	@NotNull
+	private OAuth2ConnectionFactory getLineConnectionFactory() {
+		var lineConnectionFactory = new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken());
+		lineConnectionFactory.setScope("openid profile email");
+		return lineConnectionFactory;
+	}
+
+	@NotNull
+	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
+		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
+		return facebookConnectionFactory;
 	}
 
 	@Bean
