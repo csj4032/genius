@@ -23,9 +23,9 @@ public class GeniusSignInAdapter implements SignInAdapter {
 		log.info("providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
 		var authentication = new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null, geniusSocialUserDetail.getAuthorities());
-		//authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		//SocialProviderBuilder.create(connection).sendMessage("Login Success");
+		SocialProviderBuilder.create(connection).sendMessage("Login Success");
 		return null;
 	}
 
