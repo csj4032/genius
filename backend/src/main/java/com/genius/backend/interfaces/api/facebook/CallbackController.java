@@ -10,6 +10,6 @@ public class CallbackController {
 
 	@GetMapping("/facebook/callback")
 	public String callBack(String message) {
-		return message;
+		return "702966801";
 	}
 }
