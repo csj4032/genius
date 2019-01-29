@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
-public class CallbackController {
+public class WebhookController {
 
 	@Value("${spring.social.facebook.verifyToken}")
 	private String facebookVerifyToken;
@@ -22,8 +22,8 @@ public class CallbackController {
 		}
 	}
 
-	@GetMapping("/facebook/webhook")
-	public void callBack(@RequestBody ReceivedMessage receivedMessage) {
+	@PostMapping("/facebook/webhook")
+	public void webhook(@RequestBody ReceivedMessage receivedMessage) {
 		log.info("sender : {}", receivedMessage.getEntry().get(0).getMessaging().get(0).getSender().getId());
 	}
 }
