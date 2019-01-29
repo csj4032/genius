@@ -20,7 +20,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
-		log.info("providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
+		log.info("알리미 앱 로그인 providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
 		var authentication = new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null, geniusSocialUserDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));

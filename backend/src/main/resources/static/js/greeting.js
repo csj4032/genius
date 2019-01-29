@@ -26,7 +26,6 @@ function init() {
 	scene.add(hemiLight);
 	hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
 	scene.add(hemiLightHelper);
-	//
 	dirLight = new THREE.DirectionalLight(0xffffff, 1);
 	dirLight.color.setHSL(0.1, 1, 0.95);
 	dirLight.position.set(-1, 1.75, 1);
@@ -35,7 +34,8 @@ function init() {
 	dirLight.castShadow = true;
 	dirLight.shadow.mapSize.width = 2048;
 	dirLight.shadow.mapSize.height = 2048;
-	var d = 50;
+
+	let d = 50;
 	dirLight.shadow.camera.left = -d;
 	dirLight.shadow.camera.right = d;
 	dirLight.shadow.camera.top = d;
@@ -44,6 +44,7 @@ function init() {
 	dirLight.shadow.bias = -0.0001;
 	dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
 	scene.add(dirLightHeper);
+
 	// GROUND
 	var groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
 	var groundMat = new THREE.MeshPhongMaterial({color: 0xffffff, specular: 0x050505});
@@ -53,6 +54,7 @@ function init() {
 	ground.position.y = -33;
 	scene.add(ground);
 	ground.receiveShadow = true;
+
 	// SKYDOME
 	var vertexShader = document.getElementById('vertexShader').textContent;
 	var fragmentShader = document.getElementById('fragmentShader').textContent;
@@ -73,6 +75,7 @@ function init() {
 	});
 	var sky = new THREE.Mesh(skyGeo, skyMat);
 	scene.add(sky);
+
 	// MODEL
 	var loader = new THREE.GLTFLoader();
 	loader.load('/three/models/gltf/Flamingo.glb', function (gltf) {
@@ -91,9 +94,9 @@ function init() {
 
 	loader = new THREE.FontLoader();
 	loader.load('/three/fonts/helvetiker_bold.typeface.json', function (font) {
-		var textGeo = new THREE.TextBufferGeometry("Hello!", {
+		let textGeo = new THREE.TextBufferGeometry("Hello!", {
 			font: font,
-			size: 15,
+			size: 12,
 			height: 10,
 			curveSegments: 5,
 			bevelThickness: 1,
@@ -101,9 +104,9 @@ function init() {
 			bevelEnabled: true
 		});
 		textGeo.computeBoundingBox();
-		var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
-		var textMaterial = new THREE.MeshPhongMaterial({color: 0xffffff, specular: 0xffffff});
-		var mesh = new THREE.Mesh(textGeo, textMaterial);
+		let centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+		let textMaterial = new THREE.MeshPhongMaterial({color: 0xffffff, specular: 0xffffff});
+		let mesh = new THREE.Mesh(textGeo, textMaterial);
 		mesh.position.x = centerOffset;
 		mesh.position.y = -20;
 		mesh.castShadow = true;

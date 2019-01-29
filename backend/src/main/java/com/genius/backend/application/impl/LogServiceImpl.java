@@ -11,7 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jooq.lambda.Unchecked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
@@ -47,5 +49,13 @@ public class LogServiceImpl implements LogService {
 	@NotNull
 	private Function<Log, LogDto.Response> getLogResponse() {
 		return Unchecked.function(e -> LogDto.Response.builder().id(e.getId()).type(e.getType()).value(objectMapper.readValue(e.getValue(), e.getType().getClazz())).build());
+	}
+
+	@Override
+	public Flux<LogDto.Response> findLastLog(LogType logType) {
+		return Flux.interval(Duration.ofSeconds(1)).map(Unchecked.function(source -> {
+			var log = logRepository.findTop1ByTypeOrderByIdDesc(logType);
+			return LogDto.Response.builder().id(log.getId()).type(log.getType()).value(objectMapper.readValue(log.getValue(), log.getType().getClazz())).build();
+		})).log();
 	}
 }

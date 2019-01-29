@@ -19,7 +19,6 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.kakao.connect.KakaoConnectionFactory;
 import org.springframework.social.line.connect.LineConnectionFactory;
-import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 @Configuration
@@ -38,22 +37,9 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
-		connectionFactoryConfigurer.addConnectionFactory(new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret()));
+		connectionFactoryConfigurer.addConnectionFactory(getKakaoConnectionFactory());
 		connectionFactoryConfigurer.addConnectionFactory(getLineConnectionFactory());
 		connectionFactoryConfigurer.addConnectionFactory(getFacebookConnectionFactory());
-	}
-
-	@NotNull
-	private OAuth2ConnectionFactory getLineConnectionFactory() {
-		var lineConnectionFactory = new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken());
-		lineConnectionFactory.setScope("openid profile email");
-		return lineConnectionFactory;
-	}
-
-	@NotNull
-	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
-		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
-		return facebookConnectionFactory;
 	}
 
 	@Bean
@@ -76,5 +62,23 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@Bean
 	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
 		return new ProviderSignInUtils(connectionFactoryLocator, usersConnectionRepository);
+	}
+
+	@NotNull
+	private OAuth2ConnectionFactory getKakaoConnectionFactory() {
+		return new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret());
+	}
+
+	@NotNull
+	private OAuth2ConnectionFactory getLineConnectionFactory() {
+		var lineConnectionFactory = new LineConnectionFactory(lineProperties.getAppId(), lineProperties.getAppSecret(), lineProperties.getMessageAccessToken());
+		lineConnectionFactory.setScope(lineProperties.getScope());
+		return lineConnectionFactory;
+	}
+
+	@NotNull
+	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
+		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
+		return facebookConnectionFactory;
 	}
 }

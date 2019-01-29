@@ -94,6 +94,7 @@ spring:
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
+      scope: openid profile email
       message:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
@@ -102,12 +103,11 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      returnUrl: http://localhost:9030
 
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username : ${DATABASE_USERNAME}
       password : ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -120,7 +120,7 @@ spring:
       pool-name: wmp-genius-master
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
@@ -154,11 +154,11 @@ spring:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
         accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
+      scope: openid profile email
     facebook:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      returnUrl: http://localhost:9030
 
   datasource:
     master:
@@ -210,11 +210,11 @@ spring:
         appId: 1640533899
         appSecret: 47f26a58a31e86fffe7039a002ff846c
         accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
+      scope: openid profile email
     facebook:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      returnUrl: https://alimy.choibom.com
 
   datasource:
     master:

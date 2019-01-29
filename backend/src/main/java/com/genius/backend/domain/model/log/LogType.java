@@ -9,7 +9,7 @@ public enum LogType implements ConvertedEnum<Integer> {
 
 	HTTP_REQUEST(0, "httpRequest", HttpRequestLog.class),
 	HTTP_RESPONSE(1, "httpResponse", HttpResponseLog.class),
-	SEND_TALK(2, "sendTalk", SendTalkLog.class);
+	SEND_MESSAGE(2, "sendMessage", SendMessageLog.class);
 
 	private Integer code;
 	private String name;

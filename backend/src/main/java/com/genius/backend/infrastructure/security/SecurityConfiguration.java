@@ -83,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(jwtOnAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 				.and()
 				.exceptionHandling()
 				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher(apiUrl))
@@ -105,6 +105,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, GeniusConnectionSignUp geniusConnectionSignUp, SignInAdapter signInAdapter) {
 		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(geniusConnectionSignUp);
 		var providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
+		providerSignInController.setApplicationUrl(applicationUrl);
 		return providerSignInController;
 	}
 

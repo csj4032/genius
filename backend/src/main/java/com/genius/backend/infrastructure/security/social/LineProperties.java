@@ -12,6 +12,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.social.line")
 public class LineProperties extends SocialProperties {
 
+	private String scope;
 	private LineProperties.Message message;
 
 	public Message getMessage() {

@@ -18,7 +18,7 @@ public class LogJsonValue implements LogValue {
 	}
 
 	@Override
-	public String getJsonValue(SendTalkLog sendTalkLog) {
+	public String getJsonValue(SendMessageLog sendTalkLog) {
 		return getValue(sendTalkLog);
 	}
 

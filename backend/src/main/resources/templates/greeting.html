@@ -23,35 +23,67 @@
 <script src="/three/js/loaders/GLTFLoader.js"></script>
 <script src="/js/greeting.js"></script>
 <script type="x-shader/x-vertex" id="vertexShader">
-			varying vec3 vWorldPosition;
-			void main() {
-				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-				vWorldPosition = worldPosition.xyz;
-				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-			}
+varying vec3 vWorldPosition;
+void main() {
+	vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+	vWorldPosition = worldPosition.xyz;
+	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+
 </script>
 <script type="x-shader/x-fragment" id="fragmentShader">
-			uniform vec3 topColor;
-			uniform vec3 bottomColor;
-			uniform float offset;
-			uniform float exponent;
-			varying vec3 vWorldPosition;
-			void main() {
-				float h = normalize( vWorldPosition + offset ).y;
-				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
-			}
+uniform vec3 topColor;
+uniform vec3 bottomColor;
+uniform float offset;
+uniform float exponent;
+varying vec3 vWorldPosition;
+void main() {
+	float h = normalize( vWorldPosition + offset ).y;
+	gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+}
+
 </script>
 <script>
 	if (WEBGL.isWebGLAvailable() === false) {
 		document.body.appendChild(WEBGL.getWebGLErrorMessage());
 	}
-	var camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
-	var mixers = [];
-	var clock = new THREE.Clock();
-	var FLOOR = -250;
+	let camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+	let mixers = [];
+	let clock = new THREE.Clock();
+	let FLOOR = -250;
 
 	init();
 	animate();
+
+	let eventSource = new EventSource("http://localhost:9030/api/v1/log/last");
+	eventSource.onmessage = function (event) {
+		const msg = JSON.parse(event.data);
+			let loader = new THREE.FontLoader();
+			loader.load('/three/fonts/helvetiker_bold.typeface.json', function (font) {
+				let textGeo = new THREE.TextBufferGeometry("" + msg.value.path, {
+					font: font,
+					size: 12,
+					height: 10,
+					curveSegments: 5,
+					bevelThickness: 1,
+					bevelSize: 1,
+					bevelEnabled: true
+				});
+				textGeo.computeBoundingBox();
+				let centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+				scene.children[6].geometry.dispose();
+				scene.children[6].position.x = centerOffset;
+				scene.children[6].geometry = textGeo;
+			});
+	};
+	eventSource.onopen = e => console.log('open');
+	eventSource.onerror = e => {
+		if (e.readyState == EventSource.CLOSED) {
+			console.log('close');
+		} else {
+			console.log(e);
+		}
+	};
 </script>
 </body>
 </html>

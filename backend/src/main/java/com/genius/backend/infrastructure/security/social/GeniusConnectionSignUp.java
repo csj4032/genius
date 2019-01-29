@@ -42,7 +42,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 		user.setImageUrl(connection.createData().getImageUrl());
 		user.setAccessToken(connection.createData().getAccessToken());
 		user.setRefreshToken(connection.createData().getRefreshToken());
-		user.setExpiredTime(connection.createData().getExpireTime());
+		user.setExpiredTime(connection.createData().getExpireTime() == null ? 0l : connection.createData().getExpireTime());
 		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
 		return user;
 	}

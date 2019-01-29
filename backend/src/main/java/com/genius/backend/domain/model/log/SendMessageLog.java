@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendTalkLog implements LogElement {
+public class SendMessageLog implements LogElement {
 
 	private long userId;
 	private String subject;
