@@ -9,6 +9,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class Recipient {
-	private String id;
+public class RequestMessage {
+	private Recipient recipient;
+	private Message message;
 }

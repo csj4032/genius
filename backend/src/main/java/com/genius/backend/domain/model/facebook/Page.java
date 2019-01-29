@@ -2,12 +2,12 @@ package com.genius.backend.domain.model.facebook;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class ReceivedMessage {
-	public String object;
-	public List<Entry> entry;
+@ToString
+public class Page {
+	private String name;
+	private String id;
 }

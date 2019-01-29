@@ -1,6 +1,6 @@
 package com.genius.backend.interfaces.api.facebook;
 
-import com.genius.backend.domain.model.facebook.ReceivedMessage;
+import com.genius.backend.domain.model.facebook.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class WebhookController {
 	}
 
 	@PostMapping("/facebook/webhook")
-	public void webhook(@RequestBody ReceivedMessage receivedMessage) {
+	public void webhook(@RequestBody ResponseMessage receivedMessage) {
 		var message = receivedMessage.getEntry().get(0).getMessaging().get(0);
 		log.info("sender : {}, message : {}", message.getSender().id, message.getMessage().getText());
 	}

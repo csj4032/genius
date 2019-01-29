@@ -1,14 +1,13 @@
 package com.genius.backend.domain.model.facebook;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@ToString
-public class Recipient {
-	private String id;
+public class ResponseMessage {
+	public String object;
+	public List<Entry> entry;
 }

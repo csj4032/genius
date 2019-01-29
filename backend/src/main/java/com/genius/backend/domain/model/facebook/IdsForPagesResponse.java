@@ -1,14 +1,15 @@
 package com.genius.backend.domain.model.facebook;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
 @ToString
-public class Recipient {
+public class IdsForPagesResponse {
 	private String id;
+	@JsonProperty("ids_for_pages")
+	private IdsForPages idsForPages;
 }
