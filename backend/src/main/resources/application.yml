@@ -103,6 +103,7 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      verifyToken: imitation09!@
 
   datasource:
     master:
@@ -159,6 +160,7 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      verifyToken: imitation09!@
 
   datasource:
     master:
@@ -215,6 +217,7 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
+      verifyToken: imitation09!@
 
   datasource:
     master:
