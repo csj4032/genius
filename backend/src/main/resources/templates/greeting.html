@@ -43,7 +43,7 @@ void main() {
 }
 
 </script>
-<script>
+<script th:inline="javascript">
 	if (WEBGL.isWebGLAvailable() === false) {
 		document.body.appendChild(WEBGL.getWebGLErrorMessage());
 	}
@@ -55,7 +55,7 @@ void main() {
 	init();
 	animate();
 
-	let eventSource = new EventSource("http://localhost:9030/api/v1/log/last");
+	let eventSource = new EventSource([[${applicationUrl}]]+"/api/v1/log/last");
 	eventSource.onmessage = function (event) {
 		const msg = JSON.parse(event.data);
 			let loader = new THREE.FontLoader();
