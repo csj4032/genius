@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Controller
-@RequestMapping({"${server.error.path:/error}"})
+@RequestMapping({"${server.error.path:${error.path:/error}}"})
 public class GeniusErrorController extends AbstractErrorController {
 
-	private static final String MESSAGE="message";
+	private static final String MESSAGE = "message";
 
 	public GeniusErrorController() {
 		super(new DefaultErrorAttributes());

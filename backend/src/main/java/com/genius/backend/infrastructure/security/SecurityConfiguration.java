@@ -90,7 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and()
 				.exceptionHandling()
 				.defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher(apiUrl))
-				.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
+				//.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
 				.accessDeniedHandler(accessDeniedHandler());
 	}
 
