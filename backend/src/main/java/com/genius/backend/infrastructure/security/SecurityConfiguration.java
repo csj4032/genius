@@ -86,6 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(jwtOnAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
+				.maximumSessions(1)
+				.and()
 				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 				.and()
 				.exceptionHandling()
