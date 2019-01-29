@@ -1,9 +1,13 @@
 package com.genius.backend.domain.model.facebook;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.Payload;
 
+@Getter
+@Setter
 public class Attachment {
 	public enum Type {
 		@JsonProperty("audio")
