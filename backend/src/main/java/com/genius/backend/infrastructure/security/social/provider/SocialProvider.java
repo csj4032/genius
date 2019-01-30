@@ -1,8 +1,10 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
+import com.genius.backend.domain.model.user.UserSocial;
+
 public interface SocialProvider {
 
-	void save();
+	UserSocial getUserSocial();
 
-	void sendMessage(String object);
+	void pushMessage(String object);
 }

@@ -25,7 +25,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 		var authentication = new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null, geniusSocialUserDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		SocialProviderBuilder.create(connection).sendMessage("Login Success");
+		SocialProviderBuilder.create(connection).pushMessage("Login Success");
 		return null;
 	}
 

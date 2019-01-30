@@ -1,6 +1,7 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
 import com.genius.backend.domain.model.facebook.*;
+import com.genius.backend.domain.model.user.UserSocial;
 import com.genius.backend.infrastructure.security.social.property.FacebookProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.social.connect.Connection;
@@ -18,12 +19,12 @@ public class FacebookSocialProvider implements SocialProvider {
 	}
 
 	@Override
-	public void save() {
-
+	public UserSocial getUserSocial() {
+		return null;
 	}
 
 	@Override
-	public void sendMessage(String text) {
+	public void pushMessage(String text) {
 		var providerUserId = connection.getKey().getProviderUserId();
 		var pageAccessToken = facebookProperties.getPage().getAccessToken();
 		var appSecretProof = facebookProperties.getAppSecretProof();
@@ -32,7 +33,7 @@ public class FacebookSocialProvider implements SocialProvider {
 		log.info("idsForPagesWrapper : {}", idsForPagesWrapper);
 		var pageUserId = idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
 		var mUrl = "https://graph.facebook.com/v3.2/me/messages?access_token=" + pageAccessToken;
-		var recipient = Recipient.builder().id(pageUserId).build();
+		var recipient = new Recipient(pageUserId);
 		var message = Message.builder().text(text).build();
 		var result = new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(recipient).message(message).build(), String.class);
 		log.info("message : {}", result);

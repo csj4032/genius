@@ -30,7 +30,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 		if (!userOptional.isPresent()) {
 			log.info("알리미 앱 가입 {} : {} : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
 			userRepository.save(getUser(connection));
-			socialProviderBuilder.create(connection).sendMessage("Welcome Alimy");
+			socialProviderBuilder.create(connection).pushMessage("Welcome Alimy");
 		}
 		return connection.createData().getProviderUserId();
 	}

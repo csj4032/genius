@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
+import com.genius.backend.domain.model.user.UserSocial;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.line.api.Line;
 import org.springframework.social.line.api.impl.json.PushMessageMixin;
@@ -17,12 +18,12 @@ public class LineSocialProvider implements SocialProvider {
 	}
 
 	@Override
-	public void save() {
-
+	public UserSocial getUserSocial() {
+		return null;
 	}
 
 	@Override
-	public void sendMessage(String message) {
+	public void pushMessage(String message) {
 		var textMessage = new TextMessageMixin("text", message);
 		var pushMessage = new PushMessageMixin(providerUserId, textMessage);
 		line.messagesOperations().pushMessage(pushMessage);
