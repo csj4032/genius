@@ -13,7 +13,7 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
   application:
-    name: genius
+    name: Alimy
     url: https://local-alimy.choibom.com
   jpa:
     database: MYSQL
@@ -107,14 +107,14 @@ spring:
       page:
         id: 1983940201642915
         name: Alimy
-        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username : ${DATABASE_USERNAME}
-      password : ${DATABASE_PASSWORD}
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
       validation-timeout: 60000
@@ -143,7 +143,7 @@ spring:
 spring:
   profiles: home
   application:
-    url: http://localhost:9030
+    url: https://local-alimy.choibom.com
 
   social:
     kakao:
@@ -168,7 +168,7 @@ spring:
       page:
         id: 1983940201642915
         name: Alimy
-        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:
@@ -229,7 +229,7 @@ spring:
       page:
         id: 1983940201642915
         name: Alimy
-        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:

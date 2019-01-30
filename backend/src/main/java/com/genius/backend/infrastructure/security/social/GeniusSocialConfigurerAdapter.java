@@ -27,7 +27,7 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 @Configuration
 @EnableSocial
 @EnableConfigurationProperties({KakaoProperties.class, LineProperties.class, FacebookProperties.class})
-public class SocialConfigurer extends SocialConfigurerAdapter {
+public class GeniusSocialConfigurerAdapter extends SocialConfigurerAdapter {
 
 	@Autowired
 	private KakaoProperties kakaoProperties;
@@ -82,6 +82,7 @@ public class SocialConfigurer extends SocialConfigurerAdapter {
 	@NotNull
 	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
 		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
+		facebookConnectionFactory.setScope("pages_messaging");
 		return facebookConnectionFactory;
 	}
 }
