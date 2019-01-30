@@ -28,13 +28,15 @@ public class FacebookSocialProvider implements SocialProvider {
 		var providerUserId = connection.getKey().getProviderUserId();
 		var pageAccessToken = facebookProperties.getPage().getAccessToken();
 		var appSecretProof = facebookProperties.getAppSecretProof();
+		System.out.println(appSecretProof);
 		var url = "https://graph.facebook.com/v3.2/{pId}?fields=ids_for_pages&access_token={accessToken}&appsecret_proof={appSecretProof}";
 		var idsForPagesWrapper = new RestTemplate().getForObject(url, IdsForPagesResponse.class, providerUserId, pageAccessToken, appSecretProof);
 		log.info("idsForPagesWrapper : {}", idsForPagesWrapper);
 		var pageUserId = idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
 		var mUrl = "https://graph.facebook.com/v3.2/me/messages?access_token=" + pageAccessToken;
-		var recipient = new Recipient(pageUserId);
-		var message = Message.builder().text(text).build();
+		var recipient = new Recipient("1983940201642915");
+		var message = new Message();
+		message.setText(text);
 		var result = new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(recipient).message(message).build(), String.class);
 		log.info("message : {}", result);
 	}

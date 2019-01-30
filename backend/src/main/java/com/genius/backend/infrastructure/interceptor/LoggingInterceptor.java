@@ -21,7 +21,8 @@ public class LoggingInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		var client = new Parser().parse(request.getHeader("User-Agent"));
-		var value = HttpRequestLog.builder().path(request.getServletPath()).remoteAddr(request.getRemoteAddr()).device(client.device.family).os(client.os.family).browser(client.userAgent.family).build();
+		var remoteAddr = request.getHeader("X-FORWARDED-FOR");
+		var value = HttpRequestLog.builder().path(request.getServletPath()).remoteAddr(remoteAddr).device(client.device.family).os(client.os.family).browser(client.userAgent.family).build();
 		var gLog = Log.builder().type(LogType.HTTP_REQUEST).value(value.toJson(new LogJsonValue())).build();
 		logService.save(gLog);
 		return true;

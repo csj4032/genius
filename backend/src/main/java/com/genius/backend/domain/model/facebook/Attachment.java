@@ -1,14 +1,17 @@
 package com.genius.backend.domain.model.facebook;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.validation.Payload;
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class Attachment {
+@ToString
+public class Attachment implements Serializable {
 	public enum Type {
 		@JsonProperty("audio")
 		AUDIO,
@@ -19,4 +22,16 @@ public class Attachment {
 	}
 	public Type type;
 	public Payload payload;
+
+	@JsonCreator
+	public Attachment(
+			@JsonProperty("type") Type type,
+			@JsonProperty("payload") Payload payload) {
+		this.type = type;
+		this.payload = payload;
+	}
+
+	public Attachment() {
+
+	}
 }
