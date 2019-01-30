@@ -14,7 +14,7 @@ spring:
     suffix: .html
   application:
     name: genius
-    url: http://localhost:9030
+    url: https://local-alimy.choibom.com
   jpa:
     database: MYSQL
     generate-ddl: false
@@ -82,7 +82,7 @@ info:
 spring:
   profiles: office, default
   application:
-    url: http://localhost:9030
+    url: https://local-alimy.choibom.com
 
   social:
     kakao:
@@ -103,8 +103,11 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      pageAccessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
       verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
 
   datasource:
     master:
@@ -161,8 +164,11 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      pageAccessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
       verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
 
   datasource:
     master:
@@ -219,8 +225,11 @@ spring:
       appId: 614621795661724
       appSecret: 55966eaf785130d34c4321d4d835f970
       appNamespace: genius_alimy
-      pageAccessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
       verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAAZB9P4VO69CLx72VCy69kEJEgHhaZAeE7Gj4Uv90Iu6SZBPmV4HqJvEQYUAIZCMxaiYtXXCB7GeZCwchjEegIZBBZAZAwDhZAC0ULi5YHv221HnhvN4ZCI3ogIviFjnaxT6ZCYuzAG2ZCNNVAdkcce3dbQ4yS1hf6J9hAZDZD
 
   datasource:
     master:

@@ -1,5 +1,8 @@
 package com.genius.backend.infrastructure.security.social;
 
+import com.genius.backend.infrastructure.security.social.property.FacebookProperties;
+import com.genius.backend.infrastructure.security.social.property.KakaoProperties;
+import com.genius.backend.infrastructure.security.social.property.LineProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

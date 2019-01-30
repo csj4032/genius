@@ -1,6 +1,6 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
-import com.genius.backend.infrastructure.security.social.FacebookProperties;
+import com.genius.backend.infrastructure.security.social.property.FacebookProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.stereotype.Component;

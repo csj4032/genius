@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Privacy</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="generator" content="genius, rrest">
+	<meta name="description" content="사랑하는 아내와 딸">
+	<meta name="keywords" content="genius">
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<body>
+<div id="info"></div>
+<div id="container"></div>
+<div id="footer"></div>
+<script src="/three/build/three.js"></script>
+<script src="/three/js/controls/FirstPersonControls.js"></script>
+<script src="/three/js/WebGL.js"></script>
+<script src="/three/js/libs/stats.min.js"></script>
+<script src="/three/js/loaders/GLTFLoader.js"></script>
+<script src="/js/greeting.js"></script>
+<script type="x-shader/x-vertex" id="vertexShader">
+varying vec3 vWorldPosition;
+void main() {
+	vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+	vWorldPosition = worldPosition.xyz;
+	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+
+</script>
+<script type="x-shader/x-fragment" id="fragmentShader">
+uniform vec3 topColor;
+uniform vec3 bottomColor;
+uniform float offset;
+uniform float exponent;
+varying vec3 vWorldPosition;
+void main() {
+	float h = normalize( vWorldPosition + offset ).y;
+	gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+}
+
+</script>
+<script th:inline="javascript">
+	if (WEBGL.isWebGLAvailable() === false) {
+		document.body.appendChild(WEBGL.getWebGLErrorMessage());
+	}
+	let camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+	let mixers = [];
+	let clock = new THREE.Clock();
+	let FLOOR = -250;
+
+	init();
+	animate();
+
+	eventSource.onmessage = function (event) {
+		const msg = JSON.parse(event.data);
+		let loader = new THREE.FontLoader();
+		loader.load('/three/fonts/helvetiker_bold.typeface.json', function (font) {
+			let textGeo = new THREE.TextBufferGeometry("Privacy", {
+				font: font,
+				size: 12,
+				height: 10,
+				curveSegments: 5,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelEnabled: true
+			});
+			textGeo.computeBoundingBox();
+			let centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+			scene.children[6].geometry.dispose();
+			scene.children[6].position.x = centerOffset;
+			scene.children[6].geometry = textGeo;
+		});
+	};
+</script>
+</body>
+</html>

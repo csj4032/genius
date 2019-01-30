@@ -18,6 +18,11 @@ public class KakaoSocialProvider implements SocialProvider {
 	}
 
 	@Override
+	public void save() {
+
+	}
+
+	@Override
 	public void sendMessage(String message) {
 		var link = new LinkMixin();
 		var buttons = List.of(new ButtonMixin("Alimy", null));

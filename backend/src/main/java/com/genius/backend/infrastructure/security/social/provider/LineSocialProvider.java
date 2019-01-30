@@ -17,6 +17,11 @@ public class LineSocialProvider implements SocialProvider {
 	}
 
 	@Override
+	public void save() {
+
+	}
+
+	@Override
 	public void sendMessage(String message) {
 		var textMessage = new TextMessageMixin("text", message);
 		var pushMessage = new PushMessageMixin(providerUserId, textMessage);

@@ -1,4 +1,4 @@
-package com.genius.backend.infrastructure.security.social;
+package com.genius.backend.infrastructure.security.social.property;
 
 import lombok.Getter;
 import lombok.Setter;
