@@ -24,7 +24,6 @@ public class WebhookController {
 
 	@PostMapping("/facebook/webhook")
 	public void webhook(@RequestBody ResponseMessage receivedMessage) {
-		var message = receivedMessage.getEntry().get(0).getMessaging().get(0);
-		log.info("sender : {}, message : {}", message.getSender().id, message.getMessage().getText());
+		log.info("receivedMessage : {}", receivedMessage);
 	}
 }
