@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Entry {
 	public String id;
-	public String time;
-	public List<Messaging> messaging;
+	public Long time;
+	public List<Messaging> messaging = new ArrayList();
 }

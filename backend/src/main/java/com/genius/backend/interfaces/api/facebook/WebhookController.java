@@ -1,9 +1,11 @@
 package com.genius.backend.interfaces.api.facebook;
 
-import com.genius.backend.domain.model.facebook.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 
 @Slf4j
 @RestController
@@ -23,7 +25,15 @@ public class WebhookController {
 	}
 
 	@PostMapping("/facebook/webhook")
-	public void webhook(@RequestBody ResponseMessage receivedMessage) {
-		log.info("receivedMessage : {}", receivedMessage);
+	public void webhook(HttpServletRequest httpServletRequest) {
+		StringBuffer jb = new StringBuffer();
+		String line = null;
+		try (BufferedReader reader = httpServletRequest.getReader();) {
+			while ((line = reader.readLine()) != null)
+				jb.append(line);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("receivedMessage : {}", jb.toString());
 	}
 }

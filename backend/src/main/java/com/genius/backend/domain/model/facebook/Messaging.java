@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Messaging {
+public class Messaging implements Serializable {
 	public Sender sender;
 	public Recipient recipient;
 	public String timeStamp;
