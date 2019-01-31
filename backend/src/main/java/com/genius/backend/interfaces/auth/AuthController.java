@@ -20,7 +20,7 @@ public class AuthController {
 	public String unlink() {
 		var geniusUserDetail = (GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getDetails();
 		userService.deleteByIdForUnlink(geniusUserDetail.getUser());
-		new KakaoTemplate(geniusUserDetail.getUser().getAccessToken()).userOperation().unlink();
+		new KakaoTemplate(geniusUserDetail.getUser().getUserSocial().getAccessToken()).userOperation().unlink();
 		return "goodbye";
 	}
 }

@@ -146,6 +146,10 @@
 			<version>1.2.4.RELEASE</version>
 		</dependency>
 		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.genius</groupId>
 			<artifactId>spring-social-kakao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

@@ -1,5 +1,6 @@
 package com.genius.backend.domain.repository;
 
+import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.persistence.annotations.MasterConnection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findById(Long id);
 
-	Optional<User> findByProviderUserId(String providerUserId);
-
+	Optional<User> findByProviderTypeAndProviderUserId(ProviderType valueOf, String providerUserId);
 }

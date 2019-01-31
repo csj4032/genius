@@ -1,15 +1,19 @@
 package com.genius.backend.application.impl;
 
+import com.genius.backend.application.ProviderType;
 import com.genius.backend.application.UserService;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
+import com.genius.backend.domain.model.user.UserSocial;
 import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
+import com.genius.backend.domain.repository.UserSocialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.social.connect.Connection;
 import org.springframework.social.kakao.api.KakaoProfile;
 import org.springframework.social.kakao.connect.KakaoOAuth2Template;
 import org.springframework.stereotype.Service;
@@ -38,6 +42,26 @@ public class UserServiceImpl implements UserService {
 	private AlimyUnitRepository alimyUnitRepository;
 
 	@Override
+	public boolean isUser(Connection<?> connection) {
+		return this.findByConnection(connection).isPresent();
+	}
+
+	@Override
+	public Optional<User> findByConnection(Connection<?> connection) {
+		return userRepository.findByProviderTypeAndProviderUserId(ProviderType.valueOf(connection.createData().getProviderId().toUpperCase()), connection.createData().getProviderUserId());
+	}
+
+	@Override
+	public Optional<User> findByProviderUserId(String providerUserId) {
+		return Optional.empty();
+	}
+
+	@Override
+	public User save(Connection<?> connection) {
+		return save(getUser(connection));
+	}
+
+	@Override
 	public User save(User user) {
 		return userRepository.save(user);
 	}
@@ -46,20 +70,22 @@ public class UserServiceImpl implements UserService {
 	public User save(AuthDto.Request request, KakaoProfile profile) {
 		var user = new User();
 		user.setProviderUserId(profile.getId());
-		user.setAccessToken(request.getAccessToken());
-		user.setRefreshToken(request.getRefreshToken());
-		user.setExpiredTime(request.getExpiresIn());
 		user.setUsername(profile.getProperties().getNickname());
 		user.setImageUrl(profile.getProperties().getProfile_image());
+		user.getUserSocial().setUser(user);
+		user.getUserSocial().setAccessToken(request.getAccessToken());
+		user.getUserSocial().setAccessToken(request.getAccessToken());
+		user.getUserSocial().setRefreshToken(request.getRefreshToken());
+		user.getUserSocial().setExpiredTime(request.getExpiresIn());
 		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build(), Role.builder().id(2l).name("MANAGER").build()));
 		return userRepository.save(user);
 	}
 
 	@Override
 	public User update(AuthDto.Request request, KakaoProfile profile, User user) {
-		user.setAccessToken(request.getAccessToken());
-		user.setRefreshToken(request.getRefreshToken());
-		user.setExpiredTime(request.getExpiresIn());
+		user.getUserSocial().setAccessToken(request.getAccessToken());
+		user.getUserSocial().setRefreshToken(request.getRefreshToken());
+		user.getUserSocial().setExpiredTime(request.getExpiresIn());
 		user.setImageUrl(profile.getProperties().getProfile_image());
 		user.setUsername(profile.getProperties().getNickname());
 		return userRepository.save(user);
@@ -68,11 +94,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(User user) {
 		userRepository.delete(user);
-	}
-
-	@Override
-	public void deleteById(long id) {
-		userRepository.deleteById(id);
 	}
 
 	@Override
@@ -85,18 +106,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> findByProviderUserId(String providerUserId) {
-		return userRepository.findByProviderUserId(providerUserId);
-	}
-
-	@Override
 	public void refreshAccess() {
-		userRepository.findAll().stream().forEach(e -> {
+		userRepository.findAll().stream().filter(e-> e.getProviderType().equals(ProviderType.KAKAO)).forEach(e -> {
 			var kakaoOAuth2Template = new KakaoOAuth2Template(appId, appSecret);
-			var refreshTokenInfo = kakaoOAuth2Template.refreshAccess(e.getRefreshToken(), null);
-			e.setAccessToken(refreshTokenInfo.getAccessToken());
-			e.setExpiredTime(refreshTokenInfo.getExpireTime());
+			var refreshTokenInfo = kakaoOAuth2Template.refreshAccess(e.getUserSocial().getRefreshToken(), null);
+			e.getUserSocial().setAccessToken(refreshTokenInfo.getAccessToken());
+			e.getUserSocial().setExpiredTime(refreshTokenInfo.getExpireTime());
+			if (refreshTokenInfo.getRefreshToken() != null) e.getUserSocial().setRefreshToken(refreshTokenInfo.getRefreshToken());
 			userRepository.save(e);
 		});
+	}
+
+	private User getUser(Connection<?> connection) {
+		var user = new User();
+		user.setProviderType(ProviderType.valueOf(connection.createData().getProviderId().toUpperCase()));
+		user.setProviderUserId(connection.createData().getProviderUserId());
+		user.setUsername(connection.getDisplayName());
+		user.setImageUrl(connection.createData().getImageUrl());
+		user.getUserSocial().setUser(user);
+		user.getUserSocial().setAccessToken(connection.createData().getAccessToken());
+		user.getUserSocial().setRefreshToken(connection.createData().getRefreshToken());
+		user.getUserSocial().setExpiredTime(connection.createData().getExpireTime() == null ? 0l : connection.createData().getExpireTime());
+		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
+		return user;
 	}
 }

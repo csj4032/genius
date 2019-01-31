@@ -31,17 +31,12 @@ data class User(
 		@Column(name = "USER_NAME")
 		var username: String = "",
 
-		@Column(name = "ACCESS_TOKEN")
-		var accessToken: String = "",
-
 		@Column(name = "IMAGE_URL")
 		var imageUrl: String? = "",
 
-		@Column(name = "REFRESH_TOKEN")
-		var refreshToken: String? = "",
-
-		@Column(name = "EXPIRED_TIME")
-		var expiredTime: Long = 0,
+		@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "user")
+		@JoinColumn(name = "USER_ID")
+		var userSocial: UserSocial? = null,
 
 		@Column(nullable = true)
 		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity = Alimy::class)
@@ -53,5 +48,5 @@ data class User(
 				inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")])
 		var roles: Set<Role>? = null
 ) : BaseEntity() {
-	constructor() : this(0, ProviderType.KAKAO, "", "", "", "", "", "", "", 0, null, null)
+	constructor() : this(0, ProviderType.KAKAO, "", "", "", "", "", UserSocial(), null, null)
 }

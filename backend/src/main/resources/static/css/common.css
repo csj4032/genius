@@ -1,0 +1,4 @@
+/** CSS **/
+body {background-color: #fff;color: #111;margin: 0px;overflow: hidden;}
+#info {position: absolute;top: 0px;width: 100%;padding: 5px;text-align: center;}
+#footer {width: 100%;margin: 1em auto;text-align: center;position: absolute;bottom: 0}

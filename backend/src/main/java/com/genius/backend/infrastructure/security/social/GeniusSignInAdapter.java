@@ -1,5 +1,6 @@
 package com.genius.backend.infrastructure.security.social;
 
+import com.genius.backend.application.UserService;
 import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +17,13 @@ import org.springframework.web.context.request.ServletWebRequest;
 public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
 		log.info("알리미 앱 로그인 providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
-		var authentication = new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null, geniusSocialUserDetail.getAuthorities());
+		var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, null, geniusSocialUserDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		SocialProviderBuilder.create(connection).pushMessage("Login Success");
@@ -30,10 +31,10 @@ public class GeniusSignInAdapter implements SignInAdapter {
 	}
 
 	private GeniusSocialUserDetail updateGeniusSocialUserDetail(String localUserId, Connection<?> connection) {
-		var user = userRepository.findByProviderUserId(localUserId).orElseThrow(() -> new NullPointerException());
+		var user = userService.findByConnection(connection).orElseThrow(() -> new NullPointerException());
 		user.setImageUrl(connection.getImageUrl());
 		user.setUsername(connection.getDisplayName());
-		userRepository.save(user);
+		userService.save(user);
 		return GeniusSocialUserDetail.create(user);
 	}
 }

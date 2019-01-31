@@ -91,8 +91,8 @@ public class GeniusSocialUserDetail implements SocialUserDetails {
 		Collection<GrantedAuthority> authorities = Collections.unmodifiableCollection(geniusUserDetailToken.getRoles().stream().map(e -> new SimpleGrantedAuthority("ROLE_" + e)).collect(toList()));
 		var user = new User();
 		user.setId(geniusUserDetailToken.getId());
-		user.setPassword(geniusUserDetailToken.getPassword());
 		user.setProviderUserId(geniusUserDetailToken.getPassword());
+		user.setPassword(geniusUserDetailToken.getPassword());
 		user.setUsername(geniusUserDetailToken.getUsername());
 		return new GeniusSocialUserDetail(user, authorities);
 	}
