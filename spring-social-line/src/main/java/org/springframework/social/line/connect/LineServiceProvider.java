@@ -13,7 +13,8 @@ public class LineServiceProvider extends AbstractOAuth2ServiceProvider<Line> {
 	private String messageAccessToken;
 
 	public LineServiceProvider(String appId, String appSecret, String messageAccessToken) {
-		super(getOAuth2Template(appId, appSecret));
+		super(new LineOAuth2Template(appId, appSecret, "https://access.line.me/oauth2/v2.1/authorize", "https://api.line.me/oauth2/v2.1/token"));
+		//super(getOAuth2Template(appId, appSecret));
 		this.messageAccessToken = messageAccessToken;
 	}
 

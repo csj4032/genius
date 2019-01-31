@@ -29,7 +29,6 @@ public class LineAdapter implements ApiAdapter<Line> {
 		values.setDisplayName(profile.getDisplayName());
 		values.setProfileUrl(profile.getStatusMessage());
 		values.setImageUrl(profile.getPictureUrl());
-
 	}
 
 	@Override
