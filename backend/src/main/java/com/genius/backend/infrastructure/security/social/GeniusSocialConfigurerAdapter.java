@@ -82,7 +82,7 @@ public class GeniusSocialConfigurerAdapter extends SocialConfigurerAdapter {
 	@NotNull
 	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
 		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
-		facebookConnectionFactory.setScope("pages_messaging");
+		facebookConnectionFactory.setScope("email");
 		return facebookConnectionFactory;
 	}
 }

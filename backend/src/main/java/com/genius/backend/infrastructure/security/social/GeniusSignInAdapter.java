@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -31,7 +32,9 @@ public class GeniusSignInAdapter implements SignInAdapter {
 	}
 
 	private GeniusSocialUserDetail updateGeniusSocialUserDetail(String localUserId, Connection<?> connection) {
+		var userProfile = connection.fetchUserProfile();
 		var user = userService.findByConnection(connection).orElseThrow(() -> new NullPointerException());
+		user.setEmail(userProfile.getEmail());
 		user.setImageUrl(connection.getImageUrl());
 		user.setUsername(connection.getDisplayName());
 		userService.save(user);

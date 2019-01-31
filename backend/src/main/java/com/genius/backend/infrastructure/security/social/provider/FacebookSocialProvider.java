@@ -31,12 +31,14 @@ public class FacebookSocialProvider implements SocialProvider {
 		var url = "https://graph.facebook.com/v3.2/{pId}?fields=ids_for_pages&access_token={accessToken}&appsecret_proof={appSecretProof}";
 		var idsForPagesWrapper = new RestTemplate().getForObject(url, IdsForPagesResponse.class, providerUserId, pageAccessToken, appSecretProof);
 		log.info("idsForPagesWrapper : {}", idsForPagesWrapper);
-		var pageUserId = idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
-		var mUrl = "https://graph.facebook.com/v3.2/me/messages?access_token=" + pageAccessToken;
-		var recipient = new Recipient(pageUserId);
-		var message = new Message();
-		message.setText(text);
-		var result = new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(recipient).message(message).build(), String.class);
-		log.info("message : {}", result);
+		if(idsForPagesWrapper.getIdsForPages() != null) {
+			var pageUserId = idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
+			var mUrl = "https://graph.facebook.com/v3.2/me/messages?access_token=" + pageAccessToken;
+			var recipient = new Recipient(pageUserId);
+			var message = new Message();
+			message.setText(text);
+			var result = new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(recipient).message(message).build(), String.class);
+			log.info("message : {}", result);
+		}
 	}
 }

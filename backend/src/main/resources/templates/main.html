@@ -25,7 +25,8 @@
           <img class="img-fluid img-profile rounded-circle mx-auto mb-2" th:src="${user.imageUrl + '?height=200'}" alt="">
         </span>
 	</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -34,77 +35,61 @@
 				<a class="nav-link js-scroll-trigger" href="#about">About</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+				<a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#education">Education</a>
+				<a class="nav-link js-scroll-trigger" href="#register">Register</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+				<a class="nav-link" href="https://m.me/alimychoibom">ChatBot</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
+				<a class="nav-link" href="/logout">Logout</a>
 			</li>
 		</ul>
 	</div>
 </nav>
-
-<div class="container-fluid p-0">
+<div id="container" style="height: 3000px; position: absolute"></div>
+<div class="container-fluid p-0" style="position:absolute;">
 
 	<section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
-		<div class="my-auto" style="position: absolute">
-			<h1 class="mb-0" th:text="${user.username}">Clarence<span class="text-primary">Taylor</span></h1>
-			<div class="subheading mb-5">3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
-				<a href="mailto:name@email.com">name@email.com</a>
-			</div>
-			<p class="lead mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
-			<div class="social-icons">
-				<a href="#">
-					<i class="fab fa-linkedin-in"></i>
-				</a>
-				<a href="#">
-					<i class="fab fa-github"></i>
-				</a>
-				<a href="#">
-					<i class="fab fa-twitter"></i>
-				</a>
-				<a href="#">
-					<i class="fab fa-facebook-f"></i>
-				</a>
+		<div class="my-auto">
+			<h1 class="mb-0" th:inline="text">[[${user.username}]]</h1>
+			<h2 class="mb-0" th:inline="text">Sign in to <span class="text-primary" th:text="${user.providerType}">Taylor</span>
+			</h2>
+			<div class="subheading mb-5">
+				<p th:text="${user}"></p>
 			</div>
 		</div>
-
 	</section>
 
 	<hr class="m-0">
 
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule">
 		<div class="my-auto">
-			<h2 class="mb-5">Experience</h2>
-
+			<h2 class="mb-5">Schedule</h2>
 			<div th:each="alimy:${alimies}" class="resume-item d-flex flex-column flex-md-row mb-5">
 				<div class="resume-content mr-auto">
 					<h3 class="mb-0">Senior Web Developer</h3>
 					<div class="subheading mb-3">Intelitec Solutions</div>
-					<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
+					<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the
+						day, going forward, a new normal that has evolved from generation X is on the runway heading
+						towards a streamlined cloud solution. User generated content in real-time will have multiple
+						touchpoints for offshoring.</p>
 				</div>
 				<div class="resume-date text-md-right">
 					<span class="text-primary">March 2013 - Present</span>
 				</div>
 			</div>
-
 		</div>
 
 	</section>
 
 	<hr class="m-0">
 
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="register">
 		<div class="my-auto">
-			<h2 class="mb-5">Education</h2>
+			<h2 class="mb-5">Register</h2>
 
 			<div class="resume-item d-flex flex-column flex-md-row mb-5">
 				<div class="resume-content mr-auto">
@@ -132,126 +117,6 @@
 		</div>
 	</section>
 
-	<hr class="m-0">
-
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
-		<div class="my-auto">
-			<h2 class="mb-5">Skills</h2>
-
-			<div class="subheading mb-3">Programming Languages &amp; Tools</div>
-			<ul class="list-inline dev-icons">
-				<li class="list-inline-item">
-					<i class="fab fa-html5"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-css3-alt"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-js-square"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-angular"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-react"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-node-js"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-sass"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-less"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-wordpress"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-gulp"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-grunt"></i>
-				</li>
-				<li class="list-inline-item">
-					<i class="fab fa-npm"></i>
-				</li>
-			</ul>
-
-			<div class="subheading mb-3">Workflow</div>
-			<ul class="fa-ul mb-0">
-				<li>
-					<i class="fa-li fa fa-check"></i>
-					Mobile-First, Responsive Design
-				</li>
-				<li>
-					<i class="fa-li fa fa-check"></i>
-					Cross Browser Testing &amp; Debugging
-				</li>
-				<li>
-					<i class="fa-li fa fa-check"></i>
-					Cross Functional Teams
-				</li>
-				<li>
-					<i class="fa-li fa fa-check"></i>
-					Agile Development &amp; Scrum
-				</li>
-			</ul>
-		</div>
-	</section>
-
-	<hr class="m-0">
-
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
-		<div class="my-auto">
-			<h2 class="mb-5">Interests</h2>
-			<p>Apart from being a web developer, I enjoy most of my time being outdoors. In the winter, I am an avid skier and novice ice climber. During the warmer months here in Colorado, I enjoy mountain biking, free climbing, and kayaking.</p>
-			<p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technology advancements in the front-end web development world.</p>
-		</div>
-	</section>
-
-	<hr class="m-0">
-
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
-		<div class="my-auto">
-			<h2 class="mb-5">Awards &amp; Certifications</h2>
-			<ul class="fa-ul mb-0">
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					Google Analytics Certified Developer
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					Mobile Web Specialist - Google Certification
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					1<sup>st</sup>
-					Place - University of Colorado Boulder - Emerging Tech Competition 2009
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					1<sup>st</sup>
-					Place - University of Colorado Boulder - Adobe Creative Jam 2008 (UI Design Category)
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					2<sup>nd</sup>
-					Place - University of Colorado Boulder - Emerging Tech Competition 2008
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					1<sup>st</sup>
-					Place - James Buchanan High School - Hackathon 2006
-				</li>
-				<li>
-					<i class="fa-li fa fa-trophy text-warning"></i>
-					3<sup>rd</sup>
-					Place - James Buchanan High School - Hackathon 2005
-				</li>
-			</ul>
-		</div>
-	</section>
 </div>
 <script th:href="@{/js/main.js}" src="/js/main.js"></script>
 <script src="/three/build/three.js"></script>
@@ -259,33 +124,71 @@
 <script src="/three/js/libs/stats.min.js"></script>
 <script src="/three/js/loaders/GLTFLoader.js"></script>
 <script>
-	if (WEBGL.isWebGLAvailable() === false) {
-		document.body.appendChild(WEBGL.getWebGLErrorMessage());
-	}
-	var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
-	var mixers = [];
-	var clock = new THREE.Clock();
+	let container, camera, scene, raycaster, renderer, parentTransform, sphereInter;
+	let mouse = new THREE.Vector2();
+	let radius = 100, theta = 0;
 
 	init();
 	animate();
 
 	function init() {
-		var container = document.getElementById('container');
-		camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 5000);
-		camera.position.set(0, 0, 250);
+		container = document.getElementById('container');
+		camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
 		scene = new THREE.Scene();
-		scene.background = new THREE.Color().setHSL(0.6, 0, 1);
-		scene.fog = new THREE.Fog(scene.background, 1, 5000);
-
-		// RENDERER
+		scene.background = new THREE.Color(0xffffff);
+		let geometry = new THREE.SphereBufferGeometry(5);
+		var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+		sphereInter = new THREE.Mesh(geometry, material);
+		sphereInter.visible = false;
+		scene.add(sphereInter);
+		let lineGeometry = new THREE.BufferGeometry();
+		let points = [];
+		var point = new THREE.Vector3();
+		var direction = new THREE.Vector3();
+		for (let i = 0; i < 500; i++) {
+			direction.x += Math.random() - 0.5;
+			direction.y += Math.random() - 0.5;
+			direction.z += Math.random() - 0.5;
+			direction.normalize().multiplyScalar(50);
+			point.add(direction);
+			points.push(point.x, point.y, point.z);
+		}
+		lineGeometry.addAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+		parentTransform = new THREE.Object3D();
+		parentTransform.position.x = Math.random() * 40 - 20;
+		parentTransform.position.y = Math.random() * 40 - 20;
+		parentTransform.position.z = Math.random() * 40 - 20;
+		parentTransform.rotation.x = Math.random() * 2 * Math.PI;
+		parentTransform.rotation.y = Math.random() * 2 * Math.PI;
+		parentTransform.rotation.z = Math.random() * 2 * Math.PI;
+		parentTransform.scale.x = Math.random() + 0.5;
+		parentTransform.scale.y = Math.random() + 0.5;
+		parentTransform.scale.z = Math.random() + 0.5;
+		for (let i = 0; i < 500; i++) {
+			let object;
+			if (Math.random() > 0.5) {
+				object = new THREE.Line(lineGeometry);
+			} else {
+				object = new THREE.LineSegments(lineGeometry);
+			}
+			object.position.x = Math.random() * 400 - 200;
+			object.position.y = Math.random() * 400 - 200;
+			object.position.z = Math.random() * 400 - 200;
+			object.rotation.x = Math.random() * 2 * Math.PI;
+			object.rotation.y = Math.random() * 2 * Math.PI;
+			object.rotation.z = Math.random() * 2 * Math.PI;
+			object.scale.x = Math.random() + 0.5;
+			object.scale.y = Math.random() + 0.5;
+			object.scale.z = Math.random() + 0.5;
+			parentTransform.add(object);
+		}
+		scene.add(parentTransform);
+		raycaster = new THREE.Raycaster();
+		raycaster.linePrecision = 3;
 		renderer = new THREE.WebGLRenderer({antialias: true});
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		container.appendChild(renderer.domElement);
-		renderer.gammaInput = true;
-		renderer.gammaOutput = true;
-		renderer.shadowMap.enabled = true;
-
 		window.addEventListener('resize', onWindowResize, false);
 	}
 
@@ -301,10 +204,13 @@
 	}
 
 	function render() {
-		var delta = clock.getDelta();
-		for (var i = 0; i < mixers.length; i++) {
-			mixers[i].update(delta);
-		}
+		theta += 0.1;
+		camera.position.x = radius * Math.sin(THREE.Math.degToRad(theta));
+		camera.position.y = radius * Math.sin(THREE.Math.degToRad(theta));
+		camera.position.z = radius * Math.cos(THREE.Math.degToRad(theta));
+		camera.lookAt(scene.position);
+		camera.updateMatrixWorld();
+		raycaster.setFromCamera(mouse, camera);
 		renderer.render(scene, camera);
 	}
 </script>
