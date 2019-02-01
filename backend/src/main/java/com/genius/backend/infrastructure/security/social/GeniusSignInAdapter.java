@@ -25,7 +25,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 		nativeWebRequest.getNativeResponse();
 		log.info("알리미 앱 로그인 providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
 		var providerUserId = SocialProviderBuilder.create(connection).getProviderUserId();
-		var user = userService.findByProviderUserId(providerUserId).get();
+		var user = userService.findByProviderIdAndProviderUserId(connection.getKey().getProviderId(), providerUserId).get();
 		var geniusSocialUserDetail = GeniusSocialUserDetail.create(user);
 		var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, null, geniusSocialUserDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));

@@ -9,10 +9,10 @@ import java.util.Collection;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "ROLES")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Role {
 
 	@Id

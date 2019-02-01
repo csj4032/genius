@@ -1,7 +1,6 @@
 package com.genius.backend.infrastructure.security;
 
 import com.genius.backend.application.UserService;
-import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;

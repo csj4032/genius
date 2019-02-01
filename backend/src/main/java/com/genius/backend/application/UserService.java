@@ -3,7 +3,6 @@ package com.genius.backend.application;
 import com.genius.backend.domain.model.auth.AuthDto;
 import com.genius.backend.domain.model.user.User;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.kakao.api.AccessTokenInfo;
 import org.springframework.social.kakao.api.KakaoProfile;
 
 import java.util.Optional;
@@ -13,6 +12,8 @@ public interface UserService {
 	boolean isUser(Connection<?> connection);
 
 	Optional<User> findByConnection(Connection<?> connection);
+
+	Optional<User> findByProviderIdAndProviderUserId(String providerId, String providerUserId);
 
 	Optional<User> findByProviderUserId(String providerUserId);
 
@@ -27,4 +28,5 @@ public interface UserService {
 	void deleteByIdForUnlink(User user);
 
 	void refreshAccess();
+
 }

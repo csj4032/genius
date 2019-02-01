@@ -52,6 +52,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Optional<User> findByProviderIdAndProviderUserId(String providerId, String providerUserId) {
+		return userRepository.findByProviderTypeAndProviderUserId(ProviderType.valueOf(providerId.toUpperCase()), providerUserId);
+	}
+
+	@Override
 	public Optional<User> findByProviderUserId(String providerUserId) {
 		return Optional.empty();
 	}
@@ -102,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void refreshAccess() {
-		userRepository.findAll().stream().filter(e-> e.getProviderType().equals(ProviderType.KAKAO)).forEach(e -> {
+		userRepository.findAll().stream().filter(e -> e.getProviderType().equals(ProviderType.KAKAO)).forEach(e -> {
 			var kakaoOAuth2Template = new KakaoOAuth2Template(appId, appSecret);
 			var refreshTokenInfo = kakaoOAuth2Template.refreshAccess(e.getUserSocial().getRefreshToken(), null);
 			e.getUserSocial().setAccessToken(refreshTokenInfo.getAccessToken());
