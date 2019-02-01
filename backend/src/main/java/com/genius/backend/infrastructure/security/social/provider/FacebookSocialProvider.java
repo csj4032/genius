@@ -1,7 +1,10 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
-import com.genius.backend.domain.model.facebook.*;
-import com.genius.backend.domain.model.user.UserSocial;
+import com.genius.backend.domain.model.facebook.IdsForPagesResponse;
+import com.genius.backend.domain.model.facebook.Message;
+import com.genius.backend.domain.model.facebook.Recipient;
+import com.genius.backend.domain.model.facebook.RequestMessage;
+import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.security.social.property.FacebookProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.social.connect.Connection;
@@ -19,7 +22,12 @@ public class FacebookSocialProvider implements SocialProvider {
 	}
 
 	@Override
-	public UserSocial getUserSocial() {
+	public User getUser() {
+		return null;
+	}
+
+	@Override
+	public String getProviderUserId() {
 		return null;
 	}
 

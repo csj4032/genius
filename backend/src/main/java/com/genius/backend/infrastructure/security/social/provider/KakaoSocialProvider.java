@@ -1,6 +1,6 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
-import com.genius.backend.domain.model.user.UserSocial;
+import com.genius.backend.domain.model.user.User;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.impl.json.ButtonMixin;
@@ -18,9 +18,13 @@ public class KakaoSocialProvider implements SocialProvider {
 		this.kakao = (Kakao) connection.getApi();
 	}
 
+	@Override
+	public User getUser() {
+		return null;
+	}
 
 	@Override
-	public UserSocial getUserSocial() {
+	public String getProviderUserId() {
 		return null;
 	}
 
@@ -30,6 +34,5 @@ public class KakaoSocialProvider implements SocialProvider {
 		var buttons = List.of(new ButtonMixin("Alimy", null));
 		var text = new TextMixin(ObjectTypeMixin.TEXT, message, link, "Alimy", buttons);
 		kakao.talkOperation().send(text);
-
 	}
 }

@@ -16,8 +16,6 @@ public interface UserService {
 
 	Optional<User> findByProviderUserId(String providerUserId);
 
-	User save(Connection<?> connection);
-
 	User save(User user);
 
 	User save(AuthDto.Request request, KakaoProfile profile);

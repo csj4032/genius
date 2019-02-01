@@ -22,22 +22,14 @@ public class GeniusSignInAdapter implements SignInAdapter {
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
+		nativeWebRequest.getNativeResponse();
 		log.info("알리미 앱 로그인 providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
-		var geniusSocialUserDetail = updateGeniusSocialUserDetail(localUserId, connection);
+		var providerUserId = SocialProviderBuilder.create(connection).getProviderUserId();
+		var user = userService.findByProviderUserId(providerUserId).get();
+		var geniusSocialUserDetail = GeniusSocialUserDetail.create(user);
 		var authentication = new UsernamePasswordAuthenticationToken(geniusSocialUserDetail, null, geniusSocialUserDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(((ServletWebRequest) nativeWebRequest).getRequest()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		SocialProviderBuilder.create(connection).pushMessage("Login Success");
 		return null;
-	}
-
-	private GeniusSocialUserDetail updateGeniusSocialUserDetail(String localUserId, Connection<?> connection) {
-		var userProfile = connection.fetchUserProfile();
-		var user = userService.findByConnection(connection).orElseThrow(() -> new NullPointerException());
-		user.setEmail(userProfile.getEmail());
-		user.setImageUrl(connection.getImageUrl());
-		user.setUsername(connection.getDisplayName());
-		userService.save(user);
-		return GeniusSocialUserDetail.create(user);
 	}
 }

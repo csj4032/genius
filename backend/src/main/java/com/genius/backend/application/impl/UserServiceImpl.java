@@ -57,11 +57,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(Connection<?> connection) {
-		return save(getUser(connection));
-	}
-
-	@Override
 	public User save(User user) {
 		return userRepository.save(user);
 	}
@@ -115,19 +110,5 @@ public class UserServiceImpl implements UserService {
 			if (refreshTokenInfo.getRefreshToken() != null) e.getUserSocial().setRefreshToken(refreshTokenInfo.getRefreshToken());
 			userRepository.save(e);
 		});
-	}
-
-	private User getUser(Connection<?> connection) {
-		var user = new User();
-		user.setProviderType(ProviderType.valueOf(connection.createData().getProviderId().toUpperCase()));
-		user.setProviderUserId(connection.createData().getProviderUserId());
-		user.setUsername(connection.getDisplayName());
-		user.setImageUrl(connection.createData().getImageUrl());
-		user.getUserSocial().setUser(user);
-		user.getUserSocial().setAccessToken(connection.createData().getAccessToken());
-		user.getUserSocial().setRefreshToken(connection.createData().getRefreshToken());
-		user.getUserSocial().setExpiredTime(connection.createData().getExpireTime() == null ? 0l : connection.createData().getExpireTime());
-		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
-		return user;
 	}
 }
