@@ -38,7 +38,7 @@ public class LineSocialProvider implements SocialProvider {
 	@Override
 	public String getProviderUserId() {
 		if (isIdToken(providerUserId)) {
-			return JWT.decode(providerUserId).getClaim("sub").toString();
+			return JWT.decode(providerUserId).getClaim("sub").as(String.class);
 		}
 		return connection.getKey().getProviderUserId();
 	}
