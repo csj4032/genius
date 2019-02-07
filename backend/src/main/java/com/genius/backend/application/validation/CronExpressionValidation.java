@@ -21,10 +21,10 @@ public class CronExpressionValidation implements ConstraintValidator<CronExpress
 			parser.parse(value).validate();
 			return true;
 		} catch (IllegalArgumentException ex) {
-			log.error("{}", ex.getCause());
+			log.error("{}", ex.getLocalizedMessage());
 			constraintValidatorContext.disableDefaultConstraintViolation();
 			constraintValidatorContext.buildConstraintViolationWithTemplate(ex.getMessage()).addConstraintViolation();
-			return false;
 		}
+		return false;
 	}
 }

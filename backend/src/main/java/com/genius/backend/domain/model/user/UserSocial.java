@@ -1,14 +1,17 @@
 package com.genius.backend.domain.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genius.backend.domain.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@ToString(exclude = {"user"})
 @Table(name = "USERS_SOCIAL")
 public class UserSocial extends BaseEntity {
 
@@ -17,6 +20,7 @@ public class UserSocial extends BaseEntity {
 	@Column(name = "ID")
 	private long id;
 
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	private User user;
 

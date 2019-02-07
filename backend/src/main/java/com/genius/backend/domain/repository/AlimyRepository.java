@@ -14,9 +14,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @MasterConnection
 public interface AlimyRepository extends JpaRepository<Alimy, Long>, QuerydslPredicateExecutor<Alimy> {
+
+	Optional<List<Alimy>> findTop5ByUserIdOrderByIdDesc(Long userId);
 
 	Page<Alimy> findByUserId(Long userId, Pageable pageable);
 

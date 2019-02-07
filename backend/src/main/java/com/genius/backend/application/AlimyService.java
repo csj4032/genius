@@ -15,6 +15,8 @@ public interface AlimyService {
 
 	AlimyDto.Response findById(Long alimyId);
 
+	List<AlimyDto.Response> findByUserId(Long userId);
+
 	AlimyDto.Response save(AlimyDto.RequestForSave request);
 
 	AlimyDto.Response update(AlimyDto.RequestForUpdate request);

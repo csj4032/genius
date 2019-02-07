@@ -1,15 +1,11 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
 import com.auth0.jwt.JWT;
-import com.genius.backend.application.ProviderType;
-import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.line.api.Line;
 import org.springframework.social.line.api.impl.json.PushMessageMixin;
 import org.springframework.social.line.api.impl.json.TextMessageMixin;
-
-import java.util.Set;
 
 public class LineSocialProvider implements SocialProvider {
 
@@ -36,6 +32,11 @@ public class LineSocialProvider implements SocialProvider {
 	}
 
 	@Override
+	public String getProviderId() {
+		return connection.getKey().getProviderId();
+	}
+
+	@Override
 	public String getProviderUserId() {
 		if (isIdToken(providerUserId)) {
 			return JWT.decode(providerUserId).getClaim("sub").as(String.class);
@@ -54,19 +55,5 @@ public class LineSocialProvider implements SocialProvider {
 		var jwt = JWT.decode(token);
 		var iss = jwt.getClaim("iss").as(String.class);
 		return iss.equals(issUrl);
-	}
-
-	private User getUser(Connection<?> connection) {
-		var user = new User();
-		user.setProviderType(ProviderType.valueOf(connection.createData().getProviderId().toUpperCase()));
-		user.setProviderUserId(connection.createData().getProviderUserId());
-		user.setUsername(connection.getDisplayName());
-		user.setImageUrl(connection.createData().getImageUrl());
-		user.getUserSocial().setUser(user);
-		user.getUserSocial().setAccessToken(connection.createData().getAccessToken());
-		user.getUserSocial().setRefreshToken(connection.createData().getRefreshToken());
-		user.getUserSocial().setExpiredTime(connection.createData().getExpireTime() == null ? 0l : connection.createData().getExpireTime());
-		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
-		return user;
 	}
 }

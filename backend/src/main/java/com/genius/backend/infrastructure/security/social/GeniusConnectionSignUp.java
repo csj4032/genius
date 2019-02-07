@@ -20,10 +20,10 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 
 	@Override
 	public String execute(Connection<?> connection) {
-		var provider = socialProviderBuilder.create(connection);
-		if (userService.findByProviderIdAndProviderUserId(connection.getKey().getProviderId(), provider.getProviderUserId()).isEmpty()) {
+		var socialProvider =  socialProviderBuilder.create(connection);
+		if (!userService.findByProviderIdAndProviderUserId(socialProvider.getProviderId(), socialProvider.getProviderUserId()).isPresent()) {
 			log.info("알리미 앱 가입 {} : {} : {}", connection.createData().getProviderUserId(), connection.getDisplayName(), connection.createData().getAccessToken());
-			userService.save(provider.getUser());
+			userService.save(socialProvider.getUser());
 		}
 		return connection.createData().getProviderUserId();
 	}

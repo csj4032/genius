@@ -1,7 +1,6 @@
 package com.genius.backend.domain.model.alimy;
 
 import com.cronutils.descriptor.CronDescriptor;
-import com.cronutils.model.Cron;
 import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.parser.CronParser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class AlimyDto {
 		private AlimyStatus status;
 		@Size(min = 1, max = 100)
 		private String subject;
-		@Size(min = 1, max = 200, message = "{alimy.requestForSave.validation.message}")
+		@Size(min = 1, max = 500, message = "{alimy.requestForSave.validation.message}")
 		private String message;
 		@Valid
 		private UnitType unitType;
@@ -69,6 +69,13 @@ public class AlimyDto {
 	}
 
 	@Data
+	@ToString(callSuper = true)
+	@NoArgsConstructor
+	@EqualsAndHashCode(callSuper = false)
+	public static class RequestForSaveForm extends Request {
+	}
+
+	@Data
 	@Builder
 	@ToString
 	@AllArgsConstructor
@@ -103,6 +110,7 @@ public class AlimyDto {
 		private Set<AlimyUnit> alimyUnit;
 		private UnitType unitType;
 		private String description;
+		private LocalDateTime regDateTime;
 
 		public UnitType getUnitType() {
 			return UnitType.builder()
@@ -131,19 +139,23 @@ public class AlimyDto {
 	public static class UnitType {
 		@Builder.Default
 		private String seconds = "0";
-		@Pattern(regexp = "((([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?,)*([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?)|(([\\*]|[0-9]|[0-5][0-9])/([0-9]|[0-5][0-9]))|([\\?])|([\\*])")
+		@Pattern(message = "기입하신 분 형식에 어긋났습니다.", regexp = "((([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?,)*([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?)|(([\\*]|[0-9]|[0-5][0-9])/([0-9]|[0-5][0-9]))|([\\?])|([\\*])")
 		private String minutes;
-		@Pattern(regexp = "((([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?,)*([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?)|(([\\*]|[0-9]|[0-1][0-9]|[2][0-3])/([0-9]|[0-1][0-9]|[2][0-3]))|([\\?])|([\\*])")
+		@Pattern(message = "기입하신 시 형식에 어긋났습니다.", regexp = "((([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?,)*([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?)|(([\\*]|[0-9]|[0-1][0-9]|[2][0-3])/([0-9]|[0-1][0-9]|[2][0-3]))|([\\?])|([\\*])")
 		private String hours;
-		@Pattern(regexp = "((([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?,)*([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?(C)?)|(([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])/([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(C)?)|(L(-[0-9])?)|(L(-[1-2][0-9])?)|(L(-[3][0-1])?)|(LW)|([1-9]W)|([1-3][0-9]W)|([\\?])|([\\*])")
-		private String dayOfMonth;
+		@Builder.Default
+		@Pattern(message = "기입하신 일 형식에 어긋났습니다.", regexp = "((([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?,)*([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?(C)?)|(([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])/([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(C)?)|(L(-[0-9])?)|(L(-[1-2][0-9])?)|(L(-[3][0-1])?)|(LW)|([1-9]W)|([1-3][0-9]W)|([\\?])|([\\*])")
+		private String dayOfMonth = "1-30";
+		@Builder.Default
 		@Pattern(message = "기입하신 월 형식에 어긋났습니다.", regexp = "((([1-9]|0[1-9]|1[0-2])(-([1-9]|0[1-9]|1[0-2]))?,)*([1-9]|0[1-9]|1[0-2])(-([1-9]|0[1-9]|1[0-2]))?)|(([1-9]|0[1-9]|1[0-2])/([1-9]|0[1-9]|1[0-2]))|(((JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?,)*(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?)|((JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)/(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))|([\\?])|([\\*])")
-		private String month;
-		@Pattern(regexp = "(([1-7](-([1-7]))?,)*([1-7])(-([1-7]))?)|([1-7]/([1-7]))|(((MON|TUE|WED|THU|FRI|SAT|SUN)(-(MON|TUE|WED|THU|FRI|SAT|SUN))?,)*(MON|TUE|WED|THU|FRI|SAT|SUN)(-(MON|TUE|WED|THU|FRI|SAT|SUN))?(C)?)|((MON|TUE|WED|THU|FRI|SAT|SUN)/(MON|TUE|WED|THU|FRI|SAT|SUN)(C)?)|(([1-7]|(MON|TUE|WED|THU|FRI|SAT|SUN))(L|LW)?)|(([1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)#([1-7])?)|([\\?])|([\\*])")
-		private String dayOfWeek;
+		private String month = "1-12";
+		@Builder.Default
+		@Pattern(message = "기입하신 요일 형식에 어긋났습니다.", regexp = "(([1-7](-([1-7]))?,)*([1-7])(-([1-7]))?)|([1-7]/([1-7]))|(((MON|TUE|WED|THU|FRI|SAT|SUN)(-(MON|TUE|WED|THU|FRI|SAT|SUN))?,)*(MON|TUE|WED|THU|FRI|SAT|SUN)(-(MON|TUE|WED|THU|FRI|SAT|SUN))?(C)?)|((MON|TUE|WED|THU|FRI|SAT|SUN)/(MON|TUE|WED|THU|FRI|SAT|SUN)(C)?)|(([1-7]|(MON|TUE|WED|THU|FRI|SAT|SUN))(L|LW)?)|(([1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)#([1-7])?)|([\\?])|([\\*])")
+		private String dayOfWeek = "?";
+		@Builder.Default
 		@NotNull(message = "원하시는 년도를 기입 바랍니다.")
 		@Pattern(message = "기입하신 년도가 형식에 어긋났습니다.", regexp = "([\\*])?|((19[7-9][0-9])|(20[0-9][0-9]))?|(((19[7-9][0-9])|(20[0-9][0-9]))/((19[7-9][0-9])|(20[0-9][0-9])))?|((((19[7-9][0-9])|(20[0-9][0-9]))(-((19[7-9][0-9])|(20[0-9][0-9])))?,)*((19[7-9][0-9])|(20[0-9][0-9]))(-((19[7-9][0-9])|(20[0-9][0-9])))?)?")
-		private String year;
+		private String year = "2019-2020";
 
 		@JsonIgnore
 		@CronExpressionAnnotation

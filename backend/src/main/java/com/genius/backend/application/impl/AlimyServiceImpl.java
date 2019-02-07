@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,12 @@ public class AlimyServiceImpl implements AlimyService {
 	public AlimyDto.Response findById(Long id) {
 		Optional<Alimy> alimy = alimyRepository.findById(id);
 		return alimy.isPresent() ? modelMapper.map(alimy, AlimyDto.Response.class) : null;
+	}
+
+	@Override
+	public List<AlimyDto.Response> findByUserId(Long userId) {
+		Optional<List<Alimy>> alimyList = alimyRepository.findTop5ByUserIdOrderByIdDesc(userId);
+		return alimyList.isPresent() ? modelMapper.map(alimyList.get(), new TypeToken<List<AlimyDto.Response>>(){}.getType()) : Collections.EMPTY_LIST;
 	}
 
 	@Override

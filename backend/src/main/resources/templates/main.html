@@ -3,7 +3,7 @@
 <head>
 	<title>Greeting</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="generator" content="genius, rrest">
 	<meta name="description" content="사랑하는 아내와 딸">
 	<meta name="keywords" content="genius">
@@ -22,8 +22,8 @@
 	<a class="navbar-brand js-scroll-trigger" href="#page-top">
 		<span class="d-block d-lg-none" sec:authentication="name">Clarence Taylor</span>
 		<span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" th:src="${user.imageUrl + '?height=200'}" alt="">
-        </span>
+			<img class="img-fluid img-profile rounded-circle mx-auto mb-2" th:src="${user.imageUrl + '?height=200'}" alt="">
+		</span>
 	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,20 +31,8 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#about">About</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link js-scroll-trigger" href="#register">Register</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="https://m.me/alimychoibom">ChatBot</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/logout">Logout</a>
+			<li class="nav-item" th:each="item:${navigationItems}">
+				<a class="nav-link js-scroll-trigger" th:href="${item.link}" href="#about" th:text="${item.name}">About</a>
 			</li>
 		</ul>
 	</div>
@@ -58,7 +46,7 @@
 			<h2 class="mb-0" th:inline="text">Sign in to <span class="text-primary" th:text="${user.providerType}">Taylor</span>
 			</h2>
 			<div class="subheading mb-5">
-				<p th:text="${user}"></p>
+				<p th:text="${user.email}"></p>
 			</div>
 		</div>
 	</section>
@@ -70,15 +58,17 @@
 			<h2 class="mb-5">Schedule</h2>
 			<div th:each="alimy:${alimies}" class="resume-item d-flex flex-column flex-md-row mb-5">
 				<div class="resume-content mr-auto">
-					<h3 class="mb-0">Senior Web Developer</h3>
-					<div class="subheading mb-3">Intelitec Solutions</div>
-					<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the
-						day, going forward, a new normal that has evolved from generation X is on the runway heading
-						towards a streamlined cloud solution. User generated content in real-time will have multiple
-						touchpoints for offshoring.</p>
+					<h3 class="mb-0" th:text="${alimy.subject}">No subject</h3>
+					<div class="subheading mb-3" th:text="${alimy.description}">No description</div>
+					<p th:text="${alimy.message}">No message</p>
 				</div>
 				<div class="resume-date text-md-right">
-					<span class="text-primary">March 2013 - Present</span>
+					<span class="text-primary" th:text="${alimy.regDateTime}"></span>
+					<form th:action="@{/}" method="post">
+						<input hidden name="_method" value="delete"/>
+						<input hidden name="alimyId" th:value="${alimy.id}"/>
+						<button class="btn btn-sm btn-danger" th:value="${alimy.id}" type="submit">삭제</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -90,30 +80,53 @@
 	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="register">
 		<div class="my-auto">
 			<h2 class="mb-5">Register</h2>
-
-			<div class="resume-item d-flex flex-column flex-md-row mb-5">
-				<div class="resume-content mr-auto">
-					<h3 class="mb-0">University of Colorado Boulder</h3>
-					<div class="subheading mb-3">Bachelor of Science</div>
-					<div>Computer Science - Web Development Track</div>
-					<p>GPA: 3.23</p>
-				</div>
-				<div class="resume-date text-md-right">
-					<span class="text-primary">August 2006 - May 2010</span>
-				</div>
+			<div class="resume-item d-flex flex-column">
+				<form class="form-horizontal" th:action="@{/}" th:object="${requestForSaveForm}" action="#" method="post">
+					<div class="form-group">
+						<label class="mb-0" for="subject">제목</label>
+						<input class="form-control" type="text" id="subject" th:field="*{subject}" placeholder="제목을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="message">내용</label>
+						<textarea class="form-control" id="message" th:field="*{message}" rows="3" placeholder="내용을 입력하세요"></textarea>
+						<span class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{message}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="year">년 (예시 : 2019-2025 2019,2020,2021 2019-2020 2022-2025)</label>
+						<input class="form-control" id="year" th:field="*{unitType.year}" placeholder="년도를 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.year')}" th:errors="*{unitType.year}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="month">월 (예시 : 1,2,3 1~3 1-2,3-5)</label>
+						<input class="form-control" id="month" th:field="*{unitType.month}" placeholder="월을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.month')}" th:errors="*{unitType.month}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="dayOfMonth">일 (예시 : 1,2,3 1~3 1-2,3-5 1~31)</label>
+						<input class="form-control" id="dayOfMonth" th:field="*{unitType.dayOfMonth}" placeholder="일을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.dayOfMonth')}" th:errors="*{unitType.dayOfMonth}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="dayOfWeek">요일 (예시 : 1,2,3 1~3 1-2,3-5 1~31)</label>
+						<input class="form-control" id="dayOfWeek" th:field="*{unitType.dayOfWeek}" value="?" placeholder="일을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.dayOfWeek')}" th:errors="*{unitType.dayOfWeek}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="hours">시간 (예시 : 0,1,2 0~3 0-2,3-5 0-24)</label>
+						<input class="form-control" id="hours" th:field="*{unitType.hours}" placeholder="시간을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.hours')}" th:errors="*{unitType.hours}"></span>
+					</div>
+					<div class="form-group">
+						<label class="mb-0" for="hours">분 (예시 : 0,1,2 0~3 0-2,3-5 0-24)</label>
+						<input class="form-control" id="minutes" th:field="*{unitType.minutes}" placeholder="분을 입력하세요">
+						<span class="text-danger" th:if="${#fields.hasErrors('unitType.minutes')}" th:errors="*{unitType.minutes}"></span>
+					</div>
+					<span class="text-danger" th:if="${#fields.hasErrors('unitType.cronExpression')}" th:errors="*{unitType.cronExpression}"></span>
+					<input id="status" type="hidden" name="status" value="START">
+					<button type="submit" class="btn btn-primary">저장</button>
+				</form>
 			</div>
-
-			<div class="resume-item d-flex flex-column flex-md-row">
-				<div class="resume-content mr-auto">
-					<h3 class="mb-0">James Buchanan High School</h3>
-					<div class="subheading mb-3">Technology Magnet Program</div>
-					<p>GPA: 3.56</p>
-				</div>
-				<div class="resume-date text-md-right">
-					<span class="text-primary">August 2002 - May 2006</span>
-				</div>
-			</div>
-
 		</div>
 	</section>
 

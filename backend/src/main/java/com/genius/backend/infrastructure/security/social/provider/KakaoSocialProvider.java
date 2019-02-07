@@ -12,20 +12,30 @@ import java.util.List;
 
 public class KakaoSocialProvider implements SocialProvider {
 
+	private Connection<Kakao> connection;
 	private Kakao kakao;
 
 	public KakaoSocialProvider(final Connection<?> connection) {
+		this.connection = (Connection<Kakao>) connection;
 		this.kakao = (Kakao) connection.getApi();
 	}
 
 	@Override
 	public User getUser() {
-		return null;
+		var user = getUser(connection);
+		var profile = connection.fetchUserProfile();
+		user.setEmail(profile.getEmail());
+		return user;
+	}
+
+	@Override
+	public String getProviderId() {
+		return connection.getKey().getProviderId();
 	}
 
 	@Override
 	public String getProviderUserId() {
-		return null;
+		return connection.getKey().getProviderUserId();
 	}
 
 	@Override

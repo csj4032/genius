@@ -26,14 +26,14 @@ public class WebhookController {
 
 	@PostMapping("/facebook/webhook")
 	public void webhook(HttpServletRequest httpServletRequest) {
-		StringBuffer jb = new StringBuffer();
-		String line = null;
-		try (BufferedReader reader = httpServletRequest.getReader();) {
+		var sb = new StringBuilder();
+		String line;
+		try (BufferedReader reader = httpServletRequest.getReader()) {
 			while ((line = reader.readLine()) != null)
-				jb.append(line);
+				sb.append(line);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
-		log.info("receivedMessage : {}", jb.toString());
+		log.info("receivedMessage : {}", sb.toString());
 	}
 }

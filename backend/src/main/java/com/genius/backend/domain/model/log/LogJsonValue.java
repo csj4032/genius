@@ -1,5 +1,6 @@
 package com.genius.backend.domain.model.log;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,9 @@ public class LogJsonValue implements LogValue {
 
 	private String getValue(Object value) {
 		try {
-			return new ObjectMapper().writeValueAsString(value);
+			var objectMapper = new ObjectMapper();
+			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			return objectMapper.writeValueAsString(value);
 		} catch (JsonProcessingException e) {
 			log.error(e.getMessage());
 		}
