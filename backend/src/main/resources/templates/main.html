@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Greeting</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -20,30 +20,29 @@
 <body id="page-top">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
 	<a class="navbar-brand js-scroll-trigger" href="#page-top">
-		<span class="d-block d-lg-none" sec:authentication="name">Clarence Taylor</span>
+		<span class="d-block d-lg-none" th:text="${'Alimy For ' + #authentication.name}"></span>
 		<span class="d-none d-lg-block">
 			<img class="img-fluid img-profile rounded-circle mx-auto mb-2" th:src="${user.imageUrl + '?height=200'}" alt="">
 		</span>
 	</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav">
 			<li class="nav-item" th:each="item:${navigationItems}">
-				<a class="nav-link js-scroll-trigger" th:href="${item.link}" href="#about" th:text="${item.name}">About</a>
+				<a th:href="${item.link}" href="#about" th:text="${item.name}" th:class="${item.isScroll ? 'nav-link js-scroll-trigger' : 'nav-link'}">About</a>
 			</li>
 		</ul>
 	</div>
 </nav>
-<div id="container" style="height: 3000px; position: absolute"></div>
+<div id="container" style="height:10px;position:absolute;"></div>
 <div class="container-fluid p-0" style="position:absolute;">
-
 	<section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
 		<div class="my-auto">
 			<h1 class="mb-0" th:inline="text">[[${user.username}]]</h1>
-			<h2 class="mb-0" th:inline="text">Sign in to <span class="text-primary" th:text="${user.providerType}">Taylor</span>
+			<h2 class="mb-0" th:inline="text">Sign in to
+				<span class="text-primary" th:text="${user.providerType}">Kakao</span>
 			</h2>
 			<div class="subheading mb-5">
 				<p th:text="${user.email}"></p>
@@ -51,28 +50,24 @@
 		</div>
 	</section>
 
-	<hr class="m-0">
+	<hr class="m-0" th:if="${not #lists.isEmpty(alimies)}">
 
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule">
+	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule" th:if="${not #lists.isEmpty(alimies)}">
 		<div class="my-auto">
 			<h2 class="mb-5">Schedule</h2>
-			<div th:each="alimy:${alimies}" class="resume-item d-flex flex-column flex-md-row mb-5">
+			<div th:each="alimy:${alimies}" th:id="'alimy_'+${alimy.id}" class="resume-item d-flex flex-column flex-md-row mb-5">
 				<div class="resume-content mr-auto">
 					<h3 class="mb-0" th:text="${alimy.subject}">No subject</h3>
 					<div class="subheading mb-3" th:text="${alimy.description}">No description</div>
 					<p th:text="${alimy.message}">No message</p>
 				</div>
 				<div class="resume-date text-md-right">
-					<span class="text-primary" th:text="${alimy.regDateTime}"></span>
-					<form th:action="@{/}" method="post">
-						<input hidden name="_method" value="delete"/>
-						<input hidden name="alimyId" th:value="${alimy.id}"/>
-						<button class="btn btn-sm btn-danger" th:value="${alimy.id}" type="submit">삭제</button>
-					</form>
+					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
+					<button class="btn btn-sm btn-warning btn-status" data-method="put" th:data-id="${alimy.id}" th:text="${alimy.status eq 1 ? '정지' : '시작'}">정지</button>
+					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">삭제</button>
 				</div>
 			</div>
 		</div>
-
 	</section>
 
 	<hr class="m-0">
@@ -93,7 +88,7 @@
 						<span class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{message}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="year">년 (예시 : 2019-2025 2019,2020,2021 2019-2020 2022-2025)</label>
+						<label class="mb-0" for="year">년 (예시 : 2019-2025 2019,2020,2021 2019-2020)</label>
 						<input class="form-control" id="year" th:field="*{unitType.year}" placeholder="년도를 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.year')}" th:errors="*{unitType.year}"></span>
 					</div>
@@ -129,103 +124,27 @@
 			</div>
 		</div>
 	</section>
-
 </div>
-<script th:href="@{/js/main.js}" src="/js/main.js"></script>
 <script src="/three/build/three.js"></script>
 <script src="/three/js/WebGL.js"></script>
 <script src="/three/js/libs/stats.min.js"></script>
 <script src="/three/js/loaders/GLTFLoader.js"></script>
+<script th:href="@{/js/main.js}" src="/js/main.js"></script>
 <script>
-	let container, camera, scene, raycaster, renderer, parentTransform, sphereInter;
-	let mouse = new THREE.Vector2();
-	let radius = 100, theta = 0;
-
-	init();
-	animate();
-
-	function init() {
-		container = document.getElementById('container');
-		camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
-		scene = new THREE.Scene();
-		scene.background = new THREE.Color(0xffffff);
-		let geometry = new THREE.SphereBufferGeometry(5);
-		var material = new THREE.MeshBasicMaterial({color: 0xff0000});
-		sphereInter = new THREE.Mesh(geometry, material);
-		sphereInter.visible = false;
-		scene.add(sphereInter);
-		let lineGeometry = new THREE.BufferGeometry();
-		let points = [];
-		var point = new THREE.Vector3();
-		var direction = new THREE.Vector3();
-		for (let i = 0; i < 500; i++) {
-			direction.x += Math.random() - 0.5;
-			direction.y += Math.random() - 0.5;
-			direction.z += Math.random() - 0.5;
-			direction.normalize().multiplyScalar(50);
-			point.add(direction);
-			points.push(point.x, point.y, point.z);
-		}
-		lineGeometry.addAttribute('position', new THREE.Float32BufferAttribute(points, 3));
-		parentTransform = new THREE.Object3D();
-		parentTransform.position.x = Math.random() * 40 - 20;
-		parentTransform.position.y = Math.random() * 40 - 20;
-		parentTransform.position.z = Math.random() * 40 - 20;
-		parentTransform.rotation.x = Math.random() * 2 * Math.PI;
-		parentTransform.rotation.y = Math.random() * 2 * Math.PI;
-		parentTransform.rotation.z = Math.random() * 2 * Math.PI;
-		parentTransform.scale.x = Math.random() + 0.5;
-		parentTransform.scale.y = Math.random() + 0.5;
-		parentTransform.scale.z = Math.random() + 0.5;
-		for (let i = 0; i < 500; i++) {
-			let object;
-			if (Math.random() > 0.5) {
-				object = new THREE.Line(lineGeometry);
-			} else {
-				object = new THREE.LineSegments(lineGeometry);
-			}
-			object.position.x = Math.random() * 400 - 200;
-			object.position.y = Math.random() * 400 - 200;
-			object.position.z = Math.random() * 400 - 200;
-			object.rotation.x = Math.random() * 2 * Math.PI;
-			object.rotation.y = Math.random() * 2 * Math.PI;
-			object.rotation.z = Math.random() * 2 * Math.PI;
-			object.scale.x = Math.random() + 0.5;
-			object.scale.y = Math.random() + 0.5;
-			object.scale.z = Math.random() + 0.5;
-			parentTransform.add(object);
-		}
-		scene.add(parentTransform);
-		raycaster = new THREE.Raycaster();
-		raycaster.linePrecision = 3;
-		renderer = new THREE.WebGLRenderer({antialias: true});
-		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		container.appendChild(renderer.domElement);
-		window.addEventListener('resize', onWindowResize, false);
-	}
-
-	function onWindowResize() {
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-	}
-
-	function animate() {
-		requestAnimationFrame(animate);
-		render();
-	}
-
-	function render() {
-		theta += 0.1;
-		camera.position.x = radius * Math.sin(THREE.Math.degToRad(theta));
-		camera.position.y = radius * Math.sin(THREE.Math.degToRad(theta));
-		camera.position.z = radius * Math.cos(THREE.Math.degToRad(theta));
-		camera.lookAt(scene.position);
-		camera.updateMatrixWorld();
-		raycaster.setFromCamera(mouse, camera);
-		renderer.render(scene, camera);
-	}
+	$(document).ready(function () {
+		$('.btn-status, .btn-delete').click(function () {
+			let target = $(this);
+			let method = target.data('method');
+			let data = {alimyId : target.data('id')};
+			$.ajax({method: method, url:'/', data: data}).done(function (result) {
+				if(method == 'put') {
+					target.text((result == 'stop') ? '시작' : '정지');
+				} else if(method == 'delete')  {
+					$("#alimy_" + target.data('id')).remove();
+				}
+			});
+		})
+	});
 </script>
 </body>
 </html>

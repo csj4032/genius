@@ -16,7 +16,7 @@ public class GeniusConnectionSignUp implements ConnectionSignUp {
 	private UserService userService;
 
 	@Autowired
-	SocialProviderBuilder socialProviderBuilder;
+	private SocialProviderBuilder socialProviderBuilder;
 
 	@Override
 	public String execute(Connection<?> connection) {

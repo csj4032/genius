@@ -20,7 +20,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 	private UserService userService;
 
 	@Autowired
-	SocialProviderBuilder socialProviderBuilder;
+	private SocialProviderBuilder socialProviderBuilder;
 
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {

@@ -19,12 +19,10 @@ public class TalkTemplate extends AbstractKakaoOperations implements TalkOperati
 
 	static final String TALK_SEND_URL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
 	private final RestTemplate restTemplate;
-	private final String accessToken;
 
-	public TalkTemplate(RestTemplate restTemplate, String accessToken, boolean isAuthorized) {
+	public TalkTemplate(RestTemplate restTemplate, boolean isAuthorized) {
 		super(isAuthorized);
 		this.restTemplate = restTemplate;
-		this.accessToken = accessToken;
 	}
 
 	@Override

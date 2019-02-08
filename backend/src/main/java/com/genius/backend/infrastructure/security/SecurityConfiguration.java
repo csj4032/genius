@@ -108,7 +108,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, GeniusConnectionSignUp geniusConnectionSignUp, SignInAdapter signInAdapter) {
-		((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(geniusConnectionSignUp);
+		usersConnectionRepository.setConnectionSignUp(geniusConnectionSignUp);
 		var providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
 		providerSignInController.setApplicationUrl(applicationUrl);
 		return providerSignInController;

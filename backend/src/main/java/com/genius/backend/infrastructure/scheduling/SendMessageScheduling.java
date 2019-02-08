@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class TalkSendingScheduling {
+public class SendMessageScheduling {
 
 	@Autowired
 	private AlimyService alimyService;

@@ -4,16 +4,18 @@ import com.genius.backend.application.AlimyService;
 import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.NavigationItem;
 import com.genius.backend.domain.model.alimy.AlimyDto;
+import com.genius.backend.domain.model.alimy.AlimyStatus;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
+import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.connect.ConnectionKey;
+import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,12 @@ public class GeniusController {
 
 	@Autowired
 	private AlimyService alimyService;
+
+	@Autowired
+	private UsersConnectionRepository usersConnectionRepository;
+
+	@Autowired
+	private SocialProviderBuilder socialProviderBuilder;
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/")
@@ -54,9 +62,17 @@ public class GeniusController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@DeleteMapping("/")
-	public String delete(@RequestParam("alimyId") Long alimyId) {
+	public @ResponseBody
+	String delete(@RequestParam("alimyId") Long alimyId) {
 		alimyService.delete(List.of(alimyId));
-		return "redirect:/";
+		return "ok";
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@PutMapping("/")
+	public @ResponseBody
+	AlimyStatus status(@RequestParam("alimyId") Long alimyId) {
+		return alimyService.status(alimyId);
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -72,11 +88,11 @@ public class GeniusController {
 
 	private ArrayList<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
 		var items = new ArrayList<NavigationItem>();
-		items.add(NavigationItem.builder().name("About").link("#about").build());
-		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").build());
-		items.add(NavigationItem.builder().name("Register").link("#register").build());
-		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().name("ChatBot").link("https://m.me/alimychoibom").build());
-		items.add(NavigationItem.builder().name("Logout").link("/logout").build());
+		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
+		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").isScroll(true).build());
+		items.add(NavigationItem.builder().name("Register").link("#register").isScroll(true).build());
+		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().name("ChatBot").link("https://m.me/alimychoibom").isScroll(false).build());
+		items.add(NavigationItem.builder().name("Logout").link("/logout").isScroll(false).build());
 		return items;
 	}
 }

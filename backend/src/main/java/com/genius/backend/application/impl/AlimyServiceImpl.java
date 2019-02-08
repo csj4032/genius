@@ -11,6 +11,7 @@ import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
+import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
@@ -48,6 +49,9 @@ public class AlimyServiceImpl implements AlimyService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private SocialProviderBuilder socialProviderBuilder;
+
 	@Override
 	public AlimyDto.Response findById(Long id) {
 		Optional<Alimy> alimy = alimyRepository.findById(id);
@@ -57,7 +61,8 @@ public class AlimyServiceImpl implements AlimyService {
 	@Override
 	public List<AlimyDto.Response> findByUserId(Long userId) {
 		Optional<List<Alimy>> alimyList = alimyRepository.findTop5ByUserIdOrderByIdDesc(userId);
-		return alimyList.isPresent() ? modelMapper.map(alimyList.get(), new TypeToken<List<AlimyDto.Response>>(){}.getType()) : Collections.EMPTY_LIST;
+		return alimyList.isPresent() ? modelMapper.map(alimyList.get(), new TypeToken<List<AlimyDto.Response>>() {
+		}.getType()) : Collections.EMPTY_LIST;
 	}
 
 	@Override
@@ -95,6 +100,11 @@ public class AlimyServiceImpl implements AlimyService {
 	}
 
 	@Override
+	public void save(Alimy alimy) {
+		alimyRepository.save(alimy);
+	}
+
+	@Override
 	@Transactional
 	@PostAuthorize(value = "returnObject.username == authentication.principal.username")
 	public AlimyDto.Response update(AlimyDto.RequestForUpdate request) {
@@ -117,8 +127,16 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Override
 	public void sendAlimyForBatch() {
-		var alimyList = alimyRepository.findByStatus(AlimyStatus.START);
-		var date = new Date();
+		alimyRepository.findByStatus(AlimyStatus.START).stream().filter(getAlimyPredicate(new Date())).forEach(e -> socialProviderBuilder.create(e.getUser()).pushMessage(e.getSubject() + "\n" + e.getMessage()));
+	}
+
+	@Override
+	public AlimyStatus status(Long id) {
+		var alimy = alimyRepository.findById(id).get();
+		var status = alimy.getStatus().equals(AlimyStatus.START)  ? AlimyStatus.STOP : AlimyStatus.START;
+		alimy.setStatus(status);
+		alimyRepository.save(alimy);
+		return status;
 	}
 
 	@NotNull

@@ -27,8 +27,14 @@ public class UserSocial extends BaseEntity {
 	@Column(name = "ACCESS_TOKEN")
 	private String accessToken;
 
+	@Column(name = "SECRET")
+	private String secret;
+
 	@Column(name = "REFRESH_TOKEN")
 	private String refreshToken;
+
+	@Column(name = "PAGE_USER_ID")
+	private String pageUserId;
 
 	@Column(name = "EXPIRED_TIME")
 	private long expiredTime;

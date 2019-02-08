@@ -5,7 +5,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.social.kakao.api.AccessTokenOperation;
+import org.springframework.social.kakao.api.FriendsOperation;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.TalkOperation;
 import org.springframework.social.kakao.api.UserOperation;
@@ -21,7 +21,7 @@ public class KakaoTemplate extends AbstractOAuth2ApiBinding implements Kakao {
 
 	private UserOperation userOperation;
 	private TalkOperation talkOperation;
-	private AccessTokenOperation accessTokenOperation;
+	private FriendsOperation friendsOperation;
 
 	private String appKey;
 	private String adminKey;
@@ -67,8 +67,8 @@ public class KakaoTemplate extends AbstractOAuth2ApiBinding implements Kakao {
 		return talkOperation;
 	}
 
-	public AccessTokenOperation accessTokenOperation() {
-		return accessTokenOperation;
+	public FriendsOperation friendsOperation() {
+		return friendsOperation;
 	}
 
 	private void initialize() {
@@ -80,8 +80,8 @@ public class KakaoTemplate extends AbstractOAuth2ApiBinding implements Kakao {
 
 	private void initSubApis() {
 		userOperation = new UserTemplate(getRestTemplate(), adminRestTemplate, isAuthorized());
-		talkOperation = new TalkTemplate(getRestTemplate(), accessToken, isAuthorized());
-		accessTokenOperation = new AccessTokenTemplate(getRestTemplate(), appKey, accessToken, refreshToken, isAuthorized());
+		talkOperation = new TalkTemplate(getRestTemplate(), isAuthorized());
+		friendsOperation = new FriendsTemplate(getRestTemplate(), isAuthorized());
 	}
 
 	/**

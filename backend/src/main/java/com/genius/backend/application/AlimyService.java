@@ -2,10 +2,12 @@ package com.genius.backend.application;
 
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
+import com.genius.backend.domain.model.alimy.AlimyStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AlimyService {
 
@@ -19,6 +21,8 @@ public interface AlimyService {
 
 	AlimyDto.Response save(AlimyDto.RequestForSave request);
 
+	void save(Alimy alimy);
+
 	AlimyDto.Response update(AlimyDto.RequestForUpdate request);
 
 	Alimy update(AlimyDto.RequestForStatus request);
@@ -27,4 +31,5 @@ public interface AlimyService {
 
 	void sendAlimyForBatch();
 
+	AlimyStatus status(Long alimyId);
 }

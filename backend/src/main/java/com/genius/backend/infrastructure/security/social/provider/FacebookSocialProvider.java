@@ -29,6 +29,7 @@ public class FacebookSocialProvider implements SocialProvider {
 		var profile = connection.fetchUserProfile();
 		var user = getUser(connection);
 		user.setEmail(profile.getEmail());
+		user.getUserSocial().setPageUserId(getPageUserId(user.getProviderUserId()));
 		return user;
 	}
 
@@ -43,17 +44,22 @@ public class FacebookSocialProvider implements SocialProvider {
 	}
 
 	@Override
-	public void pushMessage(String text) {
-		var providerUserId = connection.getKey().getProviderUserId();
-		var pageAccessToken = facebookProperties.getPage().getAccessToken();
-		var appSecretProof = facebookProperties.getAppSecretProof();
-		var idsForPagesWrapper = new RestTemplate().getForObject(idsForPagesUrl, IdsForPagesResponse.class, providerUserId, pageAccessToken, appSecretProof);
-		log.info("idsForPagesWrapper : {}", idsForPagesWrapper);
-		if(idsForPagesWrapper.getIdsForPages() != null) {
-			var pageUserId = idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
-			var mUrl = messagesUrl + pageAccessToken;
-			var result = new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(new Recipient(pageUserId)).message(Message.builder().text(text).build()).build(), String.class);
-			log.info("message : {}", result);
+	public void pushMessage(final String text) {
+		var pageUserId = getPageUserId(connection.getKey().getProviderUserId());
+		var mUrl = messagesUrl + facebookProperties.getPage().getAccessToken();
+		new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(new Recipient(pageUserId)).message(Message.builder().text(text).build()).build(), String.class);
+	}
+
+	@Override
+	public void getFriends() {
+
+	}
+
+	private String getPageUserId(final String providerUserId) {
+		var idsForPagesWrapper = new RestTemplate().getForObject(idsForPagesUrl, IdsForPagesResponse.class, providerUserId, facebookProperties.getPage().getAccessToken(), facebookProperties.getAppSecretProof());
+		if (idsForPagesWrapper.getIdsForPages() != null) {
+			return idsForPagesWrapper.getIdsForPages().getData().get(0).getId();
 		}
+		return null;
 	}
 }

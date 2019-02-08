@@ -45,4 +45,10 @@ public class KakaoSocialProvider implements SocialProvider {
 		var text = new TextMixin(ObjectTypeMixin.TEXT, message, link, "Alimy", buttons);
 		kakao.talkOperation().send(text);
 	}
+
+	@Override
+	public void getFriends() {
+		var friends = kakao.friendsOperation().friends(true, 0, 100, null);
+		System.out.println(friends);
+	}
 }

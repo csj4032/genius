@@ -8,5 +8,5 @@ public interface Kakao extends ApiBinding {
 
 	UserOperation userOperation();
 
-	AccessTokenOperation accessTokenOperation();
+	FriendsOperation friendsOperation();
 }
