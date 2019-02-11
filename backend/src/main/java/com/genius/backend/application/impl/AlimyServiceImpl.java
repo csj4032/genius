@@ -62,7 +62,7 @@ public class AlimyServiceImpl implements AlimyService {
 	public List<AlimyDto.Response> findByUserId(Long userId) {
 		Optional<List<Alimy>> alimyList = alimyRepository.findTop5ByUserIdOrderByIdDesc(userId);
 		return alimyList.isPresent() ? modelMapper.map(alimyList.get(), new TypeToken<List<AlimyDto.Response>>() {
-		}.getType()) : Collections.EMPTY_LIST;
+		}.getType()) : Collections.emptyList();
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Override
 	public AlimyStatus status(Long id) {
-		var alimy = alimyRepository.findById(id).get();
+		var alimy = alimyRepository.findById(id).orElseThrow();
 		var status = alimy.getStatus().equals(AlimyStatus.START)  ? AlimyStatus.STOP : AlimyStatus.START;
 		alimy.setStatus(status);
 		alimyRepository.save(alimy);
