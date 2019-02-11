@@ -1,13 +1,4 @@
 /** CSS **/
-body {background-color: #fff;color: #111;margin: 0px;overflow: hidden;}
-#info {position: absolute;top: 0px;width: 100%;padding: 5px;text-align: center;}
-#footer {width: 100%;margin: 1em auto;text-align: center;position: absolute;bottom: 0}
-
-/*!
- * Start Bootstrap - Resume v5.0.2 (https://startbootstrap.com/template-overviews/resume)
- * Copyright 2013-2018 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-resume/blob/master/LICENSE)
- */
 body {
 	font-family:Muli, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 	padding-top:54px;
@@ -93,7 +84,7 @@ p.lead {
 		width:17rem;
 		height:100vh
 	}
-	
+
 	#sideNav .navbar-brand {
 		display:-webkit-box;
 		display:-ms-flexbox;
@@ -101,13 +92,13 @@ p.lead {
 		margin:auto auto 0;
 		padding:.5rem
 	}
-	
+
 	#sideNav .navbar-brand .img-profile {
 		max-width:10rem;
 		max-height:10rem;
 		border:.5rem solid rgba(255, 255, 255, .2)
 	}
-	
+
 	#sideNav .navbar-collapse {
 		display:-webkit-box;
 		display:-ms-flexbox;
@@ -121,7 +112,7 @@ p.lead {
 		width:100%;
 		margin-bottom:auto
 	}
-	
+
 	#sideNav .navbar-collapse .navbar-nav {
 		-webkit-box-orient:vertical;
 		-webkit-box-direction:normal;
@@ -129,11 +120,11 @@ p.lead {
 		flex-direction:column;
 		width:100%
 	}
-	
+
 	#sideNav .navbar-collapse .navbar-nav .nav-item {
 		display:block
 	}
-	
+
 	#sideNav .navbar-collapse .navbar-nav .nav-item .nav-link {
 		display:block
 	}
@@ -150,7 +141,7 @@ section.resume-section .resume-item .resume-date {
 	section.resume-section {
 		min-height:100vh
 	}
-	
+
 	section.resume-section .resume-item .resume-date {
 		min-width:18rem
 	}

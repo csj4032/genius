@@ -80,6 +80,9 @@ public class GeniusController {
 	public void getModelMap(ModelMap modelMap) {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 		var alimies = alimyService.findByUserId(user.getId());
+		var connectionRepository = usersConnectionRepository.createConnectionRepository(user.getProviderUserId());
+		var connection = connectionRepository.getConnection(new ConnectionKey(user.getProviderType().getName(), user.getProviderUserId()));
+		socialProviderBuilder.create(connection).getFriends();
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("alimies", alimies);
 		modelMap.addAttribute("applicationUrl", applicationUrl);
@@ -88,10 +91,10 @@ public class GeniusController {
 
 	private ArrayList<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
 		var items = new ArrayList<NavigationItem>();
-		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
 		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").isScroll(true).build());
 		items.add(NavigationItem.builder().name("Register").link("#register").isScroll(true).build());
 		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().name("ChatBot").link("https://m.me/alimychoibom").isScroll(false).build());
+		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
 		items.add(NavigationItem.builder().name("Logout").link("/logout").isScroll(false).build());
 		return items;
 	}

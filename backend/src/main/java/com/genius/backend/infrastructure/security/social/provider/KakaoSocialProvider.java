@@ -1,6 +1,7 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
 import com.genius.backend.domain.model.user.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.impl.json.ButtonMixin;
@@ -10,6 +11,7 @@ import org.springframework.social.kakao.api.impl.json.TextMixin;
 
 import java.util.List;
 
+@Slf4j
 public class KakaoSocialProvider implements SocialProvider {
 
 	private Connection<Kakao> connection;
@@ -48,7 +50,7 @@ public class KakaoSocialProvider implements SocialProvider {
 
 	@Override
 	public void getFriends() {
-		var friends = kakao.friendsOperation().friends(true, 0, 100, null);
-		System.out.println(friends);
+		var friends = kakao.friendsOperation().friends(false, 0, 3, "desc");
+		log.info("{}", friends);
 	}
 }

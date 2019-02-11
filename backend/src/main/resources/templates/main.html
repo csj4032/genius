@@ -20,7 +20,7 @@
 <body id="page-top">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
 	<a class="navbar-brand js-scroll-trigger" href="#page-top">
-		<span class="d-block d-lg-none" th:text="${'Alimy For ' + #authentication.name}"></span>
+		<span class="d-block d-lg-none" th:text="${'Alimy For ' + #authentication}"></span>
 		<span class="d-none d-lg-block">
 			<img class="img-fluid img-profile rounded-circle mx-auto mb-2" th:src="${user.imageUrl + '?height=200'}" alt="">
 		</span>
@@ -36,22 +36,9 @@
 		</ul>
 	</div>
 </nav>
-<div id="container" style="height:10px;position:absolute;"></div>
-<div class="container-fluid p-0" style="position:absolute;">
-	<section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
-		<div class="my-auto">
-			<h1 class="mb-0" th:inline="text">[[${user.username}]]</h1>
-			<h2 class="mb-0" th:inline="text">Sign in to
-				<span class="text-primary" th:text="${user.providerType}">Kakao</span>
-			</h2>
-			<div class="subheading mb-5">
-				<p th:text="${user.email}"></p>
-			</div>
-		</div>
-	</section>
+<div class="container-fluid p-0">
 
-	<hr class="m-0" th:if="${not #lists.isEmpty(alimies)}">
-
+	<div id="container-schedule" style="position:absolute;z-index:-2" th:if="${not #lists.isEmpty(alimies)}"></div>
 	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule" th:if="${not #lists.isEmpty(alimies)}">
 		<div class="my-auto">
 			<h2 class="mb-5">Schedule</h2>
@@ -70,66 +57,75 @@
 		</div>
 	</section>
 
-	<hr class="m-0">
-
 	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="register">
 		<div class="my-auto">
 			<h2 class="mb-5">Register</h2>
 			<div class="resume-item d-flex flex-column">
 				<form class="form-horizontal" th:action="@{/}" th:object="${requestForSaveForm}" action="#" method="post">
 					<div class="form-group">
-						<label class="mb-0" for="subject">제목</label>
+						<label class="mb-0" for="subject">SUBJECT</label>
 						<input class="form-control" type="text" id="subject" th:field="*{subject}" placeholder="제목을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="message">내용</label>
+						<label class="mb-0" for="message">MESSAGE</label>
 						<textarea class="form-control" id="message" th:field="*{message}" rows="3" placeholder="내용을 입력하세요"></textarea>
 						<span class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{message}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="year">년 (예시 : 2019-2025 2019,2020,2021 2019-2020)</label>
+						<label class="mb-0" for="year">YEAR (2019-2025 2019,2020,2021)</label>
 						<input class="form-control" id="year" th:field="*{unitType.year}" placeholder="년도를 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.year')}" th:errors="*{unitType.year}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="month">월 (예시 : 1,2,3 1~3 1-2,3-5)</label>
+						<label class="mb-0" for="month">MONTH (1,2,3 1~3 1-2,3-5)</label>
 						<input class="form-control" id="month" th:field="*{unitType.month}" placeholder="월을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.month')}" th:errors="*{unitType.month}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="dayOfMonth">일 (예시 : 1,2,3 1~3 1-2,3-5 1~31)</label>
+						<label class="mb-0" for="dayOfMonth">DAY OF MONTH (1,2,3 1-5 1-2,3-5 1~31)</label>
 						<input class="form-control" id="dayOfMonth" th:field="*{unitType.dayOfMonth}" placeholder="일을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.dayOfMonth')}" th:errors="*{unitType.dayOfMonth}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="dayOfWeek">요일 (예시 : 1,2,3 1~3 1-2,3-5 1~31)</label>
+						<label class="mb-0" for="dayOfWeek">DAY OF WEEK (1,2,3 1~3 1-2,3-5 1~7)</label>
 						<input class="form-control" id="dayOfWeek" th:field="*{unitType.dayOfWeek}" value="?" placeholder="일을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.dayOfWeek')}" th:errors="*{unitType.dayOfWeek}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="hours">시간 (예시 : 0,1,2 0~3 0-2,3-5 0-24)</label>
+						<label class="mb-0" for="hours">HOUR (0,1,2 0-3 0-2,3-5 0-24)</label>
 						<input class="form-control" id="hours" th:field="*{unitType.hours}" placeholder="시간을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.hours')}" th:errors="*{unitType.hours}"></span>
 					</div>
 					<div class="form-group">
-						<label class="mb-0" for="hours">분 (예시 : 0,1,2 0~3 0-2,3-5 0-24)</label>
+						<label class="mb-0" for="hours">MINUTE (0,1,2 0-3 0-2,3-5 0-59)</label>
 						<input class="form-control" id="minutes" th:field="*{unitType.minutes}" placeholder="분을 입력하세요">
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.minutes')}" th:errors="*{unitType.minutes}"></span>
 					</div>
 					<span class="text-danger" th:if="${#fields.hasErrors('unitType.cronExpression')}" th:errors="*{unitType.cronExpression}"></span>
 					<input id="status" type="hidden" name="status" value="START">
-					<button type="submit" class="btn btn-primary">저장</button>
+					<button type="submit" class="btn btn-primary">REGISTER</button>
 				</form>
+			</div>
+		</div>
+	</section>
+
+	<section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+		<div class="my-auto">
+			<h1 class="mb-0" th:inline="text">[[${user.username}]]</h1>
+			<h2 class="mb-0" th:inline="text">Sign in to
+				<span class="text-primary" th:text="${user.providerType}">Kakao</span>
+			</h2>
+			<div class="subheading mb-5">
+				<p th:text="${user.email}"></p>
 			</div>
 		</div>
 	</section>
 </div>
 <script src="/three/build/three.js"></script>
-<script src="/three/js/WebGL.js"></script>
-<script src="/three/js/libs/stats.min.js"></script>
-<script src="/three/js/loaders/GLTFLoader.js"></script>
 <script th:href="@{/js/main.js}" src="/js/main.js"></script>
+<script th:href="@{/js/main.js}" src="/js/mainAbout.js"></script>
+<script th:href="@{/js/main.js}" src="/js/mainSchedule.js"></script>
 <script>
 	$(document).ready(function () {
 		$('.btn-status, .btn-delete').click(function () {

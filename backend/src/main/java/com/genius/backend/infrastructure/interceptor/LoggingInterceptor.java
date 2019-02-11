@@ -30,10 +30,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-		var value = modelAndView != null ?
-				HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).model(modelAndView.getModel()).viewName(modelAndView.getViewName()).build()
-				: HttpResponseLog.builder().status(response.getStatus()).contentType(response.getContentType()).build();
-		var gLog = Log.builder().type(LogType.HTTP_RESPONSE).value(value.toJson(new LogJsonValue())).build();
-		logService.save(gLog);
+
 	}
 }
