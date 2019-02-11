@@ -4,22 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genius.backend.domain.model.auth.Role;
 import com.genius.backend.domain.model.user.User;
-import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import com.genius.backend.infrastructure.security.social.GeniusUserDetailToken;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.*;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toSet;
 
 @Slf4j
@@ -32,7 +25,7 @@ public class JwtTokenProvider {
 	@Value("${genius.jwtExpirationInMs}")
 	private int jwtExpirationInMs;
 
-	public boolean validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+	public boolean validateToken(String token) {
 		if (!StringUtils.hasText(token)) return false;
 		Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
 		return true;
