@@ -31,7 +31,7 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav">
 			<li class="nav-item" th:each="item:${navigationItems}">
-				<a th:href="${item.link}" href="#about" th:text="${item.name}" th:class="${item.isScroll ? 'nav-link js-scroll-trigger' : 'nav-link'}">About</a>
+				<a th:id="${item.name}" th:href="${item.link}" href="#about" th:text="${item.name}" th:class="${item.isScroll ? 'nav-link js-scroll-trigger' : 'nav-link'}">About</a>
 			</li>
 		</ul>
 	</div>
@@ -70,7 +70,8 @@
 				</div>
 				<div class="resume-date text-md-right">
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
-					<button class="btn btn-sm btn-warning btn-status" data-method="put" th:data-id="${alimy.id}" th:text="${alimy.status eq 1 ? '정지' : '시작'}">정지</button>
+					<button class="btn btn-sm btn-primary btn-status" data-method="put" th:data-id="${alimy.id}" th:text="${alimy.status eq 1 ? '정지' : '시작'}">정지</button>
+					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">수정</button>
 					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">삭제</button>
 				</div>
 			</div>
@@ -123,7 +124,8 @@
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.minutes')}" th:errors="*{unitType.minutes}"></span>
 					</div>
 					<span class="text-danger" th:if="${#fields.hasErrors('unitType.cronExpression')}" th:errors="*{unitType.cronExpression}"></span>
-					<input id="status" type="hidden" name="status" value="START">
+					<input id="status" type="hidden" name="status" value="START"/>
+					<input id="alimyId" type="hidden" name="alimyId"/>
 					<button type="submit" class="btn btn-primary">REGISTER</button>
 				</form>
 			</div>
@@ -136,16 +138,25 @@
 <script th:href="@{/js/main.js}" src="/js/mainSchedule.js"></script>
 <script>
 	$(document).ready(function () {
-		$('.btn-status, .btn-delete').click(function () {
+		$('.btn-status, .btn-delete').on('click', function () {
 			let target = $(this);
 			let method = target.data('method');
-			let data = {alimyId : target.data('id')};
-			$.ajax({method: method, url:'/', data: data}).done(function (result) {
-				if(method == 'put') {
+			let data = {alimyId: target.data('id')};
+			$.ajax({method: method, url: '/', data: data}).done(function (result) {
+				if (method == 'put') {
 					target.text((result == 'stop') ? '시작' : '정지');
-				} else if(method == 'delete')  {
+				} else if (method == 'delete') {
 					$("#alimy_" + target.data('id')).remove();
 				}
+			});
+		});
+
+		$('.btn-alimy').on('click', function () {
+			$.ajax({method: 'get', url: "/alimy/" + $(this).data('id')}).done(function (result) {
+				$.each(result, function (key, value) {
+					$("#" + key).val(value);
+				});
+				$("#Register").trigger("click");
 			});
 		})
 	});

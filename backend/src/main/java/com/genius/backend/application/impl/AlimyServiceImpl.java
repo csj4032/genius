@@ -54,8 +54,14 @@ public class AlimyServiceImpl implements AlimyService {
 
 	@Override
 	public AlimyDto.Response findById(Long id) {
-		Optional<Alimy> alimy = alimyRepository.findById(id);
-		return alimy.isPresent() ? modelMapper.map(alimy, AlimyDto.Response.class) : null;
+		Optional<Alimy> alimy = getAlimy(id);
+		return alimy.isPresent() ? modelMapper.map(alimy.get(), AlimyDto.Response.class) : null;
+	}
+
+	@Override
+	public AlimyDto.ResponseForForm findByIdForForm(Long id) {
+		Optional<Alimy> alimy = getAlimy(id);
+		return alimy.isPresent() ? modelMapper.map(alimy.get(), AlimyDto.ResponseForForm.class) : null;
 	}
 
 	@Override
@@ -133,7 +139,7 @@ public class AlimyServiceImpl implements AlimyService {
 	@Override
 	public AlimyStatus status(Long id) {
 		var alimy = alimyRepository.findById(id).orElseThrow();
-		var status = alimy.getStatus().equals(AlimyStatus.START)  ? AlimyStatus.STOP : AlimyStatus.START;
+		var status = alimy.getStatus().equals(AlimyStatus.START) ? AlimyStatus.STOP : AlimyStatus.START;
 		alimy.setStatus(status);
 		alimyRepository.save(alimy);
 		return status;
@@ -150,5 +156,10 @@ public class AlimyServiceImpl implements AlimyService {
 				return false;
 			}
 		};
+	}
+
+	@NotNull
+	private Optional<Alimy> getAlimy(Long id) {
+		return alimyRepository.findById(id);
 	}
 }

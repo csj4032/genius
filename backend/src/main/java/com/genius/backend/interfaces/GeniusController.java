@@ -76,6 +76,13 @@ public class GeniusController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@GetMapping("/alimy/{alimyId}")
+	public @ResponseBody
+	AlimyDto.ResponseForForm alimy(@PathVariable("alimyId") Long alimyId) {
+		return alimyService.findByIdForForm(alimyId);
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ModelAttribute
 	public void getModelMap(ModelMap modelMap) {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();

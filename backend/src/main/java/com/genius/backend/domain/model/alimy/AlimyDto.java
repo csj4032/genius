@@ -132,6 +132,51 @@ public class AlimyDto {
 		}
 	}
 
+	@Data
+	@Builder
+	@ToString
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class ResponseForForm {
+		private long id;
+		private long userId;
+		private String username;
+		private Integer status;
+		private String subject;
+		private String message;
+		private Set<AlimyUnit> alimyUnit;
+		private String minutes;
+		private String hours;
+		private String dayOfMonth;
+		private String month;
+		private String dayOfWeek;
+		private String year;
+
+		public String getMinutes() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.MINUTES)).findFirst().orElseThrow().getUnitValue();
+		}
+
+		public String getHour() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.HOURS)).findFirst().orElseThrow().getUnitValue();
+		}
+
+		public String getDayOfMonth() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.DAY_OF_MONTH)).findFirst().orElseThrow().getUnitValue();
+		}
+
+		public String getMonth() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.MONTH)).findFirst().orElseThrow().getUnitValue();
+		}
+
+		public String getDayOfWeek() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.DAY_OF_WEEK)).findFirst().orElseThrow().getUnitValue();
+		}
+
+		public String getYear() {
+			return alimyUnit.stream().filter(e -> e.getUnitType().equals(AlimyUnitType.YEAR)).findFirst().orElseThrow().getUnitValue();
+		}
+	}
+
 	private static CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ));
 	private static CronDescriptor cronDescriptor = CronDescriptor.instance(Locale.KOREA);
 
@@ -144,7 +189,7 @@ public class AlimyDto {
 		@Builder.Default
 		private String seconds = "0";
 		@Pattern(message = "기입하신 분 형식에 어긋났습니다.", regexp = "((([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?,)*([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?)|(([\\*]|[0-9]|[0-5][0-9])/([0-9]|[0-5][0-9]))|([\\?])|([\\*])")
-		private String minutes  = "0";
+		private String minutes = "0";
 		@Pattern(message = "기입하신 시 형식에 어긋났습니다.", regexp = "((([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?,)*([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?)|(([\\*]|[0-9]|[0-1][0-9]|[2][0-3])/([0-9]|[0-1][0-9]|[2][0-3]))|([\\?])|([\\*])")
 		private String hours = "9";
 		@Builder.Default
