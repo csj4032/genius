@@ -53,7 +53,7 @@ public class LineSocialProvider implements SocialProvider {
 
 	@Override
 	public void getFriends() {
-
+		// TODO: when...
 	}
 
 	private boolean isIdToken(String token) {

@@ -91,10 +91,10 @@ public class GeniusController {
 
 	private ArrayList<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
 		var items = new ArrayList<NavigationItem>();
+		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
 		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").isScroll(true).build());
 		items.add(NavigationItem.builder().name("Register").link("#register").isScroll(true).build());
 		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().name("ChatBot").link("https://m.me/alimychoibom").isScroll(false).build());
-		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
 		items.add(NavigationItem.builder().name("Logout").link("/logout").isScroll(false).build());
 		return items;
 	}

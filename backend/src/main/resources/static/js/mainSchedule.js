@@ -20,7 +20,7 @@ function initSchedule() {
 	sceneSchedule.add(light);
 
 	let geometry = new THREE.BoxBufferGeometry(30, 30, 30);
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 50; i++) {
 		let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
 		object.position.x = Math.random() * 2000 - 1000;
 		object.position.y = Math.random() * 2000 - 1000;

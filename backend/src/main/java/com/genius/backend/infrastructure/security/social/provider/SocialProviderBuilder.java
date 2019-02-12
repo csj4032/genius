@@ -6,11 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
-import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Slf4j
 @Component

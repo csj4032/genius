@@ -4,6 +4,10 @@ import lombok.*;
 
 public class LogDto {
 
+	private LogDto() {
+
+	}
+
 	@Getter
 	@Setter
 	@ToString

@@ -7,6 +7,10 @@ import javax.validation.constraints.NotNull;
 
 public class AuthDto {
 
+	private AuthDto() {
+
+	}
+
 	@Data
 	@Builder
 	@ToString

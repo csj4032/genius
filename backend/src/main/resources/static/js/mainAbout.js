@@ -10,7 +10,7 @@ function initAbout() {
 	let points = [];
 	let point = new THREE.Vector3();
 	let direction = new THREE.Vector3();
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 50; i++) {
 		direction.x += Math.random() - 0.5;
 		direction.y += Math.random() - 0.5;
 		direction.z += Math.random() - 0.5;
@@ -29,7 +29,7 @@ function initAbout() {
 	parentTransformAbout.scale.x = Math.random() + 1;
 	parentTransformAbout.scale.y = Math.random() + 1;
 	parentTransformAbout.scale.z = Math.random() + 1;
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 50; i++) {
 		let object = new THREE.Line(lineGeometry);
 		object.position.x = Math.random() * 400 - 200;
 		object.position.y = Math.random() * 400 - 200;

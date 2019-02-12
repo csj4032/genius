@@ -52,7 +52,7 @@ public class FacebookSocialProvider implements SocialProvider {
 
 	@Override
 	public void getFriends() {
-
+		// TODO: When...
 	}
 
 	private String getPageUserId(final String providerUserId) {
