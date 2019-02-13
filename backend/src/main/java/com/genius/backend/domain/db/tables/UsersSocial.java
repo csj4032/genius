@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersSocial extends TableImpl<Record> {
 
-    private static final long serialVersionUID = 331324726;
+    private static final long serialVersionUID = -51101450;
 
     /**
-     * The reference instance of <code>genius.USERS_SOCIAL</code>
+     * The reference instance of <code>genius.users_social</code>
      */
     public static final UsersSocial USERS_SOCIAL = new UsersSocial();
 
@@ -57,76 +57,76 @@ public class UsersSocial extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.USERS_SOCIAL.ID</code>.
+     * The column <code>genius.users_social.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.USER_ID</code>.
+     * The column <code>genius.users_social.USER_ID</code>.
      */
     public final TableField<Record, Integer> USER_ID = createField("USER_ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.ACCESS_TOKEN</code>.
+     * The column <code>genius.users_social.ACCESS_TOKEN</code>.
      */
     public final TableField<Record, String> ACCESS_TOKEN = createField("ACCESS_TOKEN", org.jooq.impl.SQLDataType.VARCHAR(250).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.REFRESH_TOKEN</code>.
+     * The column <code>genius.users_social.REFRESH_TOKEN</code>.
      */
     public final TableField<Record, String> REFRESH_TOKEN = createField("REFRESH_TOKEN", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.SECRET</code>.
+     * The column <code>genius.users_social.SECRET</code>.
      */
     public final TableField<Record, String> SECRET = createField("SECRET", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.PAGE_USER_ID</code>.
+     * The column <code>genius.users_social.PAGE_USER_ID</code>.
      */
     public final TableField<Record, String> PAGE_USER_ID = createField("PAGE_USER_ID", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.PAGE_ACCESS_TOKEN</code>.
+     * The column <code>genius.users_social.PAGE_ACCESS_TOKEN</code>.
      */
     public final TableField<Record, String> PAGE_ACCESS_TOKEN = createField("PAGE_ACCESS_TOKEN", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.MESSAGE_ACCESS_TOKEN</code>.
+     * The column <code>genius.users_social.MESSAGE_ACCESS_TOKEN</code>.
      */
     public final TableField<Record, String> MESSAGE_ACCESS_TOKEN = createField("MESSAGE_ACCESS_TOKEN", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.EXPIRED_TIME</code>.
+     * The column <code>genius.users_social.EXPIRED_TIME</code>.
      */
     public final TableField<Record, Long> EXPIRED_TIME = createField("EXPIRED_TIME", org.jooq.impl.SQLDataType.BIGINT.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.REG_DATETIME</code>.
+     * The column <code>genius.users_social.REG_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> REG_DATETIME = createField("REG_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>genius.USERS_SOCIAL.MOD_DATETIME</code>.
+     * The column <code>genius.users_social.MOD_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> MOD_DATETIME = createField("MOD_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>genius.USERS_SOCIAL</code> table reference
+     * Create a <code>genius.users_social</code> table reference
      */
     public UsersSocial() {
-        this(DSL.name("USERS_SOCIAL"), null);
+        this(DSL.name("users_social"), null);
     }
 
     /**
-     * Create an aliased <code>genius.USERS_SOCIAL</code> table reference
+     * Create an aliased <code>genius.users_social</code> table reference
      */
     public UsersSocial(String alias) {
         this(DSL.name(alias), USERS_SOCIAL);
     }
 
     /**
-     * Create an aliased <code>genius.USERS_SOCIAL</code> table reference
+     * Create an aliased <code>genius.users_social</code> table reference
      */
     public UsersSocial(Name alias) {
         this(alias, USERS_SOCIAL);

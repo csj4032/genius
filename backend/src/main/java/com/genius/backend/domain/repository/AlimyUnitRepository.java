@@ -16,13 +16,12 @@ public interface AlimyUnitRepository extends JpaRepository<AlimyUnit, Long> {
 
 	@Transactional
 	@Modifying
-	@Query("DELETE FROM AlimyUnit a WHERE a.alimy.id = :id")
+	@Query("DELETE FROM AlimyUnit a WHERE a.alimyId = :id")
 	void deleteAlimyUnitByAlimyId(@Param("id") long AlimyId);
 
 	@Transactional
 	@Modifying
-	@Query("DELETE FROM AlimyUnit a WHERE a.alimy.id IN :ids")
+	@Query("DELETE FROM AlimyUnit a WHERE a.alimyId IN :ids")
 	void deleteAlimyUnitByAlimyIds(@Param("ids") List<Long> ids);
 
-	Set<AlimyUnit> findByAlimyId(long id);
 }

@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<Record> {
 
-    private static final long serialVersionUID = 996528693;
+    private static final long serialVersionUID = 292519477;
 
     /**
-     * The reference instance of <code>genius.USERS</code>
+     * The reference instance of <code>genius.users</code>
      */
     public static final Users USERS = new Users();
 
@@ -57,66 +57,66 @@ public class Users extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.USERS.ID</code>.
+     * The column <code>genius.users.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.USERS.PROVIDER_TYPE</code>.
+     * The column <code>genius.users.PROVIDER_TYPE</code>.
      */
     public final TableField<Record, String> PROVIDER_TYPE = createField("PROVIDER_TYPE", org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>genius.USERS.PROVIDER_USER_ID</code>.
+     * The column <code>genius.users.PROVIDER_USER_ID</code>.
      */
     public final TableField<Record, String> PROVIDER_USER_ID = createField("PROVIDER_USER_ID", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>genius.USERS.PASSWORD</code>.
+     * The column <code>genius.users.PASSWORD</code>.
      */
     public final TableField<Record, String> PASSWORD = createField("PASSWORD", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS.USER_NAME</code>.
+     * The column <code>genius.users.USER_NAME</code>.
      */
     public final TableField<Record, String> USER_NAME = createField("USER_NAME", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>genius.USERS.EMAIL</code>.
+     * The column <code>genius.users.EMAIL</code>.
      */
     public final TableField<Record, String> EMAIL = createField("EMAIL", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS.IMAGE_URL</code>.
+     * The column <code>genius.users.IMAGE_URL</code>.
      */
     public final TableField<Record, String> IMAGE_URL = createField("IMAGE_URL", org.jooq.impl.SQLDataType.VARCHAR(200).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>genius.USERS.REG_DATETIME</code>.
+     * The column <code>genius.users.REG_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> REG_DATETIME = createField("REG_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>genius.USERS.MOD_DATETIME</code>.
+     * The column <code>genius.users.MOD_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> MOD_DATETIME = createField("MOD_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>genius.USERS</code> table reference
+     * Create a <code>genius.users</code> table reference
      */
     public Users() {
-        this(DSL.name("USERS"), null);
+        this(DSL.name("users"), null);
     }
 
     /**
-     * Create an aliased <code>genius.USERS</code> table reference
+     * Create an aliased <code>genius.users</code> table reference
      */
     public Users(String alias) {
         this(DSL.name(alias), USERS);
     }
 
     /**
-     * Create an aliased <code>genius.USERS</code> table reference
+     * Create an aliased <code>genius.users</code> table reference
      */
     public Users(Name alias) {
         this(alias, USERS);

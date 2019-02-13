@@ -16,7 +16,6 @@ import com.genius.backend.domain.db.tables.UsersSocial;
 
 import javax.annotation.Generated;
 
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Record;
 import org.jooq.UniqueKey;
@@ -72,7 +71,6 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<Record, Record> ALIMY_FOREIGN_KEY = ForeignKeys0.ALIMY_FOREIGN_KEY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -91,21 +89,17 @@ public class Keys {
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<Record> KEY_ALIMY_PRIMARY = Internal.createUniqueKey(Alimy.ALIMY, "KEY_ALIMY_PRIMARY", Alimy.ALIMY.ID);
-        public static final UniqueKey<Record> KEY_ALIMY_UNITS_PRIMARY = Internal.createUniqueKey(AlimyUnits.ALIMY_UNITS, "KEY_ALIMY_UNITS_PRIMARY", AlimyUnits.ALIMY_UNITS.ID);
-        public static final UniqueKey<Record> KEY_ALIMY_UNITS_ALIMY_UNIT_UNIQUE = Internal.createUniqueKey(AlimyUnits.ALIMY_UNITS, "KEY_ALIMY_UNITS_ALIMY_UNIT_UNIQUE", AlimyUnits.ALIMY_UNITS.ALIMY_ID, AlimyUnits.ALIMY_UNITS.UNIT_TYPE);
-        public static final UniqueKey<Record> KEY_LOGS_PRIMARY = Internal.createUniqueKey(Logs.LOGS, "KEY_LOGS_PRIMARY", Logs.LOGS.ID);
-        public static final UniqueKey<Record> KEY_PRIVILEGE_PRIMARY = Internal.createUniqueKey(Privilege.PRIVILEGE, "KEY_PRIVILEGE_PRIMARY", Privilege.PRIVILEGE.ID);
-        public static final UniqueKey<Record> KEY_ROLES_PRIMARY = Internal.createUniqueKey(Roles.ROLES, "KEY_ROLES_PRIMARY", Roles.ROLES.ID);
-        public static final UniqueKey<Record> KEY_ROLES_PRIVILEGES_PRIMARY = Internal.createUniqueKey(RolesPrivileges.ROLES_PRIVILEGES, "KEY_ROLES_PRIVILEGES_PRIMARY", RolesPrivileges.ROLES_PRIVILEGES.ID);
-        public static final UniqueKey<Record> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_USERS_PRIMARY", Users.USERS.ID);
-        public static final UniqueKey<Record> KEY_USERS_PROVIDER_UNIQUE = Internal.createUniqueKey(Users.USERS, "KEY_USERS_PROVIDER_UNIQUE", Users.USERS.PROVIDER_TYPE, Users.USERS.PROVIDER_USER_ID);
-        public static final UniqueKey<Record> KEY_USERS_ROLES_PRIMARY = Internal.createUniqueKey(UsersRoles.USERS_ROLES, "KEY_USERS_ROLES_PRIMARY", UsersRoles.USERS_ROLES.ID);
-        public static final UniqueKey<Record> KEY_USERS_ROLES_USER_ID_USER_ID_UNIQUE = Internal.createUniqueKey(UsersRoles.USERS_ROLES, "KEY_USERS_ROLES_USER_ID_USER_ID_UNIQUE", UsersRoles.USERS_ROLES.USER_ID, UsersRoles.USERS_ROLES.ROLE_ID);
-        public static final UniqueKey<Record> KEY_USERS_SOCIAL_PRIMARY = Internal.createUniqueKey(UsersSocial.USERS_SOCIAL, "KEY_USERS_SOCIAL_PRIMARY", UsersSocial.USERS_SOCIAL.ID);
-    }
-
-    private static class ForeignKeys0 {
-        public static final ForeignKey<Record, Record> ALIMY_FOREIGN_KEY = Internal.createForeignKey(com.genius.backend.domain.db.Keys.KEY_ALIMY_PRIMARY, AlimyUnits.ALIMY_UNITS, "ALIMY_FOREIGN_KEY", AlimyUnits.ALIMY_UNITS.ALIMY_ID);
+        public static final UniqueKey<Record> KEY_ALIMY_PRIMARY = Internal.createUniqueKey(Alimy.ALIMY, "KEY_alimy_PRIMARY", Alimy.ALIMY.ID);
+        public static final UniqueKey<Record> KEY_ALIMY_UNITS_PRIMARY = Internal.createUniqueKey(AlimyUnits.ALIMY_UNITS, "KEY_alimy_units_PRIMARY", AlimyUnits.ALIMY_UNITS.ID);
+        public static final UniqueKey<Record> KEY_ALIMY_UNITS_ALIMY_UNIT_UNIQUE = Internal.createUniqueKey(AlimyUnits.ALIMY_UNITS, "KEY_alimy_units_ALIMY_UNIT_UNIQUE", AlimyUnits.ALIMY_UNITS.ALIMY_ID, AlimyUnits.ALIMY_UNITS.UNIT_TYPE);
+        public static final UniqueKey<Record> KEY_LOGS_PRIMARY = Internal.createUniqueKey(Logs.LOGS, "KEY_logs_PRIMARY", Logs.LOGS.ID);
+        public static final UniqueKey<Record> KEY_PRIVILEGE_PRIMARY = Internal.createUniqueKey(Privilege.PRIVILEGE, "KEY_privilege_PRIMARY", Privilege.PRIVILEGE.ID);
+        public static final UniqueKey<Record> KEY_ROLES_PRIMARY = Internal.createUniqueKey(Roles.ROLES, "KEY_roles_PRIMARY", Roles.ROLES.ID);
+        public static final UniqueKey<Record> KEY_ROLES_PRIVILEGES_PRIMARY = Internal.createUniqueKey(RolesPrivileges.ROLES_PRIVILEGES, "KEY_roles_privileges_PRIMARY", RolesPrivileges.ROLES_PRIVILEGES.ID);
+        public static final UniqueKey<Record> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID);
+        public static final UniqueKey<Record> KEY_USERS_PROVIDER_UNIQUE = Internal.createUniqueKey(Users.USERS, "KEY_users_PROVIDER_UNIQUE", Users.USERS.PROVIDER_TYPE, Users.USERS.PROVIDER_USER_ID);
+        public static final UniqueKey<Record> KEY_USERS_ROLES_PRIMARY = Internal.createUniqueKey(UsersRoles.USERS_ROLES, "KEY_users_roles_PRIMARY", UsersRoles.USERS_ROLES.ID);
+        public static final UniqueKey<Record> KEY_USERS_ROLES_USER_ID_USER_ID_UNIQUE = Internal.createUniqueKey(UsersRoles.USERS_ROLES, "KEY_users_roles_USER_ID_USER_ID_UNIQUE", UsersRoles.USERS_ROLES.USER_ID, UsersRoles.USERS_ROLES.ROLE_ID);
+        public static final UniqueKey<Record> KEY_USERS_SOCIAL_PRIMARY = Internal.createUniqueKey(UsersSocial.USERS_SOCIAL, "KEY_users_social_PRIMARY", UsersSocial.USERS_SOCIAL.ID);
     }
 }

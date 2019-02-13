@@ -45,8 +45,8 @@ public class Alimy extends BaseEntity implements Serializable {
 	@Column(name = "MESSAGE")
 	private String message;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alimy", fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "ALIMY_ID")
 	@Builder.Default
 	private Set<AlimyUnit> alimyUnit = new HashSet<>();
 
@@ -59,13 +59,13 @@ public class Alimy extends BaseEntity implements Serializable {
 	}
 
 	private void unitTypeUnPivot(Set<AlimyUnit> alimyUnit, AlimyDto.UnitType unitType, Alimy alimy) {
-		AlimyUnit seconds = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.SECONDS).unitValue(unitType.getSeconds()).build();
-		AlimyUnit minutes = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.MINUTES).unitValue(unitType.getMinutes()).build();
-		AlimyUnit hours = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.HOURS).unitValue(unitType.getHours()).build();
-		AlimyUnit dayOfMonth = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.DAY_OF_MONTH).unitValue(unitType.getDayOfMonth()).build();
-		AlimyUnit month = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.MONTH).unitValue(unitType.getMonth()).build();
-		AlimyUnit dayOfWeek = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.DAY_OF_WEEK).unitValue(unitType.getDayOfWeek()).build();
-		AlimyUnit year = AlimyUnit.builder().alimy(alimy).unitType(AlimyUnitType.YEAR).unitValue(unitType.getYear()).build();
+		AlimyUnit seconds = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.SECONDS).unitValue(unitType.getSeconds()).build();
+		AlimyUnit minutes = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.MINUTES).unitValue(unitType.getMinutes()).build();
+		AlimyUnit hours = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.HOURS).unitValue(unitType.getHours()).build();
+		AlimyUnit dayOfMonth = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.DAY_OF_MONTH).unitValue(unitType.getDayOfMonth()).build();
+		AlimyUnit month = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.MONTH).unitValue(unitType.getMonth()).build();
+		AlimyUnit dayOfWeek = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.DAY_OF_WEEK).unitValue(unitType.getDayOfWeek()).build();
+		AlimyUnit year = AlimyUnit.builder().alimyId(alimy.id).unitType(AlimyUnitType.YEAR).unitValue(unitType.getYear()).build();
 		alimyUnit.addAll(Set.of(seconds, minutes, hours, dayOfMonth, month, dayOfWeek, year));
 	}
 

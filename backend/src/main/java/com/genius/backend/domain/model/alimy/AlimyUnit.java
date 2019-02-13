@@ -20,10 +20,11 @@ public class AlimyUnit extends BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "ALIMY_ID", nullable = false)
-	@JsonBackReference
-	private Alimy alimy;
+	//@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//@JoinColumn(name = "ALIMY_ID", nullable = false)
+	//@JsonBackReference
+	@Column(name = "ALIMY_ID")
+	private Long alimyId;
 
 	@Convert(converter = AlimyUnitTypeAttributeConverter.class)
 	@Column(name = "UNIT_TYPE")
