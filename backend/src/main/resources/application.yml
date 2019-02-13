@@ -111,7 +111,7 @@ spring:
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
@@ -123,19 +123,6 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 60000
-      connection-timeout: 60000
-      idle-timeout: 600000
-      maximum-pool-size: 10
-      minimum-idle: 5
-      pool-name: wmp-genius-slave
 
 ---
 
@@ -172,7 +159,7 @@ spring:
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
@@ -184,19 +171,6 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 60000
-      connection-timeout: 60000
-      idle-timeout: 600000
-      maximum-pool-size: 10
-      minimum-idle: 5
-      pool-name: wmp-genius-slave
 
 ---
 
@@ -233,7 +207,7 @@ spring:
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
@@ -245,16 +219,3 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 60000
-      connection-timeout: 60000
-      idle-timeout: 600000
-      maximum-pool-size: 10
-      minimum-idle: 5
-      pool-name: wmp-genius-slave

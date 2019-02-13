@@ -77,6 +77,7 @@ public class AlimyDto {
 	@NoArgsConstructor
 	@EqualsAndHashCode(callSuper = false)
 	public static class RequestForSaveForm extends Request {
+		private Long alimyId = 0L;
 	}
 
 	@Data
@@ -138,7 +139,7 @@ public class AlimyDto {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class ResponseForForm {
-		private long id;
+		private long alimyId;
 		private long userId;
 		private String username;
 		private Integer status;
@@ -188,10 +189,12 @@ public class AlimyDto {
 	public static class UnitType {
 		@Builder.Default
 		private String seconds = "0";
+		@Builder.Default
 		@Pattern(message = "기입하신 분 형식에 어긋났습니다.", regexp = "((([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?,)*([0-9]|[0-5][0-9])(-([0-9]|[0-5][0-9]))?)|(([\\*]|[0-9]|[0-5][0-9])/([0-9]|[0-5][0-9]))|([\\?])|([\\*])")
 		private String minutes = "0";
+		@Builder.Default
 		@Pattern(message = "기입하신 시 형식에 어긋났습니다.", regexp = "((([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?,)*([0-9]|[0-1][0-9]|[2][0-3])(-([0-9]|[0-1][0-9]|[2][0-3]))?)|(([\\*]|[0-9]|[0-1][0-9]|[2][0-3])/([0-9]|[0-1][0-9]|[2][0-3]))|([\\?])|([\\*])")
-		private String hours = "9";
+		private String hours = "9-18";
 		@Builder.Default
 		@Pattern(message = "기입하신 일 형식에 어긋났습니다.", regexp = "((([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?,)*([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(-([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1]))?(C)?)|(([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])/([1-9]|[0][1-9]|[1-2][0-9]|[3][0-1])(C)?)|(L(-[0-9])?)|(L(-[1-2][0-9])?)|(L(-[3][0-1])?)|(LW)|([1-9]W)|([1-3][0-9]W)|([\\?])|([\\*])")
 		private String dayOfMonth = "1-30";

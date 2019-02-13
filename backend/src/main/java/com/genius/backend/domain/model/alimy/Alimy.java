@@ -32,7 +32,7 @@ public class Alimy extends BaseEntity implements Serializable {
 	private long id;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "USER_ID", nullable = false)
 	private User user;
 

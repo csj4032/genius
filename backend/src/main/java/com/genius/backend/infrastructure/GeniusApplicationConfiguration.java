@@ -3,6 +3,7 @@ package com.genius.backend.infrastructure;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.infrastructure.interceptor.LoggingInterceptor;
+import org.jooq.conf.Settings;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +65,7 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
 		modelMapper.createTypeMap(Alimy.class, AlimyDto.Response.class).addMappings(mapper -> mapper.map(Alimy::getUsername, AlimyDto.Response::setUsername));
+		modelMapper.createTypeMap(Alimy.class, AlimyDto.ResponseForForm.class).addMappings(mapper -> mapper.map(Alimy::getId, AlimyDto.ResponseForForm::setAlimyId));
 		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setId));
 		modelMapper.createTypeMap(AlimyDto.RequestForUpdate.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setAlimyUnit));
 		return modelMapper;
@@ -83,5 +85,10 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Bean
 	public LoggingInterceptor loggingInterceptor() {
 		return new LoggingInterceptor();
+	}
+
+	@Bean
+	public Settings settings () {
+		return new Settings().withRenderFormatted(true);
 	}
 }

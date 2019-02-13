@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,12 +98,27 @@ public class AlimyServiceImpl implements AlimyService {
 	@Override
 	@Transactional
 	public AlimyDto.Response save(AlimyDto.RequestForSave request) {
-		var id = userRepository.findById(request.getUserId()).orElseThrow(() -> new NotExistUserException(request.getUserId()));
-		var alimy = modelMapper.map(request, Alimy.class);
-		alimy.setUser(id);
-		alimy.setAlimyUnit(request.getUnitType());
-		alimyRepository.save(alimy);
+		Alimy alimy = getAlimy(request);
+		save(alimy);
 		return modelMapper.map(alimy, AlimyDto.Response.class);
+	}
+
+	@Override
+	public void save(AlimyDto.RequestForSaveForm requestForSaveForm) {
+		var userId = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		if (requestForSaveForm.getAlimyId() != null && requestForSaveForm.getAlimyId() > 0) {
+			var alimy = alimyRepository.findById(requestForSaveForm.getAlimyId()).orElseThrow();
+			if (alimy.getUser().getId() == userId) {
+				alimy.setSubject(requestForSaveForm.getSubject());
+				alimy.setMessage(requestForSaveForm.getMessage());
+				alimy.setAlimyUnit(requestForSaveForm.getUnitType());
+				alimyRepository.save(alimy);
+			}
+		} else {
+			var requestForSave = modelMapper.map(requestForSaveForm, AlimyDto.RequestForSave.class);
+			requestForSave.setUserId(userId);
+			save(getAlimy(requestForSave));
+		}
 	}
 
 	@Override
@@ -161,5 +177,14 @@ public class AlimyServiceImpl implements AlimyService {
 	@NotNull
 	private Optional<Alimy> getAlimy(Long id) {
 		return alimyRepository.findById(id);
+	}
+
+	@NotNull
+	private Alimy getAlimy(AlimyDto.RequestForSave request) {
+		var user = userRepository.findById(request.getUserId()).orElseThrow(() -> new NotExistUserException(request.getUserId()));
+		var alimy = modelMapper.map(request, Alimy.class);
+		alimy.setUser(user);
+		alimy.setAlimyUnit(request.getUnitType());
+		return alimy;
 	}
 }

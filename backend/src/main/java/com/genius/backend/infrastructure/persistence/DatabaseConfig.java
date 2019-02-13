@@ -51,35 +51,4 @@ public class DatabaseConfig {
 	@EnableJpaRepositories(basePackages = "com.genius.backend.domain.repository", includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = MasterConnection.class))
 	static class MasterJpaRepositoriesConfig {
 	}
-
-	@Bean(name = "slaveDataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.slave")
-	public DataSource slaveDataSource() {
-		return DataSourceBuilder.create().build();
-	}
-
-	@Bean(name = "slaveEntityManagerFactory")
-	public LocalContainerEntityManagerFactoryBean slaveEntityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("slaveDataSource") DataSource slaveDataSource) {
-		var propertiesHashMap = new HashMap<String, String>();
-		propertiesHashMap.put("hibernate.ejb.naming_strategy", "org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy");
-		return builder.dataSource(slaveDataSource)
-				.persistenceUnit("slavePersistenceUnit")
-				.packages("com.genius.backend.domain.model")
-				.properties(propertiesHashMap)
-				.build();
-	}
-
-	@Bean(name = "slaveTransactionManager")
-	public PlatformTransactionManager slaveTransactionManager(@Qualifier("slaveEntityManagerFactory") EntityManagerFactory slaveTransactionManager) {
-		return new JpaTransactionManager(slaveTransactionManager);
-	}
-
-	@Configuration
-	@EnableTransactionManagement
-	@EnableJpaRepositories(basePackages = "com.genius.backend.domain.repository",
-			includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = SlaveConnection.class),
-			entityManagerFactoryRef = "slaveEntityManagerFactory",
-			transactionManagerRef = "slaveTransactionManager")
-	static class SlaveJpaRepositoriesConfig {
-	}
 }

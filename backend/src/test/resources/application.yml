@@ -1,7 +1,5 @@
 # default (production)
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   http:
     log-request-details: true
   devtools:
@@ -15,11 +13,12 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
   application:
-    name: genius
+    name: Alimy
+    url: https://local-alimy.choibom.com
   jpa:
     database: MYSQL
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       naming:
@@ -32,6 +31,7 @@ spring:
         jdbc:
           fetch_size: 30
           batch_size: 30
+    open-in-view: false
 
 server:
   port: 9030
@@ -57,6 +57,11 @@ management:
     health:
       show-details: always
 
+mybatis:
+  type-aliases-package: com.genius.backend.domain.mapper
+  type-handlers-package: com.genius.backend.domain.typehandler
+  mapper-locations: classpath:/com/genius/backend/**/*.xml
+
 genius:
   name: genius
   age: 39
@@ -76,120 +81,141 @@ info:
 # office, default
 spring:
   profiles: office, default
+  application:
+    url: https://local-alimy.choibom.com
 
   social:
     kakao:
-      clientId: e471a3c9115dec82d061acd2a58be02b
+      appId: b84d72468acf74d7d892d55cb8e134ff
+      appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
+    line:
+      appId: 1640532996
+      appSecret: 1856fd835f2f93f9020060993b78c71a
+      scope: openid profile email
+      message:
+        appId: 1640533899
+        appSecret: 47f26a58a31e86fffe7039a002ff846c
+        accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
+    facebook:
+      appId: 614621795661724
+      appSecret: 55966eaf785130d34c4321d4d835f970
+      appNamespace: genius_alimy
+      verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username : ${DATABASE_USERNAME}
-      password : ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
-      maximum-pool-size: 10
-      minimum-idle: 5
-      pool-name: wmp-genius-master
-      idle-timeout: 3000
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
-      minimum-idle: 10
-      pool-name: wmp-genius-slave
-      idle-timeout: 6000
+      minimum-idle: 5
+      pool-name: wmp-genius-master
 
 ---
 
-# real
+# home
 spring:
   profiles: home
+  application:
+    url: https://local-alimy.choibom.com
 
   social:
     kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
+      appId: b84d72468acf74d7d892d55cb8e134ff
+      appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
+    line:
+      appId: 1640532996
+      appSecret: 1856fd835f2f93f9020060993b78c71a
+      message:
+        appId: 1640533899
+        appSecret: 47f26a58a31e86fffe7039a002ff846c
+        accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
+      scope: openid profile email
+    facebook:
+      appId: 614621795661724
+      appSecret: 55966eaf785130d34c4321d4d835f970
+      appNamespace: genius_alimy
+      verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbcUrl: jdbc:mysql://192.168.0.4:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-      idle-timeout: 3000
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://35.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
-      maximum-pool-size: 10
-      minimum-idle: 10
-      pool-name: wmp-genius-slave
-      idle-timeout: 6000
 
 ---
 
 # real
 spring:
   profiles: real
+  application:
+    url: https://alimy.choibom.com
 
   social:
     kakao:
-      clientId: b84d72468acf74d7d892d55cb8e134ff
+      appId: b84d72468acf74d7d892d55cb8e134ff
+      appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
       scope: talk_message,profile
+    line:
+      appId: 1640532996
+      appSecret: 1856fd835f2f93f9020060993b78c71a
+      message:
+        appId: 1640533899
+        appSecret: 47f26a58a31e86fffe7039a002ff846c
+        accessToken: FtKSVMr9BzL9r3Plpc2tzQxuhksWuf4eXXJegz3JED+UfLwRaWIy2O9DPYINWRlUwEX87JIwAn4rm1i2hho+cZUV1SeNxhxJ7m7YzCJehkxEO5c25Py6uv2ehVqcVxq7ajoWYV0nvWyWszGuzzbFJgdB04t89/1O/w1cDnyilFU=
+      scope: openid profile email
+    facebook:
+      appId: 614621795661724
+      appSecret: 55966eaf785130d34c4321d4d835f970
+      appNamespace: genius_alimy
+      verifyToken: imitation09!@
+      page:
+        id: 1983940201642915
+        name: Alimy
+        accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
 
   datasource:
     master:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 3000
-      connection-timeout: 3000
+      validation-timeout: 60000
+      connection-timeout: 60000
+      idle-timeout: 600000
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: wmp-genius-master
-      idle-timeout: 3000
-    slave:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      connection-init-sql: SELECT 1 FROM DUAL
-      connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 6000
-      connection-timeout: 6000
-      maximum-pool-size: 10
-      minimum-idle: 10
-      pool-name: wmp-genius-slave
-      idle-timeout: 6000

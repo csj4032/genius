@@ -1,11 +1,13 @@
 package com.genius.backend.domain.model.alimy;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-public class AlimyStatusToEnumConverter implements Converter<Integer, AlimyStatus> {
+@Component
+public class AlimyStatusToEnumConverter implements Converter<String, AlimyStatus> {
 
 	@Override
-	public AlimyStatus convert(Integer value) {
-		return AlimyStatus.of(value);
+	public AlimyStatus convert(String value) {
+		return AlimyStatus.of(Integer.valueOf(value));
 	}
 }

@@ -9,6 +9,7 @@
 	<meta name="keywords" content="genius">
 	<link rel="shortcut icon" href="/favicon.ico"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
 	<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
@@ -70,9 +71,9 @@
 				</div>
 				<div class="resume-date text-md-right">
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
-					<button class="btn btn-sm btn-primary btn-status" data-method="put" th:data-id="${alimy.id}" th:text="${alimy.status eq 1 ? '정지' : '시작'}">정지</button>
-					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">수정</button>
-					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">삭제</button>
+					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}"></button>
+					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">modify</button>
+					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">delete</button>
 				</div>
 			</div>
 		</div>
@@ -124,8 +125,8 @@
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.minutes')}" th:errors="*{unitType.minutes}"></span>
 					</div>
 					<span class="text-danger" th:if="${#fields.hasErrors('unitType.cronExpression')}" th:errors="*{unitType.cronExpression}"></span>
-					<input id="status" type="hidden" name="status" value="START"/>
 					<input id="alimyId" type="hidden" name="alimyId"/>
+					<input id="status" type="hidden" name="status" value="1"/>
 					<button type="submit" class="btn btn-primary">REGISTER</button>
 				</form>
 			</div>
@@ -144,7 +145,8 @@
 			let data = {alimyId: target.data('id')};
 			$.ajax({method: method, url: '/', data: data}).done(function (result) {
 				if (method == 'put') {
-					target.text((result == 'stop') ? '시작' : '정지');
+					target.removeClass('fa-stop fa-play');
+					target.addClass((result == 'stop') ? 'fa-stop' : 'fa-play');
 				} else if (method == 'delete') {
 					$("#alimy_" + target.data('id')).remove();
 				}

@@ -23,6 +23,8 @@ public interface AlimyService {
 
 	AlimyDto.Response save(AlimyDto.RequestForSave request);
 
+	void save(AlimyDto.RequestForSaveForm request);
+
 	void save(Alimy alimy);
 
 	AlimyDto.Response update(AlimyDto.RequestForUpdate request);

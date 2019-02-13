@@ -9,7 +9,6 @@ import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
 import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,12 +50,11 @@ public class GeniusController {
 	@PostMapping("/")
 	public String save(ModelMap modelMap, @Valid AlimyDto.RequestForSaveForm requestForSaveForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult);
 			modelMap.addAttribute("requestForSaveForm", requestForSaveForm);
 			return "main";
 		}
-		var request = new ModelMapper().map(requestForSaveForm, AlimyDto.RequestForSave.class);
-		request.setUserId(((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId());
-		alimyService.save(request);
+		alimyService.save(requestForSaveForm);
 		return "redirect:/";
 	}
 
@@ -87,9 +85,6 @@ public class GeniusController {
 	public void getModelMap(ModelMap modelMap) {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 		var alimies = alimyService.findByUserId(user.getId());
-		var connectionRepository = usersConnectionRepository.createConnectionRepository(user.getProviderUserId());
-		var connection = connectionRepository.getConnection(new ConnectionKey(user.getProviderType().getName(), user.getProviderUserId()));
-		socialProviderBuilder.create(connection).getFriends();
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("alimies", alimies);
 		modelMap.addAttribute("applicationUrl", applicationUrl);

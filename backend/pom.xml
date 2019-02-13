@@ -111,6 +111,10 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-config</artifactId>
 			<version>2.0.0.BUILD-SNAPSHOT</version>
@@ -166,6 +170,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>${rest-assured.version}</version>
@@ -182,13 +191,9 @@
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.querydsl</groupId>
@@ -232,8 +237,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>3.11.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
 			<artifactId>jool</artifactId>
-			<version>0.9.13</version>
+			<version>0.9.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>joor</artifactId>
+			<version>0.9.10</version>
 		</dependency>
 		<dependency>
 			<groupId>com.genius.elliotte</groupId>
@@ -332,32 +347,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!--<plugin>-->
-			<!--<groupId>com.mysema.maven</groupId>-->
-			<!--<artifactId>apt-maven-plugin</artifactId>-->
-			<!--<version>${apt-maven-plugin.version}</version>-->
-			<!--<executions>-->
-			<!--<execution>-->
-			<!--<goals>-->
-			<!--<goal>test-process</goal>-->
-			<!--<goal>process</goal>-->
-			<!--</goals>-->
-			<!--<configuration>-->
-			<!--<testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>-->
-			<!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
-			<!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
-			<!--</configuration>-->
-			<!--</execution>-->
-			<!--</executions>-->
-			<!--<dependencies>-->
-			<!--<dependency>-->
-			<!--<groupId>com.querydsl</groupId>-->
-			<!--<artifactId>querydsl-apt</artifactId>-->
-			<!--<version>${querydsl.version}</version>-->
-			<!--</dependency>-->
-			<!--</dependencies>-->
-			<!--</plugin>-->
-
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
@@ -420,6 +409,94 @@
 			</plugin>
 
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-jooq-utils</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<inherited>false</inherited>
+						<!--<configuration>-->
+						<!--<includes>-->
+						<!--<inclue>sample/jooq/util/**</inclue>-->
+						<!--</includes>-->
+						<!--</configuration>-->
+					</execution>
+				</executions>
+			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.codehaus.mojo</groupId>-->
+				<!--<artifactId>sql-maven-plugin</artifactId>-->
+				<!--<version>1.5</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<phase>generate-sources</phase>-->
+						<!--<goals>-->
+							<!--<goal>execute</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+				<!--<dependencies>-->
+					<!--<dependency>-->
+						<!--<groupId>org.mariadb.jdbc</groupId>-->
+						<!--<artifactId>mariadb-java-client</artifactId>-->
+						<!--<version>2.4.0</version>-->
+					<!--</dependency>-->
+				<!--</dependencies>-->
+				<!--<configuration>-->
+					<!--<driver>${DATABASE_DRIVER}</driver>-->
+					<!--<url>${DATABASE_URL}</url>-->
+					<!--<username>${DATABASE_USERNAME}</username>-->
+					<!--<password>${DATABASE_PASSWORD}</password>-->
+					<!--<srcFiles>-->
+						<!--<srcFile>${basedir}/src/main/resources/schema.sql</srcFile>-->
+					<!--</srcFiles>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.mariadb.jdbc</groupId>
+						<artifactId>mariadb-java-client</artifactId>
+						<version>2.4.0</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jdbc>
+						<driver>${DATABASE_DRIVER}</driver>
+						<url>${DATABASE_URL}</url>
+						<username>${DATABASE_USERNAME}</username>
+						<password>${DATABASE_PASSWORD}</password>
+					</jdbc>
+					<generator>
+						<database>
+							<includes>.*</includes>
+							<inputSchema>genius</inputSchema>
+						</database>
+
+						<target>
+							<packageName>com.genius.backend.domain.db</packageName>
+							<directory>${basedir}/src/main/java</directory>
+						</target>
+						<generate>
+							<records>false</records>
+						</generate>
+					</generator>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
@@ -446,5 +523,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

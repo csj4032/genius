@@ -56,28 +56,4 @@ public abstract class MyBatisConfig {
 			return sessionFactoryBean.getObject();
 		}
 	}
-
-	@Configuration
-	@EnableConfigurationProperties({MybatisProperties.class})
-	@MapperScan(basePackages = MyBatisConfig.BASE_PACKAGE, annotationClass = SlaveConnection.class, sqlSessionFactoryRef = "slaveSqlSessionFactory")
-	static class SlaveMyBatisConfig extends MyBatisConfig {
-
-		public SlaveMyBatisConfig(MybatisProperties mybatisProperties) {
-			super(mybatisProperties);
-		}
-
-		protected void configureSqlSessionFactory(SqlSessionFactoryBean sessionFactoryBean, DataSource dataSource) throws IOException {
-			sessionFactoryBean.setDataSource(dataSource);
-			sessionFactoryBean.setTypeAliasesPackage(getMybatisProperties().getTypeAliasesPackage());
-			sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(getMybatisProperties().getMapperLocations()[0]));
-			sessionFactoryBean.setPlugins(new Interceptor[]{new GeniusMapperInterceptor()});
-		}
-
-		@Bean(name = "slaveSqlSessionFactory")
-		public SqlSessionFactory slaveSqlSessionFactory(@Named("slaveDataSource") DataSource slaveDataSource) throws Exception {
-			var sessionFactoryBean = new SqlSessionFactoryBean();
-			configureSqlSessionFactory(sessionFactoryBean, slaveDataSource);
-			return sessionFactoryBean.getObject();
-		}
-	}
 }
