@@ -22,15 +22,15 @@ public enum AlimyStatus implements ConvertedEnum<Integer> {
 		this.text = text;
 	}
 
-	public static AlimyStatus of(Integer value) {
+	public static AlimyStatus of(String value) {
 		if (null == value) return null;
-		Optional<AlimyStatus> alimyStatus = Arrays.stream(AlimyStatus.values()).filter(e -> e.getStatus().equals(value)).findFirst();
+		Optional<AlimyStatus> alimyStatus = Arrays.stream(AlimyStatus.values()).filter(e -> e.getText().equals(value)).findFirst();
 		if (alimyStatus.isPresent()) return alimyStatus.get();
 		throw new UnknownEnumValueException("AlimyStatus: unknown value: " + value);
 	}
 
 	@JsonValue
-	public String getTest() {
+	public String getText() {
 		return text;
 	}
 

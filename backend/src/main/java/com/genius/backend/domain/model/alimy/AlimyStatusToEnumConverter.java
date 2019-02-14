@@ -8,6 +8,6 @@ public class AlimyStatusToEnumConverter implements Converter<String, AlimyStatus
 
 	@Override
 	public AlimyStatus convert(String value) {
-		return AlimyStatus.of(Integer.valueOf(value));
+		return AlimyStatus.of(value);
 	}
 }

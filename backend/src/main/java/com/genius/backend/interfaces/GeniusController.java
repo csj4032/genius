@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +31,18 @@ public class GeniusController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/")
-	public ModelAndView main(AlimyDto.RequestForSaveForm requestForSaveForm) {
-		var mvn = new ModelAndView("main");
+	public String main(AlimyDto.RequestForSaveForm requestForSaveForm) {
+		return "main";
+	}
+
+	@ModelAttribute(name = "mainData")
+	public void getModelMap(ModelMap modelMap) {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 		var alimies = alimyService.findByUserId(user.getId());
-		mvn.addObject("user", user);
-		mvn.addObject("alimies", alimies);
-		mvn.addObject("applicationUrl", applicationUrl);
-		mvn.addObject("navigationItems", getNavigationItems(user, alimies));
-		return mvn;
+		modelMap.addAttribute("user", user);
+		modelMap.addAttribute("alimies", alimies);
+		modelMap.addAttribute("applicationUrl", applicationUrl);
+		modelMap.addAttribute("navigationItems", getNavigationItems(user, alimies));
 	}
 
 	private List<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {

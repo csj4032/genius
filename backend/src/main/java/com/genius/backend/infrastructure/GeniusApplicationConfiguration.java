@@ -74,9 +74,6 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 		modelMapper.createTypeMap(Alimy.class, AlimyDto.ResponseForForm.class).addMappings(mapper -> mapper.map(Alimy::getId, AlimyDto.ResponseForForm::setAlimyId));
 		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setId));
 		modelMapper.createTypeMap(AlimyDto.RequestForUpdate.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setAlimyUnit));
-		modelMapper.createTypeMap(AlimyDto.RequestForUpdateForm.class, Alimy.class).addMappings(mapper -> {
-			mapper.skip(Alimy::setId);
-		});
 		return modelMapper;
 	}
 

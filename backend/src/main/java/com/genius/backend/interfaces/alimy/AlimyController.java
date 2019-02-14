@@ -31,24 +31,24 @@ public class AlimyController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping("/save")
-	public String save(ModelMap modelMap, @Valid AlimyDto.RequestForSaveForm requestForSaveForm, BindingResult bindingResult) {
+	public @ResponseBody String save(ModelMap modelMap, @Valid AlimyDto.RequestForSaveForm requestForSaveForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			modelMap.addAttribute("requestForSaveForm", requestForSaveForm);
-			return "main";
+			return "error";
 		}
 		alimyService.save(requestForSaveForm);
-		return "redirect:/";
+		return "ok";
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping("/update")
-	public String update(ModelMap modelMap, @Valid AlimyDto.RequestForUpdateForm requestForUpdateForm, BindingResult bindingResult) {
+	public @ResponseBody String update(ModelMap modelMap, @Valid AlimyDto.RequestForUpdateForm requestForUpdateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			modelMap.addAttribute("requestForUpdateForm", requestForUpdateForm);
-			return "main";
+			modelMap.addAttribute("requestForSaveForm", requestForUpdateForm);
+			return "error";
 		}
 		alimyService.update(requestForUpdateForm);
-		return "redirect:/";
+		return "ok";
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
