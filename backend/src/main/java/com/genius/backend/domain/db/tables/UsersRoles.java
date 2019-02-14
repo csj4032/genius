@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersRoles extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -2000622126;
+    private static final long serialVersionUID = -16222510;
 
     /**
-     * The reference instance of <code>genius.users_roles</code>
+     * The reference instance of <code>genius.USERS_ROLES</code>
      */
     public static final UsersRoles USERS_ROLES = new UsersRoles();
 
@@ -56,36 +56,36 @@ public class UsersRoles extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.users_roles.id</code>.
+     * The column <code>genius.USERS_ROLES.ID</code>.
      */
-    public final TableField<Record, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.users_roles.USER_ID</code>.
+     * The column <code>genius.USERS_ROLES.USER_ID</code>.
      */
     public final TableField<Record, Integer> USER_ID = createField("USER_ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>genius.users_roles.ROLE_ID</code>.
+     * The column <code>genius.USERS_ROLES.ROLE_ID</code>.
      */
     public final TableField<Record, Integer> ROLE_ID = createField("ROLE_ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * Create a <code>genius.users_roles</code> table reference
+     * Create a <code>genius.USERS_ROLES</code> table reference
      */
     public UsersRoles() {
-        this(DSL.name("users_roles"), null);
+        this(DSL.name("USERS_ROLES"), null);
     }
 
     /**
-     * Create an aliased <code>genius.users_roles</code> table reference
+     * Create an aliased <code>genius.USERS_ROLES</code> table reference
      */
     public UsersRoles(String alias) {
         this(DSL.name(alias), USERS_ROLES);
     }
 
     /**
-     * Create an aliased <code>genius.users_roles</code> table reference
+     * Create an aliased <code>genius.USERS_ROLES</code> table reference
      */
     public UsersRoles(Name alias) {
         this(alias, USERS_ROLES);

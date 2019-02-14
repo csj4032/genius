@@ -8,9 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import static org.hamcrest.core.Is.is;
 
-@ActiveProfiles(value = "home")
+@ActiveProfiles(value = "office")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BackendApplicationTests {

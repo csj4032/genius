@@ -77,8 +77,20 @@ public class AlimyDto {
 	@NoArgsConstructor
 	@EqualsAndHashCode(callSuper = false)
 	public static class RequestForSaveForm extends Request {
-		private Long alimyId = 0L;
+		@NotNull
+		private long userId;
 	}
+
+	@Data
+	@ToString(callSuper = true)
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@EqualsAndHashCode(callSuper = false)
+	public static class RequestForUpdateForm extends Request {
+		private long userId;
+		private long alimyId;
+	}
+
 
 	@Data
 	@Builder

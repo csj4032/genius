@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlimyUnits extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -320617623;
+    private static final long serialVersionUID = -1509148260;
 
     /**
-     * The reference instance of <code>genius.alimy_units</code>
+     * The reference instance of <code>genius.ALIMY_UNITS</code>
      */
     public static final AlimyUnits ALIMY_UNITS = new AlimyUnits();
 
@@ -57,51 +57,51 @@ public class AlimyUnits extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.alimy_units.ID</code>.
+     * The column <code>genius.ALIMY_UNITS.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.alimy_units.ALIMY_ID</code>.
+     * The column <code>genius.ALIMY_UNITS.ALIMY_ID</code>.
      */
     public final TableField<Record, Integer> ALIMY_ID = createField("ALIMY_ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>genius.alimy_units.UNIT_TYPE</code>.
+     * The column <code>genius.ALIMY_UNITS.UNIT_TYPE</code>.
      */
     public final TableField<Record, String> UNIT_TYPE = createField("UNIT_TYPE", org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
 
     /**
-     * The column <code>genius.alimy_units.UNIT_VALUE</code>.
+     * The column <code>genius.ALIMY_UNITS.UNIT_VALUE</code>.
      */
     public final TableField<Record, String> UNIT_VALUE = createField("UNIT_VALUE", org.jooq.impl.SQLDataType.VARCHAR(40).nullable(false), this, "");
 
     /**
-     * The column <code>genius.alimy_units.REG_DATETIME</code>.
+     * The column <code>genius.ALIMY_UNITS.REG_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> REG_DATETIME = createField("REG_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>genius.alimy_units.MOD_DATETIME</code>.
+     * The column <code>genius.ALIMY_UNITS.MOD_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> MOD_DATETIME = createField("MOD_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>genius.alimy_units</code> table reference
+     * Create a <code>genius.ALIMY_UNITS</code> table reference
      */
     public AlimyUnits() {
-        this(DSL.name("alimy_units"), null);
+        this(DSL.name("ALIMY_UNITS"), null);
     }
 
     /**
-     * Create an aliased <code>genius.alimy_units</code> table reference
+     * Create an aliased <code>genius.ALIMY_UNITS</code> table reference
      */
     public AlimyUnits(String alias) {
         this(DSL.name(alias), ALIMY_UNITS);
     }
 
     /**
-     * Create an aliased <code>genius.alimy_units</code> table reference
+     * Create an aliased <code>genius.ALIMY_UNITS</code> table reference
      */
     public AlimyUnits(Name alias) {
         this(alias, ALIMY_UNITS);
@@ -157,6 +157,18 @@ public class AlimyUnits extends TableImpl<Record> {
     @Override
     public List<UniqueKey<Record>> getKeys() {
         return Arrays.<UniqueKey<Record>>asList(Keys.KEY_ALIMY_UNITS_PRIMARY, Keys.KEY_ALIMY_UNITS_ALIMY_UNIT_UNIQUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.<ForeignKey<Record, ?>>asList(Keys.ALIMY_FOREIGN_KEY);
+    }
+
+    public Alimy alimy() {
+        return new Alimy(this, Keys.ALIMY_FOREIGN_KEY);
     }
 
     /**

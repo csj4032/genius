@@ -4,23 +4,18 @@ import com.genius.backend.application.AlimyService;
 import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.NavigationItem;
 import com.genius.backend.domain.model.alimy.AlimyDto;
-import com.genius.backend.domain.model.alimy.AlimyStatus;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.security.social.GeniusSocialUserDetail;
-import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,50 +29,10 @@ public class GeniusController {
 	@Autowired
 	private AlimyService alimyService;
 
-	@Autowired
-	private UsersConnectionRepository usersConnectionRepository;
-
-	@Autowired
-	private SocialProviderBuilder socialProviderBuilder;
-
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/")
 	public String main(AlimyDto.RequestForSaveForm requestForSaveForm) {
 		return "main";
-	}
-
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@PostMapping("/")
-	public String save(ModelMap modelMap, @Valid AlimyDto.RequestForSaveForm requestForSaveForm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			System.out.println(bindingResult);
-			modelMap.addAttribute("requestForSaveForm", requestForSaveForm);
-			return "main";
-		}
-		alimyService.save(requestForSaveForm);
-		return "redirect:/";
-	}
-
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@DeleteMapping("/")
-	public @ResponseBody
-	String delete(@RequestParam("alimyId") Long alimyId) {
-		alimyService.delete(List.of(alimyId));
-		return "ok";
-	}
-
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@PutMapping("/")
-	public @ResponseBody
-	AlimyStatus status(@RequestParam("alimyId") Long alimyId) {
-		return alimyService.status(alimyId);
-	}
-
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@GetMapping("/alimy/{alimyId}")
-	public @ResponseBody
-	AlimyDto.ResponseForForm alimy(@PathVariable("alimyId") Long alimyId) {
-		return alimyService.findByIdForForm(alimyId);
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -91,7 +46,7 @@ public class GeniusController {
 		modelMap.addAttribute("navigationItems", getNavigationItems(user, alimies));
 	}
 
-	private ArrayList<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
+	private List<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
 		var items = new ArrayList<NavigationItem>();
 		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
 		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").isScroll(true).build());

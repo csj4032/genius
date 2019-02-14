@@ -31,47 +31,47 @@ import javax.annotation.Generated;
 public class Tables {
 
     /**
-     * The table <code>genius.alimy</code>.
+     * The table <code>genius.ALIMY</code>.
      */
     public static final Alimy ALIMY = com.genius.backend.domain.db.tables.Alimy.ALIMY;
 
     /**
-     * The table <code>genius.alimy_units</code>.
+     * The table <code>genius.ALIMY_UNITS</code>.
      */
     public static final AlimyUnits ALIMY_UNITS = com.genius.backend.domain.db.tables.AlimyUnits.ALIMY_UNITS;
 
     /**
-     * The table <code>genius.logs</code>.
+     * The table <code>genius.LOGS</code>.
      */
     public static final Logs LOGS = com.genius.backend.domain.db.tables.Logs.LOGS;
 
     /**
-     * The table <code>genius.privilege</code>.
+     * The table <code>genius.PRIVILEGE</code>.
      */
     public static final Privilege PRIVILEGE = com.genius.backend.domain.db.tables.Privilege.PRIVILEGE;
 
     /**
-     * The table <code>genius.roles</code>.
+     * The table <code>genius.ROLES</code>.
      */
     public static final Roles ROLES = com.genius.backend.domain.db.tables.Roles.ROLES;
 
     /**
-     * The table <code>genius.roles_privileges</code>.
+     * The table <code>genius.ROLES_PRIVILEGES</code>.
      */
     public static final RolesPrivileges ROLES_PRIVILEGES = com.genius.backend.domain.db.tables.RolesPrivileges.ROLES_PRIVILEGES;
 
     /**
-     * The table <code>genius.users</code>.
+     * The table <code>genius.USERS</code>.
      */
     public static final Users USERS = com.genius.backend.domain.db.tables.Users.USERS;
 
     /**
-     * The table <code>genius.users_roles</code>.
+     * The table <code>genius.USERS_ROLES</code>.
      */
     public static final UsersRoles USERS_ROLES = com.genius.backend.domain.db.tables.UsersRoles.USERS_ROLES;
 
     /**
-     * The table <code>genius.users_social</code>.
+     * The table <code>genius.USERS_SOCIAL</code>.
      */
     public static final UsersSocial USERS_SOCIAL = com.genius.backend.domain.db.tables.UsersSocial.USERS_SOCIAL;
 }

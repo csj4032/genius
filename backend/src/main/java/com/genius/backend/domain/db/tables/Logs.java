@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Logs extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -1927240359;
+    private static final long serialVersionUID = -1485462183;
 
     /**
-     * The reference instance of <code>genius.logs</code>
+     * The reference instance of <code>genius.LOGS</code>
      */
     public static final Logs LOGS = new Logs();
 
@@ -57,46 +57,46 @@ public class Logs extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.logs.ID</code>.
+     * The column <code>genius.LOGS.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.logs.TYPE</code>.
+     * The column <code>genius.LOGS.TYPE</code>.
      */
     public final TableField<Record, Integer> TYPE = createField("TYPE", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>genius.logs.VALUE</code>.
+     * The column <code>genius.LOGS.VALUE</code>.
      */
     public final TableField<Record, String> VALUE = createField("VALUE", org.jooq.impl.SQLDataType.CLOB.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.CLOB)), this, "");
 
     /**
-     * The column <code>genius.logs.REG_DATETIME</code>.
+     * The column <code>genius.LOGS.REG_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> REG_DATETIME = createField("REG_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>genius.logs.MOD_DATETIME</code>.
+     * The column <code>genius.LOGS.MOD_DATETIME</code>.
      */
     public final TableField<Record, Timestamp> MOD_DATETIME = createField("MOD_DATETIME", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>genius.logs</code> table reference
+     * Create a <code>genius.LOGS</code> table reference
      */
     public Logs() {
-        this(DSL.name("logs"), null);
+        this(DSL.name("LOGS"), null);
     }
 
     /**
-     * Create an aliased <code>genius.logs</code> table reference
+     * Create an aliased <code>genius.LOGS</code> table reference
      */
     public Logs(String alias) {
         this(DSL.name(alias), LOGS);
     }
 
     /**
-     * Create an aliased <code>genius.logs</code> table reference
+     * Create an aliased <code>genius.LOGS</code> table reference
      */
     public Logs(Name alias) {
         this(alias, LOGS);

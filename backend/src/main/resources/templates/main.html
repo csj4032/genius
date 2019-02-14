@@ -17,6 +17,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body id="page-top">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
@@ -72,8 +74,8 @@
 				<div class="resume-date text-md-right">
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
 					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}"></button>
-					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">modify</button>
-					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">delete</button>
+					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">Modify</button>
+					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">Delete</button>
 				</div>
 			</div>
 		</div>
@@ -125,9 +127,10 @@
 						<span class="text-danger" th:if="${#fields.hasErrors('unitType.minutes')}" th:errors="*{unitType.minutes}"></span>
 					</div>
 					<span class="text-danger" th:if="${#fields.hasErrors('unitType.cronExpression')}" th:errors="*{unitType.cronExpression}"></span>
+					<input id="userId" type="hidden" name="userId" th:value="${user.id}"/>
 					<input id="alimyId" type="hidden" name="alimyId"/>
 					<input id="status" type="hidden" name="status" value="1"/>
-					<button type="submit" class="btn btn-primary">REGISTER</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
 			</div>
 		</div>

@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Roles extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -1069275994;
+    private static final long serialVersionUID = 929668166;
 
     /**
-     * The reference instance of <code>genius.roles</code>
+     * The reference instance of <code>genius.ROLES</code>
      */
     public static final Roles ROLES = new Roles();
 
@@ -56,31 +56,31 @@ public class Roles extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.roles.ID</code>.
+     * The column <code>genius.ROLES.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.roles.NAME</code>.
+     * The column <code>genius.ROLES.NAME</code>.
      */
     public final TableField<Record, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * Create a <code>genius.roles</code> table reference
+     * Create a <code>genius.ROLES</code> table reference
      */
     public Roles() {
-        this(DSL.name("roles"), null);
+        this(DSL.name("ROLES"), null);
     }
 
     /**
-     * Create an aliased <code>genius.roles</code> table reference
+     * Create an aliased <code>genius.ROLES</code> table reference
      */
     public Roles(String alias) {
         this(DSL.name(alias), ROLES);
     }
 
     /**
-     * Create an aliased <code>genius.roles</code> table reference
+     * Create an aliased <code>genius.ROLES</code> table reference
      */
     public Roles(Name alias) {
         this(alias, ROLES);

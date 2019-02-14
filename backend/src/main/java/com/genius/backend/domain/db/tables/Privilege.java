@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Privilege extends TableImpl<Record> {
 
-    private static final long serialVersionUID = 1769585173;
+    private static final long serialVersionUID = 927666613;
 
     /**
-     * The reference instance of <code>genius.privilege</code>
+     * The reference instance of <code>genius.PRIVILEGE</code>
      */
     public static final Privilege PRIVILEGE = new Privilege();
 
@@ -56,31 +56,31 @@ public class Privilege extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>genius.privilege.ID</code>.
+     * The column <code>genius.PRIVILEGE.ID</code>.
      */
     public final TableField<Record, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>genius.privilege.NAME</code>.
+     * The column <code>genius.PRIVILEGE.NAME</code>.
      */
     public final TableField<Record, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * Create a <code>genius.privilege</code> table reference
+     * Create a <code>genius.PRIVILEGE</code> table reference
      */
     public Privilege() {
-        this(DSL.name("privilege"), null);
+        this(DSL.name("PRIVILEGE"), null);
     }
 
     /**
-     * Create an aliased <code>genius.privilege</code> table reference
+     * Create an aliased <code>genius.PRIVILEGE</code> table reference
      */
     public Privilege(String alias) {
         this(DSL.name(alias), PRIVILEGE);
     }
 
     /**
-     * Create an aliased <code>genius.privilege</code> table reference
+     * Create an aliased <code>genius.PRIVILEGE</code> table reference
      */
     public Privilege(Name alias) {
         this(alias, PRIVILEGE);

@@ -106,19 +106,9 @@ public class AlimyServiceImpl implements AlimyService {
 	@Override
 	public void save(AlimyDto.RequestForSaveForm requestForSaveForm) {
 		var userId = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-		if (requestForSaveForm.getAlimyId() != null && requestForSaveForm.getAlimyId() > 0) {
-			var alimy = alimyRepository.findById(requestForSaveForm.getAlimyId()).orElseThrow();
-			if (alimy.getUser().getId() == userId) {
-				alimy.setSubject(requestForSaveForm.getSubject());
-				alimy.setMessage(requestForSaveForm.getMessage());
-				alimy.setAlimyUnit(requestForSaveForm.getUnitType());
-				alimyRepository.save(alimy);
-			}
-		} else {
-			var requestForSave = modelMapper.map(requestForSaveForm, AlimyDto.RequestForSave.class);
-			requestForSave.setUserId(userId);
-			save(getAlimy(requestForSave));
-		}
+		if(userId != requestForSaveForm.getUserId()) throw new RuntimeException();
+		var requestForSave = modelMapper.map(requestForSaveForm, AlimyDto.RequestForSave.class);
+		save(getAlimy(requestForSave));
 	}
 
 	@Override
@@ -136,6 +126,14 @@ public class AlimyServiceImpl implements AlimyService {
 		var response = modelMapper.map(alimy, AlimyDto.Response.class);
 		alimy.setAlimyUnit(request.getUnitType());
 		return response;
+	}
+
+	@Override
+	@Transactional
+	public void update(AlimyDto.RequestForUpdateForm request) {
+		var alimy = alimyRepository.findById(request.getAlimyId()).orElseThrow(() -> new NotExistAlimyException(request.getAlimyId()));
+		modelMapper.map(request, alimy);
+		alimyRepository.save(alimy);
 	}
 
 	@Override
