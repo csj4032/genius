@@ -73,9 +73,9 @@
 				</div>
 				<div class="resume-date text-md-right">
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
-					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}"></button>
+					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}" data-url="/alimy/status"></button>
 					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">Modify</button>
-					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}">Delete</button>
+					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}" data-url="/alimy/delete">Delete</button>
 				</div>
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 		<div class="my-auto">
 			<h2 class="mb-5">Register</h2>
 			<div class="resume-item d-flex flex-column">
-				<form class="form-horizontal" th:action="@{/}" th:object="${requestForSaveForm}" action="#" method="post">
+				<form id="frm" class="form-horizontal" th:action="@{/alimy/save}" th:object="${requestForSaveForm}" action="#" method="post">
 					<div class="form-group">
 						<label class="mb-0" for="subject">SUBJECT</label>
 						<input class="form-control" type="text" id="subject" th:field="*{subject}" placeholder="제목을 입력하세요">
@@ -144,9 +144,10 @@
 	$(document).ready(function () {
 		$('.btn-status, .btn-delete').on('click', function () {
 			let target = $(this);
+			let url = target.data('url');
 			let method = target.data('method');
 			let data = {alimyId: target.data('id')};
-			$.ajax({method: method, url: '/', data: data}).done(function (result) {
+			$.ajax({method: method, url: url, data: data}).done(function (result) {
 				if (method == 'put') {
 					target.removeClass('fa-stop fa-play');
 					target.addClass((result == 'stop') ? 'fa-stop' : 'fa-play');
@@ -161,6 +162,7 @@
 				$.each(result, function (key, value) {
 					$("#" + key).val(value);
 				});
+				$("#frm").attr('action', '/alimy/update');
 				$("#Register").trigger("click");
 			});
 		})

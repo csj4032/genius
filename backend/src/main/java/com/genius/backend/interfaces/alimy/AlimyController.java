@@ -44,7 +44,7 @@ public class AlimyController {
 	@PostMapping("/update")
 	public String update(ModelMap modelMap, @Valid AlimyDto.RequestForUpdateForm requestForUpdateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			modelMap.addAttribute("requestForSaveForm", requestForUpdateForm);
+			modelMap.addAttribute("requestForUpdateForm", requestForUpdateForm);
 			return "main";
 		}
 		alimyService.update(requestForUpdateForm);

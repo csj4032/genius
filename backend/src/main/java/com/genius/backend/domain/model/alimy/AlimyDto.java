@@ -120,7 +120,7 @@ public class AlimyDto {
 		private long id;
 		private long userId;
 		private String username;
-		private Integer status;
+		private AlimyStatus status;
 		private String subject;
 		private String message;
 		@JsonIgnore
@@ -154,7 +154,7 @@ public class AlimyDto {
 		private long alimyId;
 		private long userId;
 		private String username;
-		private Integer status;
+		private AlimyStatus status;
 		private String subject;
 		private String message;
 		private Set<AlimyUnit> alimyUnit;

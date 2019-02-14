@@ -5,6 +5,8 @@ import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.infrastructure.interceptor.LoggingInterceptor;
 import org.jooq.conf.Settings;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.convention.NameTokenizers;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +38,7 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(deviceResolverHandlerInterceptor());
-		registry.addInterceptor(loggingInterceptor()).excludePathPatterns("/css/**", "/favicon.ico", "/js/**", "/log/**","/three/**" , "/webjars/**");
+		registry.addInterceptor(loggingInterceptor()).excludePathPatterns("/css/**", "/favicon.ico", "/js/**", "/log/**", "/three/**", "/webjars/**");
 	}
 
 	@Bean
@@ -64,10 +66,17 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	@Bean
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
+		modelMapper.getConfiguration()
+				.setSourceNameTokenizer(NameTokenizers.CAMEL_CASE)
+				.setDestinationNameTokenizer(NameTokenizers.CAMEL_CASE)
+				.setMatchingStrategy(MatchingStrategies.STRICT);
 		modelMapper.createTypeMap(Alimy.class, AlimyDto.Response.class).addMappings(mapper -> mapper.map(Alimy::getUsername, AlimyDto.Response::setUsername));
 		modelMapper.createTypeMap(Alimy.class, AlimyDto.ResponseForForm.class).addMappings(mapper -> mapper.map(Alimy::getId, AlimyDto.ResponseForForm::setAlimyId));
 		modelMapper.createTypeMap(AlimyDto.RequestForSave.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setId));
 		modelMapper.createTypeMap(AlimyDto.RequestForUpdate.class, Alimy.class).addMappings(mapper -> mapper.skip(Alimy::setAlimyUnit));
+		modelMapper.createTypeMap(AlimyDto.RequestForUpdateForm.class, Alimy.class).addMappings(mapper -> {
+			mapper.skip(Alimy::setId);
+		});
 		return modelMapper;
 	}
 
@@ -88,7 +97,7 @@ public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public Settings settings () {
+	public Settings settings() {
 		return new Settings().withRenderFormatted(true);
 	}
 }
