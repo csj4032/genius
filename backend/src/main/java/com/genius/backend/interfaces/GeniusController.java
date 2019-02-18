@@ -35,6 +35,7 @@ public class GeniusController {
 		return "main";
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ModelAttribute(name = "mainData")
 	public void getModelMap(ModelMap modelMap) {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();

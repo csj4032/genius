@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -52,10 +51,10 @@ public class AlimyController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/${alimyId}")
 	public @ResponseBody
-	String delete(@RequestParam("alimyId") Long alimyId) {
-		alimyService.delete(List.of(alimyId));
+	String delete(@PathVariable("alimyId") Long alimyId) {
+		//alimyService.delete(List.of(alimyId));
 		return "ok";
 	}
 

@@ -17,7 +17,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body id="page-top">
@@ -71,11 +71,11 @@
 					<div class="subheading mb-3" th:text="${alimy.description}">No description</div>
 					<p th:text="${alimy.message}">No message</p>
 				</div>
-				<div class="resume-date text-md-right">
+				<div id="editButtons" class="resume-date text-md-right">
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
 					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}" data-url="/alimy/status"></button>
-					<button class="btn btn-sm btn-warning btn-alimy" th:data-id="${alimy.id}">Modify</button>
-					<button class="btn btn-sm btn-danger btn-delete" data-method="delete" th:data-id="${alimy.id}" data-url="/alimy/delete">Delete</button>
+					<button class="btn btn-sm btn-warning btn-alimy" th:@click="'select('+ ${alimy.id} +')'">Modify</button>
+					<button class="btn btn-sm btn-danger btn-delete" th:@click="'delete('+ ${alimy.id} +')'" data-method="delete" th:data-id="${alimy.id}" data-url="/alimy/delete">Delete</button>
 				</div>
 			</div>
 		</div>
@@ -158,16 +158,6 @@
 			});
 		});
 
-		$('.btn-alimy').on('click', function () {
-			$.ajax({method: 'get', url: "/alimy/" + $(this).data('id')}).done(function (result) {
-				$.each(result, function (key, value) {
-					$("#" + key).val(value);
-				});
-				$("#frm").attr('action', '/alimy/update');
-				$("#Register").trigger("click");
-			});
-		})
-
 		$('.btn-save').on('click', function () {
 			$.ajax({method: 'post', url: "/alimy/save", data: $("#frm").serialize(), dataType: 'json'})
 				.done(function (result) {
@@ -182,6 +172,35 @@
 				});
 		})
 	});
+
+	let schedule = new Vue({
+		el: '#schedule',
+		methods: {
+			select: function (id) {
+				axios.get('/alimy/' + id)
+					.then(function (response) {
+						let alimy = response.data;
+						$.each(alimy, function (key, value) {
+							$("#" + key).val(value);
+						});
+						$("#frm").attr('action', '/alimy/update');
+						$("#Register").trigger("click");
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			},
+			delete: function (id) {
+				axios.delete('/alimy/delete/' + id)
+					.then(function (response) {
+						console.log(response.data);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			}
+		}
+	})
 </script>
 </body>
 </html>
