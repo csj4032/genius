@@ -75,7 +75,7 @@
 					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
 					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}" data-url="/alimy/status"></button>
 					<button class="btn btn-sm btn-warning btn-alimy" th:@click="'select('+ ${alimy.id} +')'">Modify</button>
-					<button class="btn btn-sm btn-danger btn-delete" th:@click="'delete('+ ${alimy.id} +')'" data-method="delete" th:data-id="${alimy.id}" data-url="/alimy/delete">Delete</button>
+					<button class="btn btn-sm btn-danger btn-delete" th:@click="'deletee('+ ${alimy.id} +')'" th:data-id="${alimy.id}">Delete</button>
 				</div>
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 		<div class="my-auto">
 			<h2 class="mb-5">Register</h2>
 			<div class="resume-item d-flex flex-column">
-				<form id="frm" class="form-horizontal" th:action="@{/alimy/save}" th:object="${requestForSaveForm}" action="#" method="post">
+				<form id="frm" class="form-horizontal" th:object="${requestForSaveForm}" action="#">
 					<div class="form-group">
 						<label class="mb-0" for="subject">SUBJECT</label>
 						<input class="form-control" type="text" id="subject" th:field="*{subject}" placeholder="제목을 입력하세요">
@@ -130,8 +130,8 @@
 					<input id="userId" type="hidden" name="userId" th:value="${user.id}"/>
 					<input id="alimyId" type="hidden" name="alimyId"/>
 					<input id="status" type="hidden" name="status" value="start"/>
-					<button type="button" class="btn btn-warning btn-save">Save</button>
-					<button type="button" class="btn btn-danger btn-update">Modify</button>
+					<button type="button" class="btn btn-warning btn-save" th:@click="'save'">Save</button>
+					<button type="button" class="btn btn-danger btn-update" th:@click="'update'">Modify</button>
 				</form>
 			</div>
 		</div>
@@ -190,10 +190,34 @@
 						console.log(error);
 					});
 			},
-			delete: function (id) {
+			deletee: function (id) {
 				axios.delete('/alimy/delete/' + id)
 					.then(function (response) {
-						console.log(response.data);
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			}
+		}
+	})
+
+	let register = new Vue({
+		el: "#register",
+		methods: {
+			save: function () {
+				axios.post('/alimy/save')
+					.then(function (response) {
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			},
+			update: function () {
+				axios.post('/alimy/update')
+					.then(function (response) {
+						console.log(response);
 					})
 					.catch(function (error) {
 						console.log(error);
