@@ -48,11 +48,11 @@ public class GeniusController {
 
 	private List<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
 		var items = new ArrayList<NavigationItem>();
-		items.add(NavigationItem.builder().name("About").link("#about").isScroll(true).build());
-		if (!alimies.isEmpty()) items.add(NavigationItem.builder().name("Schedule").link("#schedule").isScroll(true).build());
-		items.add(NavigationItem.builder().name("Register").link("#register").isScroll(true).build());
-		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().name("ChatBot").link("https://m.me/alimychoibom").isScroll(false).build());
-		items.add(NavigationItem.builder().name("Logout").link("/logout").isScroll(false).build());
+		items.add(NavigationItem.builder().id("nav_about").name("about").link("#about").isScroll(true).build());
+		if (!alimies.isEmpty()) items.add(NavigationItem.builder().id("nav_schedule").name("schedule").link("#schedule").isScroll(true).build());
+		items.add(NavigationItem.builder().id("nav_register").name("register").link("#register").isScroll(true).build());
+		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().id("nav_chatBot").name("chatBot").link("https://m.me/alimychoibom").isScroll(false).build());
+		items.add(NavigationItem.builder().id("nav_logour").name("logout").link("/logout").isScroll(false).build());
 		return items;
 	}
 }

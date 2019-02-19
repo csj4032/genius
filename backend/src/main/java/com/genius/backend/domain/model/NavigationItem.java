@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class NavigationItem {
+	private String id;
 	private String name;
 	private String link;
 	private Boolean isScroll;

@@ -34,7 +34,7 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav">
 			<li class="nav-item" th:each="item:${navigationItems}">
-				<a th:id="${item.name}" th:href="${item.link}" href="#about" th:text="${item.name}" th:class="${item.isScroll ? 'nav-link js-scroll-trigger' : 'nav-link'}">About</a>
+				<a th:id="${item.id}" th:href="${item.link}" href="#about" th:text="${item.name}" th:class="${item.isScroll ? 'nav-link js-scroll-trigger' : 'nav-link'}">About</a>
 			</li>
 		</ul>
 	</div>
@@ -157,20 +157,6 @@
 				}
 			});
 		});
-
-		$('.btn-save').on('click', function () {
-			$.ajax({method: 'post', url: "/alimy/save", data: $("#frm").serialize(), dataType: 'json'})
-				.done(function (result) {
-					console.log(result);
-				});
-		})
-
-		$('.btn-update').on('click', function () {
-			$.ajax({method: 'post', url: "/alimy/update", data: $("#frm").serialize(), dataType: 'json'})
-				.done(function (result) {
-					console.log(result);
-				});
-		})
 	});
 
 	let schedule = new Vue({
@@ -183,8 +169,7 @@
 						$.each(alimy, function (key, value) {
 							$("#" + key).val(value);
 						});
-						$("#frm").attr('action', '/alimy/update');
-						$("#Register").trigger("click");
+						$("#nav_register").trigger("click");
 					})
 					.catch(function (error) {
 						console.log(error);
@@ -206,18 +191,18 @@
 		el: "#register",
 		methods: {
 			save: function () {
-				axios.post('/alimy/save')
+				axios.post('/alimy/save', $("#frm").serialize())
 					.then(function (response) {
-						console.log(response);
+						$("#nav_schedule").trigger("click");
 					})
 					.catch(function (error) {
 						console.log(error);
 					});
 			},
 			update: function () {
-				axios.post('/alimy/update')
+				axios.post('/alimy/update', $("#frm").serialize())
 					.then(function (response) {
-						console.log(response);
+						$("#nav_schedule").trigger("click");
 					})
 					.catch(function (error) {
 						console.log(error);
