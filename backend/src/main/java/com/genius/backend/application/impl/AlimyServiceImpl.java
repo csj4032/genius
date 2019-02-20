@@ -133,6 +133,7 @@ public class AlimyServiceImpl implements AlimyService {
 	public void update(AlimyDto.RequestForUpdateForm request) {
 		var alimy = alimyRepository.findById(request.getAlimyId()).orElseThrow(() -> new NotExistAlimyException(request.getAlimyId()));
 		modelMapper.map(request, alimy);
+		alimy.setAlimyUnit(request.getUnitType());
 		alimyRepository.save(alimy);
 	}
 
