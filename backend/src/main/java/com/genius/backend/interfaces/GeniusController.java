@@ -52,10 +52,10 @@ public class GeniusController {
 		modelMap.addAttribute("navigationItems", getNavigationItems(user, alimies.isEmpty()));
 	}
 
-	private List<NavigationItem> getNavigationItems(User user, boolean isNotAlimy) {
+	private List<NavigationItem> getNavigationItems(User user, boolean isEmptyAlimy) {
 		var items = new ArrayList<NavigationItem>();
 		items.add(NavigationItem.builder().id("nav_about").name("about").link("#about").isScroll(true).build());
-		if (isNotAlimy) items.add(NavigationItem.builder().id("nav_schedule").name("schedule").link("#schedule").isScroll(true).build());
+		if (!isEmptyAlimy) items.add(NavigationItem.builder().id("nav_schedule").name("schedule").link("#schedule").isScroll(true).build());
 		items.add(NavigationItem.builder().id("nav_register").name("register").link("#register").isScroll(true).build());
 		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().id("nav_chatBot").name("chatBot").link("https://m.me/alimychoibom").isScroll(false).build());
 		items.add(NavigationItem.builder().id("nav_logour").name("logout").link("/logout").isScroll(false).build());
