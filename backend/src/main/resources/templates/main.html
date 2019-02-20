@@ -61,23 +61,19 @@
 		</div>
 	</section>
 
-	<div id="container-schedule" style="position:absolute;z-index:-2" th:if="${not #lists.isEmpty(alimies)}"></div>
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule" th:if="${not #lists.isEmpty(alimies)}">
+	<div id="container-schedule" style="position:absolute;z-index:-2" th:if="${not isEmptyAlimy}"></div>
+	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="schedule" th:if="${not isEmptyAlimy}">
 		<div class="my-auto">
 			<h2 class="mb-5">Schedule</h2>
-			<div th:each="alimy:${alimies}" th:id="'alimy_'+${alimy.id}" class="resume-item d-flex flex-column flex-md-row mb-5">
-				<div class="resume-content mr-auto">
-					<h3 class="mb-0" th:text="${alimy.subject}">No subject</h3>
-					<div class="subheading mb-3" th:text="${alimy.description}">No description</div>
-					<p th:text="${alimy.message}">No message</p>
-				</div>
-				<div id="editButtons" class="resume-date text-md-right">
-					<div class="text-primary" th:text="${alimy.regDateTime}"></div>
-					<button class="btn btn-sm btn-primary btn-status fa" th:classappend="${alimy.status eq 1 ? 'fa-play' : 'fa-stop'}" data-method="put" th:data-id="${alimy.id}" data-url="/alimy/status"></button>
-					<button class="btn btn-sm btn-warning btn-alimy" th:@click="'select('+ ${alimy.id} +')'">Modify</button>
-					<button class="btn btn-sm btn-danger btn-delete" th:@click="'deletee('+ ${alimy.id} +')'" th:data-id="${alimy.id}">Delete</button>
-				</div>
-			</div>
+			<schedule-component
+					v-for="(alimy, index) in alimies"
+					v-bind:key="alimy.id"
+					v-bind:id="alimy.id"
+					v-bind:subject="alimy.subject"
+					v-bind:description="alimy.description"
+					v-bind:message="alimy.message"
+					v-bind:reg_date_time="alimy.regDateTime">
+			</schedule-component>
 		</div>
 	</section>
 
@@ -140,29 +136,40 @@
 <script src="/three/build/three.js"></script>
 <script th:href="@{/js/main.js}" src="/js/main.js"></script>
 <script th:href="@{/js/main.js}" src="/js/mainAbout.js"></script>
-<script th:href="@{/js/main.js}" src="/js/mainSchedule.js"></script>
-<script>
-	$(document).ready(function () {
-		$('.btn-status, .btn-delete').on('click', function () {
-			let target = $(this);
-			let url = target.data('url');
-			let method = target.data('method');
-			let data = {alimyId: target.data('id')};
-			$.ajax({method: method, url: url, data: data}).done(function (result) {
-				if (method == 'put') {
-					target.removeClass('fa-stop fa-play');
-					target.addClass((result == 'stop') ? 'fa-stop' : 'fa-play');
-				} else if (method == 'delete') {
-					$("#alimy_" + target.data('id')).remove();
-				}
-			});
-		});
-	});
+<script th:href="@{/js/main.js}" src="/js/mainSchedule.js" th:if="${not isEmptyAlimy}"></script>
+<template id="schedule-template">
+	<div class="resume-item d-flex flex-column flex-md-row mb-5">
+		<div class="resume-content mr-auto">
+			<h3 class="mb-0">{{subject}}</h3>
+			<div class="subheading mb-3">{{description}}</div>
+			<p>{{message}}</p>
+		</div>
+		<div id="editButtons" class="resume-date text-md-right">
+			<div class="text-primary">{{reg_date_time}}</div>
+			<button class="btn btn-sm btn-primary btn-status fa fa-play" @click="status(id, $event)"></button>
+			<button class="btn btn-sm btn-warning btn-alimy" @click="fetchAlimy(id)">Modify</button>
+			<button class="btn btn-sm btn-danger btn-delete" @click="deletee(id)">Delete</button>
+		</div>
+	</div>
+</template>
+<script th:inline="javascript">
 
-	let schedule = new Vue({
-		el: '#schedule',
+	let EventBus = new Vue();
+
+	Vue.component('schedule-component', {
+		template: '#schedule-template',
+		props: ['id', 'subject', 'description', 'message', 'reg_date_time'],
 		methods: {
-			select: function (id) {
+			status: function (id, event) {
+				let target = $(event.target);
+				axios.put('/alimy/status/' + id)
+					.then(function (response) {
+						target.removeClass('fa-stop fa-play');
+						target.addClass((response.data == 'stop') ? 'fa-stop' : 'fa-play');
+					})
+					.catch((error) => console.log(error));
+			},
+			fetchAlimy: function (id) {
 				axios.get('/alimy/' + id)
 					.then(function (response) {
 						let alimy = response.data;
@@ -171,45 +178,63 @@
 						});
 						$("#nav_register").trigger("click");
 					})
-					.catch(function (error) {
-						console.log(error);
-					});
+					.catch((error) => console.log(error));
 			},
 			deletee: function (id) {
 				axios.delete('/alimy/delete/' + id)
 					.then(function (response) {
 						console.log(response);
 					})
-					.catch(function (error) {
-						console.log(error);
-					});
+					.catch((error) => console.log(error));
 			}
 		}
-	})
+	});
 
-	let register = new Vue({
+	new Vue({
+		el: '#schedule',
+		data: {
+			count: 0,
+			alimies: [(${alimies})]
+		},
+		mounted() {
+			EventBus.$on('fetchAlimies', () => {
+				this.fetchAlimies();
+			})
+		},
+		methods: {
+			fetchAlimies: function () {
+				axios
+					.get('/alimy/')
+					.then(response => {
+						this.alimies = response.data
+						this.count = response.data.length;
+					})
+					.catch(error => console.log(error));
+			}
+		}
+	});
+
+	new Vue({
 		el: "#register",
 		methods: {
 			save: function () {
 				axios.post('/alimy/save', $("#frm").serialize())
 					.then(function (response) {
 						$("#nav_schedule").trigger("click");
+						EventBus.$emit('fetchAlimies');
 					})
-					.catch(function (error) {
-						console.log(error);
-					});
+					.catch((error) => console.log(error));
 			},
 			update: function () {
 				axios.post('/alimy/update', $("#frm").serialize())
 					.then(function (response) {
 						$("#nav_schedule").trigger("click");
+						EventBus.$emit('fetchAlimies');
 					})
-					.catch(function (error) {
-						console.log(error);
-					});
+					.catch((error) => console.log(error));
 			}
 		}
-	})
+	});
 </script>
 </body>
 </html>

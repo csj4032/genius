@@ -23,6 +23,9 @@ public interface AlimyRepository extends JpaRepository<Alimy, Long>, QuerydslPre
 
 	Page<Alimy> findByUserId(Long userId, Pageable pageable);
 
+	@Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Alimy a WHERE a.user.id = :userId")
+	Boolean existsByUserId(@Param("userId") Long userId);
+
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Alimy a WHERE a.id IN :ids")

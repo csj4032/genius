@@ -37,4 +37,6 @@ public interface AlimyService {
 	void sendAlimyForBatch();
 
 	AlimyStatus status(Long alimyId);
+
+	Boolean existsByUserId(long id);
 }

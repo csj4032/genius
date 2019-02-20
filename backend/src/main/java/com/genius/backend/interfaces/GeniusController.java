@@ -1,5 +1,7 @@
 package com.genius.backend.interfaces;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genius.backend.application.AlimyService;
 import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.NavigationItem;
@@ -29,6 +31,9 @@ public class GeniusController {
 	@Autowired
 	private AlimyService alimyService;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/")
 	public String main(AlimyDto.RequestForSaveForm requestForSaveForm) {
@@ -37,19 +42,20 @@ public class GeniusController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ModelAttribute(name = "mainData")
-	public void getModelMap(ModelMap modelMap) {
+	public void getModelMap(ModelMap modelMap) throws JsonProcessingException {
 		var user = ((GeniusSocialUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-		var alimies = alimyService.findByUserId(user.getId());
+		var alimies = objectMapper.writeValueAsString(alimyService.findByUserId(user.getId()));
 		modelMap.addAttribute("user", user);
+		modelMap.addAttribute("isEmptyAlimy", alimies.isEmpty());
 		modelMap.addAttribute("alimies", alimies);
 		modelMap.addAttribute("applicationUrl", applicationUrl);
-		modelMap.addAttribute("navigationItems", getNavigationItems(user, alimies));
+		modelMap.addAttribute("navigationItems", getNavigationItems(user, alimies.isEmpty()));
 	}
 
-	private List<NavigationItem> getNavigationItems(User user, List<AlimyDto.Response> alimies) {
+	private List<NavigationItem> getNavigationItems(User user, boolean isNotAlimy) {
 		var items = new ArrayList<NavigationItem>();
 		items.add(NavigationItem.builder().id("nav_about").name("about").link("#about").isScroll(true).build());
-		if (!alimies.isEmpty()) items.add(NavigationItem.builder().id("nav_schedule").name("schedule").link("#schedule").isScroll(true).build());
+		if (isNotAlimy) items.add(NavigationItem.builder().id("nav_schedule").name("schedule").link("#schedule").isScroll(true).build());
 		items.add(NavigationItem.builder().id("nav_register").name("register").link("#register").isScroll(true).build());
 		if (user.getProviderType().equals(ProviderType.FACEBOOK)) items.add(NavigationItem.builder().id("nav_chatBot").name("chatBot").link("https://m.me/alimychoibom").isScroll(false).build());
 		items.add(NavigationItem.builder().id("nav_logour").name("logout").link("/logout").isScroll(false).build());

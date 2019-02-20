@@ -10,7 +10,7 @@ function initAbout() {
 	let points = [];
 	let point = new THREE.Vector3();
 	let direction = new THREE.Vector3();
-	for (let i = 0; i < 50; i++) {
+	for (let i = 0; i < 30; i++) {
 		direction.x += Math.random() - 0.5;
 		direction.y += Math.random() - 0.5;
 		direction.z += Math.random() - 0.5;

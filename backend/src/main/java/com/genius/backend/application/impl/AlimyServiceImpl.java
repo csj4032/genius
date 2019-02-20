@@ -159,6 +159,11 @@ public class AlimyServiceImpl implements AlimyService {
 		return status;
 	}
 
+	@Override
+	public Boolean existsByUserId(long id) {
+		return alimyRepository.existsByUserId(id);
+	}
+
 	@NotNull
 	private Predicate<Alimy> getAlimyPredicate(Date date) {
 		return e -> {
