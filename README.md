@@ -1,19 +1,13 @@
-# genius
-지극히 사적인 공간입니다.<br>
-혹시나 의문점이 있으면 아래 메일로 문의를 보내세요<br>
-메일 : csj4032@gmail.com
+# Overview
+카카오톡 나에게 보내기 메세지, 라인 메신저, 페이스북 메신저를 통한 알림 메시지 발송<br>
+https://alimy.choibom.com
 
-## 기능 명세
-Spring boot With Kotlin + React
+## Specification
+SpringBoot + Spring Social + Spring Data JPA + Kotlin + Vue.js
 
-## Frontend
+## Build And Start
 ```
-$ git clone https://csj4032@bitbucket.org/rrest/kakao_alarm_fe3.git frontend
-```
-
-## Backend Build And Start
-```
-$ mvn clean install -DskipTests
+$ mvn clean install
 
 $ mvn --projects backend spring-boot:run -Dspring-boot.run.profiles=real
 
