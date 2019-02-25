@@ -1,5 +1,5 @@
 # Overview
-카카오톡 나에게 보내기 메세지, 라인 메신저, 페이스북 메신저를 통한 알림 메시지 발송<br>
+카카오톡, 라인 메신저, 페이스북 메신저를 통한 알림 메시지 발송<br>
 https://alimy.choibom.com
 
 ## Specification
