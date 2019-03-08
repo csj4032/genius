@@ -51,11 +51,6 @@ public class LineSocialProvider implements SocialProvider {
 		line.messagesOperations().pushMessage(pushMessage);
 	}
 
-	@Override
-	public void getFriends() {
-		// TODO: when...
-	}
-
 	private boolean isIdToken(String token) {
 		var jwt = JWT.decode(token);
 		var iss = jwt.getClaim("iss").as(String.class);

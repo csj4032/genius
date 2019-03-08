@@ -53,8 +53,6 @@
 	</properties>
 
 	<modules>
-		<module>spring-social-kakao</module>
-		<module>spring-social-line</module>
 		<module>backend</module>
 	</modules>
 

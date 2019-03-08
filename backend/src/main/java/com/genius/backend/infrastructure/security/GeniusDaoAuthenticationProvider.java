@@ -32,7 +32,7 @@ public class GeniusDaoAuthenticationProvider implements AuthenticationProvider {
 		KakaoProfile profile = null;
 		try {
 			profile = new KakaoTemplate(kakaoToken).userOperation().getUserProfile();
-			userDetails = (GeniusSocialUserDetail) userDetailsService.loadUserByUsername(profile.getId());
+			userDetails = (GeniusSocialUserDetail) userDetailsService.loadUserByUsername(Long.toString(profile.getId()));
 			userService.update((AuthDto.Request) authentication.getCredentials(), profile, userDetails.getUser());
 		} catch (UsernameNotFoundException ex) {
 			log.info("{} 미사용자 신규 가입 진행", ex.getLocalizedMessage());

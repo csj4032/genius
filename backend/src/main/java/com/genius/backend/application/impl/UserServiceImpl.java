@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User save(AuthDto.Request request, KakaoProfile profile) {
 		var user = new User();
-		user.setProviderUserId(profile.getId());
+		user.setProviderUserId(Long.toString(profile.getId()));
 		user.setUsername(profile.getProperties().getNickname());
 		user.setImageUrl(profile.getProperties().getProfile_image());
 		user.getUserSocial().setUser(user);

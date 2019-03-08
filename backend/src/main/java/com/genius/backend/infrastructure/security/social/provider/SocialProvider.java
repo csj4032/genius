@@ -30,6 +30,4 @@ public interface SocialProvider {
 		user.setRoles(Set.of(Role.builder().id(3l).name("USER").build()));
 		return user;
 	}
-
-	void getFriends();
 }

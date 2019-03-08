@@ -50,11 +50,6 @@ public class FacebookSocialProvider implements SocialProvider {
 		new RestTemplate().postForObject(mUrl, RequestMessage.builder().recipient(new Recipient(pageUserId)).message(Message.builder().text(text).build()).build(), String.class);
 	}
 
-	@Override
-	public void getFriends() {
-		// TODO: When...
-	}
-
 	private String getPageUserId(final String providerUserId) {
 		var idsForPagesWrapper = new RestTemplate().getForObject(idsForPagesUrl, IdsForPagesResponse.class, providerUserId, facebookProperties.getPage().getAccessToken(), facebookProperties.getAppSecretProof());
 		if (idsForPagesWrapper.getIdsForPages() != null) {
