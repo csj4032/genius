@@ -7,7 +7,7 @@ import org.springframework.social.connect.Connection;
 
 import java.util.Set;
 
-public interface SocialProvider {
+public interface SocialProvider<T> {
 
 	User getUser();
 
@@ -32,4 +32,8 @@ public interface SocialProvider {
 	}
 
 	String getRefreshAccessToken();
+
+	String getAccessToken();
+
+	Connection<T> getConnection();
 }

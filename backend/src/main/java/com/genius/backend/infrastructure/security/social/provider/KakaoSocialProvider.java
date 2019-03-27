@@ -12,7 +12,7 @@ import org.springframework.social.kakao.api.impl.json.TextMixin;
 import java.util.List;
 
 @Slf4j
-public class KakaoSocialProvider implements SocialProvider {
+public class KakaoSocialProvider implements SocialProvider<Kakao> {
 
 	private Connection<Kakao> connection;
 	private Kakao kakao;
@@ -51,5 +51,14 @@ public class KakaoSocialProvider implements SocialProvider {
 	@Override
 	public String getRefreshAccessToken() {
 		return null;
+	}
+
+	@Override
+	public String getAccessToken() {
+		return connection.createData().getAccessToken();
+	}
+
+	public Connection<Kakao> getConnection() {
+		return this.connection;
 	}
 }

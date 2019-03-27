@@ -12,7 +12,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
-public class FacebookSocialProvider implements SocialProvider {
+public class FacebookSocialProvider implements SocialProvider<Facebook> {
 
 	private static String idsForPagesUrl = "https://graph.facebook.com/v3.2/{pId}?fields=ids_for_pages&access_token={accessToken}&appsecret_proof={appSecretProof}";
 	private static String messagesUrl = "https://graph.facebook.com/v3.2/me/messages?access_token=";
@@ -53,6 +53,16 @@ public class FacebookSocialProvider implements SocialProvider {
 	@Override
 	public String getRefreshAccessToken() {
 		return null;
+	}
+
+	@Override
+	public String getAccessToken() {
+		return this.connection.createData().getAccessToken();
+	}
+
+	@Override
+	public Connection<Facebook> getConnection() {
+		return connection;
 	}
 
 	private String getPageUserId(final String providerUserId) {

@@ -7,15 +7,15 @@ import org.springframework.social.line.api.Line;
 import org.springframework.social.line.api.impl.json.PushMessageMixin;
 import org.springframework.social.line.api.impl.json.TextMessageMixin;
 
-public class LineSocialProvider implements SocialProvider {
+public class LineSocialProvider implements SocialProvider<Line> {
 
 	private static String issUrl = "https://access.line.me";
-	private Connection<?> connection;
+	private Connection<Line> connection;
 	private String providerUserId;
 	private Line line;
 
 	public LineSocialProvider(Connection<?> connection) {
-		this.connection = connection;
+		this.connection = (Connection<Line>) connection;
 		this.providerUserId = connection.getKey().getProviderUserId();
 		this.line = (Line) connection.getApi();
 	}
@@ -54,6 +54,16 @@ public class LineSocialProvider implements SocialProvider {
 	@Override
 	public String getRefreshAccessToken() {
 		return null;
+	}
+
+	@Override
+	public String getAccessToken() {
+		return connection.createData().getAccessToken();
+	}
+
+	@Override
+	public Connection<Line> getConnection() {
+		return connection;
 	}
 
 	private boolean isIdToken(String token) {
