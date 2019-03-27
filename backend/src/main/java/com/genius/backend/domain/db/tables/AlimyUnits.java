@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlimyUnits extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -1509148260;
+    private static final long serialVersionUID = 1902258687;
 
     /**
      * The reference instance of <code>genius.ALIMY_UNITS</code>
@@ -132,7 +132,7 @@ public class AlimyUnits extends TableImpl<Record> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ALIMY_UNITS_ALIMY_UNIT_UNIQUE, Indexes.ALIMY_UNITS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.ALIMY_UNITS_PRIMARY);
     }
 
     /**
@@ -156,19 +156,7 @@ public class AlimyUnits extends TableImpl<Record> {
      */
     @Override
     public List<UniqueKey<Record>> getKeys() {
-        return Arrays.<UniqueKey<Record>>asList(Keys.KEY_ALIMY_UNITS_PRIMARY, Keys.KEY_ALIMY_UNITS_ALIMY_UNIT_UNIQUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<Record, ?>> getReferences() {
-        return Arrays.<ForeignKey<Record, ?>>asList(Keys.ALIMY_FOREIGN_KEY);
-    }
-
-    public Alimy alimy() {
-        return new Alimy(this, Keys.ALIMY_FOREIGN_KEY);
+        return Arrays.<UniqueKey<Record>>asList(Keys.KEY_ALIMY_UNITS_PRIMARY);
     }
 
     /**

@@ -47,4 +47,9 @@ public class KakaoSocialProvider implements SocialProvider {
 		var text = new TextMixin(ObjectTypeMixin.TEXT, message, link, "Alimy", buttons);
 		kakao.talkOperation().sendToMe(text.toString());
 	}
+
+	@Override
+	public String getRefreshAccessToken() {
+		return null;
+	}
 }

@@ -11,6 +11,8 @@ import com.genius.backend.domain.repository.AlimyRepository;
 import com.genius.backend.domain.repository.AlimyUnitRepository;
 import com.genius.backend.domain.repository.UserRepository;
 import com.genius.backend.domain.repository.UserSocialRepository;
+import com.genius.backend.infrastructure.security.social.provider.SocialProvider;
+import com.genius.backend.infrastructure.security.social.provider.SocialProviderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.connect.Connection;
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private AlimyUnitRepository alimyUnitRepository;
+
+	@Autowired
+	private SocialProviderBuilder socialProviderBuilder;
 
 	@Override
 	public boolean isUser(Connection<?> connection) {
@@ -107,12 +112,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void refreshAccess() {
-		userRepository.findAll().stream().filter(e -> e.getProviderType().equals(ProviderType.KAKAO)).forEach(e -> {
-			var kakaoOAuth2Template = new KakaoOAuth2Template(appId, appSecret);
-			var refreshTokenInfo = kakaoOAuth2Template.refreshAccess(e.getUserSocial().getRefreshToken(), null);
-			e.getUserSocial().setAccessToken(refreshTokenInfo.getAccessToken());
-			e.getUserSocial().setExpiredTime(refreshTokenInfo.getExpireTime());
-			if (refreshTokenInfo.getRefreshToken() != null) e.getUserSocial().setRefreshToken(refreshTokenInfo.getRefreshToken());
+		userRepository.findAll().stream().forEach(e -> {
+			SocialProvider socialProvider = socialProviderBuilder.create(e);
+			socialProvider.getRefreshAccessToken();
 			userRepository.save(e);
 		});
 	}

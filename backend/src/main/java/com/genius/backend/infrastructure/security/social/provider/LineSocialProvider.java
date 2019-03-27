@@ -51,6 +51,11 @@ public class LineSocialProvider implements SocialProvider {
 		line.messagesOperations().pushMessage(pushMessage);
 	}
 
+	@Override
+	public String getRefreshAccessToken() {
+		return null;
+	}
+
 	private boolean isIdToken(String token) {
 		var jwt = JWT.decode(token);
 		var iss = jwt.getClaim("iss").as(String.class);

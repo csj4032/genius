@@ -39,7 +39,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index ALIMY_PRIMARY = Indexes0.ALIMY_PRIMARY;
-    public static final Index ALIMY_UNITS_ALIMY_UNIT_UNIQUE = Indexes0.ALIMY_UNITS_ALIMY_UNIT_UNIQUE;
     public static final Index ALIMY_UNITS_PRIMARY = Indexes0.ALIMY_UNITS_PRIMARY;
     public static final Index LOGS_PRIMARY = Indexes0.LOGS_PRIMARY;
     public static final Index PRIVILEGE_PRIMARY = Indexes0.PRIVILEGE_PRIMARY;
@@ -57,7 +56,6 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index ALIMY_PRIMARY = Internal.createIndex("PRIMARY", Alimy.ALIMY, new OrderField[] { Alimy.ALIMY.ID }, true);
-        public static Index ALIMY_UNITS_ALIMY_UNIT_UNIQUE = Internal.createIndex("ALIMY_UNIT_UNIQUE", AlimyUnits.ALIMY_UNITS, new OrderField[] { AlimyUnits.ALIMY_UNITS.ALIMY_ID, AlimyUnits.ALIMY_UNITS.UNIT_TYPE }, true);
         public static Index ALIMY_UNITS_PRIMARY = Internal.createIndex("PRIMARY", AlimyUnits.ALIMY_UNITS, new OrderField[] { AlimyUnits.ALIMY_UNITS.ID }, true);
         public static Index LOGS_PRIMARY = Internal.createIndex("PRIMARY", Logs.LOGS, new OrderField[] { Logs.LOGS.ID }, true);
         public static Index PRIVILEGE_PRIMARY = Internal.createIndex("PRIMARY", Privilege.PRIVILEGE, new OrderField[] { Privilege.PRIVILEGE.ID }, true);
