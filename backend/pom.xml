@@ -40,6 +40,22 @@
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>spring-social-kakao-mvn-repo</id>
+			<url>https://raw.github.com/csj4032/spring-social-kakao/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-social-line-mvn-repo</id>
+			<url>https://raw.github.com/csj4032/spring-social-line/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
