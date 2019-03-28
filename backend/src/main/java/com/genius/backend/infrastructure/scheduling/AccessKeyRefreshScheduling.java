@@ -16,7 +16,7 @@ public class AccessKeyRefreshScheduling {
 	@Scheduled(cron = "0 0 0/1 * * ?")
 	public void byMinute() {
 		log.info("AccessToken Refresh Start");
-		userService.refreshAccess();
+		userService.refreshAccessToken();
 		log.info("AccessToken Refresh End");
 	}
 }

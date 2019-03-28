@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void refreshAccess() {
+	public void refreshAccessToken() {
 		userRepository.findAll().stream().forEach(e -> {
 			SocialProvider socialProvider = socialProviderBuilder.create(e);
 			socialProvider.getRefreshAccessToken();
