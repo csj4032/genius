@@ -42,7 +42,7 @@
 		</repository>
 		<repository>
 			<id>spring-social-kakao-mvn-repo</id>
-			<url>https://raw.github.com/csj4032/spring-social-kakao/spring-social-kakao/mvn-repo/</url>
+			<url>https://raw.github.com/csj4032/spring-social-kakao/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
@@ -50,7 +50,7 @@
 		</repository>
 		<repository>
 			<id>spring-social-line-mvn-repo</id>
-			<url>https://raw.github.com/csj4032/spring-social-line/spring-social-line/mvn-repo/</url>
+			<url>https://raw.github.com/csj4032/spring-social-line/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
