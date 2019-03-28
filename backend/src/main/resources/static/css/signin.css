@@ -1,10 +1,10 @@
-.login-form {width:400px;margin:50px auto;}
+.login-form {width:800px;margin:200px auto;}
 .login-form form {margin-bottom:15px;background:#f7f7f7;box-shadow:0px 2px 2px rgba(0, 0, 0, 0.3);padding:30px;}
 .login-form h2 {margin:0 0 15px;}
 .login-form .hint-text {color:#777;padding-bottom:15px;text-align:center;}
-.or-seperator i {padding:0 10px;background:#f7f7f7;position:relative;top:-11px;z-index:1;}
-.social-btn .btn {margin:10px 0;font-size:18px;text-align:left;line-height:28px;}
-.social-btn .btn i {float:left;margin:4px 15px 0 5px;min-width:15px;}
+.or-seperator i {padding:0 20px;background:#f7f7f7;position:relative;top:-11px;z-index:1;}
+.social-btn .btn {margin:15px 0;font-size:32px;text-align:left;line-height:64px;}
+.social-btn .btn i {float:left;margin:18px 15px 0 5px;min-width:15px;}
 .input-group-addon .fa {font-size:18px;}
 
 .btn-kakao{color:#351c1c;background-color:#ffd903;border-color:rgba(0,0,0,0.2)}.btn-kakao:focus,.btn-kakao.focus{color:#351c1c;background-color:#efd903;border-color:rgba(0,0,0,0.2)}
