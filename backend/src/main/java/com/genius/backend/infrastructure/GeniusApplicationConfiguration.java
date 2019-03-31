@@ -3,14 +3,22 @@ package com.genius.backend.infrastructure;
 import com.genius.backend.domain.model.alimy.Alimy;
 import com.genius.backend.domain.model.alimy.AlimyDto;
 import com.genius.backend.infrastructure.interceptor.LoggingInterceptor;
+import com.genius.backend.infrastructure.properties.GeniusProperties;
+import com.genius.backend.infrastructure.properties.RandomProperties;
 import org.jooq.conf.Settings;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NameTokenizers;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
@@ -25,6 +33,9 @@ import java.util.List;
 import java.util.Locale;
 
 @Configuration
+@EnableConfigurationProperties({GeniusProperties.class, RandomProperties.class})
+@EntityScan(basePackageClasses = {Jsr310JpaConverters.class}, basePackages = {"com.genius.backend.domain"})
+@EnableAutoConfiguration(exclude = {MybatisAutoConfiguration.class, DataSourceAutoConfiguration.class})
 public class GeniusApplicationConfiguration implements WebMvcConfigurer {
 
 	@Override

@@ -208,7 +208,7 @@ spring:
   datasource:
     master:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      jdbcUrl: jdbc:mysql://5.243.66.195:3306/genius?useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_bin&characterSetResults=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
       connection-init-sql: SELECT 1 FROM DUAL
