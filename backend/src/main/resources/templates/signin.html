@@ -60,9 +60,9 @@
 	if (WEBGL.isWebGLAvailable() === false) {
 		document.body.appendChild(WEBGL.getWebGLErrorMessage());
 	}
-	var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
-	var mixers = [];
-	var clock = new THREE.Clock();
+	let camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+	let mixers = [];
+	let clock = new THREE.Clock();
 
 	init();
 	animate();

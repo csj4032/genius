@@ -36,7 +36,6 @@ public class AlimyController {
 	@GetMapping("/{alimyId}")
 	public @ResponseBody
 	AlimyDto.ResponseForForm alimy(@PathVariable("alimyId") Long alimyId) {
-		System.out.println("###############33");
 		return alimyService.findByIdForForm(alimyId);
 	}
 
