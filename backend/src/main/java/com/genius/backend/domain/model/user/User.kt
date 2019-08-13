@@ -48,4 +48,8 @@ data class User(
 		var roles: Set<Role>? = null
 ) : BaseEntity() {
 	constructor() : this(0, ProviderType.KAKAO, "", "", "", "", "", UserSocial(), null, null)
+
+	fun getProviderTypeName():String {
+		return providerType.getName()
+	}
 }

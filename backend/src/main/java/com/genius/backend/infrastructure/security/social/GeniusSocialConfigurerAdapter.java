@@ -69,7 +69,9 @@ public class GeniusSocialConfigurerAdapter extends SocialConfigurerAdapter {
 
 	@NotNull
 	private OAuth2ConnectionFactory getKakaoConnectionFactory() {
-		return new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret());
+		var kakaoConnectionFactory = new KakaoConnectionFactory(kakaoProperties.getAppId(), kakaoProperties.getAppSecret());
+		kakaoConnectionFactory.setScope(kakaoProperties.getScope());
+		return kakaoConnectionFactory;
 	}
 
 	@NotNull
@@ -82,7 +84,7 @@ public class GeniusSocialConfigurerAdapter extends SocialConfigurerAdapter {
 	@NotNull
 	private OAuth2ConnectionFactory getFacebookConnectionFactory() {
 		var facebookConnectionFactory = new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret(), facebookProperties.getAppNamespace());
-		facebookConnectionFactory.setScope("email");
+		facebookConnectionFactory.setScope(facebookProperties.getScope());
 		return facebookConnectionFactory;
 	}
 }

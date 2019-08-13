@@ -90,7 +90,7 @@ spring:
       appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
-      scope: talk_message,profile
+      scope: talk_message,profile,friends
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
@@ -108,6 +108,7 @@ spring:
         id: 1983940201642915
         name: Alimy
         accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
+      scope: email
 
   datasource:
     master:
@@ -138,7 +139,7 @@ spring:
       appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
-      scope: talk_message,profile
+      scope: talk_message,profile,friends
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
@@ -156,6 +157,7 @@ spring:
         id: 1983940201642915
         name: Alimy
         accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
+      scope: email
 
   datasource:
     master:
@@ -186,7 +188,7 @@ spring:
       appSecret: irWqNnhiBUfpC5Gjlc8bV8LmSphwLyM5
       accessTokenUrl: https://kauth.kakao.com/oauth/authorize
       userAuthorizationUrl: https://kauth.kakao.com/oauth/token
-      scope: talk_message,profile
+      scope: talk_message,profile,friends
     line:
       appId: 1640532996
       appSecret: 1856fd835f2f93f9020060993b78c71a
@@ -204,6 +206,7 @@ spring:
         id: 1983940201642915
         name: Alimy
         accessToken: EAAIuZCsnNN5wBAM6TeLEm05VE3dxk3dJXsYq56va7aJTTzTu5VnuAPhcLu8TtUfUE7XUqhVZCSn4rS2P9TcS0nWcI7wKpyQOIYUFdP17LeT2BOLeZBYiSHAWVd0358wkVbj8ISDe4GLj9M1yf7V27atwZApT9C9pkoQ7VPcUFgZDZD
+      scope: email
 
   datasource:
     master:

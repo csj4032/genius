@@ -1,12 +1,15 @@
 package com.genius.backend.infrastructure.security.social.provider;
 
+import com.genius.backend.application.ProviderType;
 import com.genius.backend.domain.model.user.User;
 import com.genius.backend.infrastructure.security.social.property.FacebookProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionData;
-import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.*;
+import org.springframework.social.connect.mem.InMemoryConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.kakao.api.Kakao;
+import org.springframework.social.line.api.Line;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -17,34 +20,31 @@ public class SocialProviderBuilder {
 	private FacebookProperties facebookProperties;
 
 	@Autowired
-	private ConnectionFactoryLocator connectionFactoryLocator;
+	private ConnectionRepository inMemoryConnectionRepository;
 
 	private SocialProviderBuilder() {
 	}
 
-	public SocialProvider create(final Connection<?> connection) {
-		if (connection.getKey().getProviderId().equals("kakao")) {
-			return new KakaoSocialProvider(connection);
-		} else if (connection.getKey().getProviderId().equals("line")) {
-			return new LineSocialProvider(connection);
-		} else if (connection.getKey().getProviderId().equals("facebook")) {
-			return new FacebookSocialProvider(connection, facebookProperties);
+	public SocialProvider create(final ConnectionKey connectionKey) {
+		String providerId = connectionKey.getProviderId();
+		if (providerId.equals("kakao")) {
+			return new KakaoSocialProvider(inMemoryConnectionRepository.getConnection(Kakao.class, connectionKey.getProviderUserId()));
+		} else if (providerId.equals("line")) {
+			return new LineSocialProvider(inMemoryConnectionRepository.getConnection(Line.class, connectionKey.getProviderUserId()));
+		} else if (providerId.equals("facebook")) {
+			return new FacebookSocialProvider(inMemoryConnectionRepository.getConnection(Facebook.class, connectionKey.getProviderUserId()), facebookProperties);
 		} else {
 			throw new IllegalArgumentException("Connection not supported");
 		}
 	}
 
-	public SocialProvider create(User user) {
-		var providerId = user.getProviderType().getName();
-		var userSocial = user.getUserSocial();
-		var connectionData = new ConnectionData(providerId, user.getProviderUserId(), user.getUsername(), user.getImageUrl(), user.getImageUrl(), userSocial.getAccessToken(), null, userSocial.getRefreshToken(), userSocial.getExpiredTime());
-		var connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId()).createConnection(connectionData);
-		if (providerId.equals("kakao")) {
-			return new KakaoSocialProvider(connection);
-		} else if (providerId.equals("line")) {
-			return new LineSocialProvider(connection);
-		} else if (providerId.equals("facebook")) {
-			return new FacebookSocialProvider(connection, facebookProperties);
+	public SocialProvider create(final User user) {
+		if (user.getProviderType().equals(ProviderType.KAKAO)) {
+			return new KakaoSocialProvider(inMemoryConnectionRepository.getConnection(Kakao.class, user.getProviderUserId()));
+		} else if (user.getProviderType().equals(ProviderType.LINE)) {
+			return new LineSocialProvider(inMemoryConnectionRepository.getConnection(Line.class, user.getProviderUserId()));
+		} else if (user.getProviderType().equals(ProviderType.FACEBOOK)) {
+			return new FacebookSocialProvider(inMemoryConnectionRepository.getConnection(Facebook.class, user.getProviderUserId()), facebookProperties);
 		} else {
 			throw new IllegalArgumentException("Connection not supported");
 		}

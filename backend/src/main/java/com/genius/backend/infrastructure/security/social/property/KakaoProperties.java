@@ -9,4 +9,6 @@ import org.springframework.social.autoconfigure.SocialProperties;
 @Setter
 @ConfigurationProperties(prefix = "spring.social.kakao")
 public class KakaoProperties extends SocialProperties {
+
+	private String scope;
 }

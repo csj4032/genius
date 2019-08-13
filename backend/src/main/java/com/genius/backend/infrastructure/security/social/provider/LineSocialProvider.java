@@ -14,10 +14,10 @@ public class LineSocialProvider implements SocialProvider<Line> {
 	private String providerUserId;
 	private Line line;
 
-	public LineSocialProvider(Connection<?> connection) {
-		this.connection = (Connection<Line>) connection;
+	public LineSocialProvider(Connection<Line> connection) {
+		this.connection = connection;
 		this.providerUserId = connection.getKey().getProviderUserId();
-		this.line = (Line) connection.getApi();
+		this.line = connection.getApi();
 	}
 
 	@Override

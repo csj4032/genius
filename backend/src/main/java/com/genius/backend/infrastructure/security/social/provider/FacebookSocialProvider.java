@@ -19,8 +19,8 @@ public class FacebookSocialProvider implements SocialProvider<Facebook> {
 	private Connection<Facebook> connection;
 	private FacebookProperties facebookProperties;
 
-	public FacebookSocialProvider(final Connection<?> connection, final FacebookProperties facebookProperties) {
-		this.connection = (Connection<Facebook>) connection;
+	public FacebookSocialProvider(final Connection<Facebook> connection, final FacebookProperties facebookProperties) {
+		this.connection = connection;
 		this.facebookProperties = facebookProperties;
 	}
 

@@ -17,9 +17,9 @@ public class KakaoSocialProvider implements SocialProvider<Kakao> {
 	private Connection<Kakao> connection;
 	private Kakao kakao;
 
-	public KakaoSocialProvider(final Connection<?> connection) {
-		this.connection = (Connection<Kakao>) connection;
-		this.kakao = (Kakao) connection.getApi();
+	public KakaoSocialProvider(final Connection<Kakao> connection) {
+		this.connection = connection;
+		this.kakao = connection.getApi();
 	}
 
 	@Override

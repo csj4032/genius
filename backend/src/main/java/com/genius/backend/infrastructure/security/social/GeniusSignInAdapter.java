@@ -28,7 +28,7 @@ public class GeniusSignInAdapter implements SignInAdapter {
 	@Override
 	public String signIn(String localUserId, Connection<?> connection, NativeWebRequest nativeWebRequest) {
 		log.info("알리미 앱 로그인 providerId : {}, localUserId : {}", connection.getKey().getProviderId(), localUserId);
-		var socialProvider = socialProviderBuilder.create(connection);
+		var socialProvider = socialProviderBuilder.create(connection.getKey());
 		var user = userService.findByProviderIdAndProviderUserId(socialProvider.getProviderId(), socialProvider.getProviderUserId());
 		if (user.isPresent()) {
 			userSecurityUpdate((ServletWebRequest) nativeWebRequest, user);
